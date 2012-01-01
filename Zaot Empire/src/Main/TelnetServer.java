@@ -767,20 +767,7 @@ class ZaosClient extends Thread {
 			drop();
 			interpretUsr();
 		} else if (str.equals("stop")){
-			System.out.println("<CONTROL> " + user + " is attempting to stop the server");
-			out.println("Preparing to stop the server...");
-			try {
-				FileInputStream fstream2 = new FileInputStream(database + "/Zaot/charProfile/"+user+"/GOD");
-				DataInputStream in = new DataInputStream(fstream2);
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				br.close();
-				System.exit(0);
-			} catch (Exception e) {
-				out.println("You are not a GOD, I can't let you do that!");
-				System.out.println("<CONTROL> " + user + " failed to stop the server.");
-				interpretUsr();
-			}
-			
+			stopServer();
 		} else {
 			out.println("Sorry, I can't do that!");
 			interpretUsr();
@@ -1122,16 +1109,16 @@ class ZaosClient extends Thread {
 			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".inv");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
-
-			while (br.readLine() != null){
+			
+			while ((strLine = br.readLine()) != null){
 				i=i+2;
-				strLine = br.readLine();
+				System.out.println(strLine);
 				inventory = strLine.split(":");
 				out.println(inventory[i] + " " + inventory[i-+1]);
-				System.out.println("INV:" + inventory[1]);
+				System.out.println("INV:" + inventory[0]);
 				out.println("");
 			}
-			
+			br.close();
 		} catch (Exception e){
 			System.out.println("<ERROR> " + user + " cannot access their inventory file");
 		}
@@ -1143,5 +1130,21 @@ class ZaosClient extends Thread {
 	public void drop(){
 		//Allows a user to drop and object from their inventory
 		//SYNTAX drop $obj$ or drop $obj$ ##
+	}
+	public void stopServer(){
+		System.out.println("<CONTROL> " + user + " is attempting to stop the server");
+		out.println("Preparing to stop the server...");
+		try {
+			FileInputStream fstream2 = new FileInputStream(database + "/Zaot/charProfile/"+user+"/GOD");
+			DataInputStream in = new DataInputStream(fstream2);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			br.close();
+			System.out.println("<CONTROL>" + user + "has stopped the server");
+			System.exit(0);
+		} catch (Exception e) {
+			out.println("You are not a GOD, I can't let you do that!");
+			System.out.println("<CONTROL> " + user + " failed to stop the server.");
+			interpretUsr();
+		}
 	}
 }
