@@ -31,6 +31,10 @@ public class TelnetServer {
 }
 
 class ZaosClient extends Thread {
+	
+	//This will change the location of the MUD Dataset
+	String database = "/Volumes/Untitled/Zaos";
+	
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
@@ -119,7 +123,7 @@ class ZaosClient extends Thread {
 					str=str.replace("\n", "");
 					user = str;
 					try{
-						FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/login/"+user);
+						FileInputStream fstream = new FileInputStream(database + "/Zaot/login/"+user);
 						DataInputStream in = new DataInputStream(fstream);
 						BufferedReader br = new BufferedReader(new InputStreamReader(in));
 						strLine = br.readLine();
@@ -169,7 +173,7 @@ class ZaosClient extends Thread {
 				str=str.replace("\n", "");
 
 				try {
-					FileWriter fstream = new FileWriter("/Volumes/Untitled/Zaos/Zaot/login/"+user);
+					FileWriter fstream = new FileWriter(database + "/Zaot/login/"+user);
 					BufferedWriter out = new BufferedWriter(fstream);
 					out.write(strPass+"\n");
 					out.write(str);
@@ -213,7 +217,7 @@ class ZaosClient extends Thread {
 				user = str;
 				System.out.println("<Control> - " + user + " is attempting to login");
 				try{
-					FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/login/"+user);
+					FileInputStream fstream = new FileInputStream(database + "/Zaot/login/"+user);
 					DataInputStream in = new DataInputStream(fstream);
 					BufferedReader br = new BufferedReader(new InputStreamReader(in));
 					strLine = br.readLine();
@@ -256,7 +260,7 @@ class ZaosClient extends Thread {
 		out.println("' Character:                                   '");
 
 		try{
-			FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/characters/"+user);
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/characters/"+user);
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			while(loadChar==false){
@@ -316,7 +320,7 @@ class ZaosClient extends Thread {
 			str = str.trim();
 			str = str.toLowerCase();
 			try{
-				FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/characters/"+user);
+				FileInputStream fstream = new FileInputStream(database + "/Zaot/characters/"+user);
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				while(loadChar==false){
@@ -339,7 +343,7 @@ class ZaosClient extends Thread {
 		numberofNPC = 0;
 		list = "";
 		try{
-			FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".loc");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			strLine = br.readLine();
@@ -352,7 +356,7 @@ class ZaosClient extends Thread {
 		System.out.println("<Control> - " + user + " has entered " + location);
 
 		try{
-			FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/rooms/"+location+"/"+location);
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location);
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			strLine = br.readLine();
@@ -367,7 +371,7 @@ class ZaosClient extends Thread {
 					try{	
 						Dynamic = Dynamic.replace("<Dynamic:", "");
 						Dynamic = Dynamic.replace(">", "");
-						FileInputStream fstream2 = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/DynamicRooms/" + Dynamic + "/" + Dynamic + ".desc");
+						FileInputStream fstream2 = new FileInputStream(database + "/Zaot/DynamicRooms/" + Dynamic + "/" + Dynamic + ".desc");
 						DataInputStream in2 = new DataInputStream(fstream2);
 						BufferedReader br2 = new BufferedReader(new InputStreamReader(in2));
 						while (exitDesc==false){
@@ -463,7 +467,7 @@ class ZaosClient extends Thread {
 		boolean checkList = true;
 		String checkNPC = "";
 		try{
-			FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/rooms/"+location+"/"+location+".npc");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".npc");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
 			while (error == false){
@@ -474,7 +478,7 @@ class ZaosClient extends Thread {
 					checkNPC = checkNPC.replace("[", "");
 					checkNPC = checkNPC.replace("]", "");
 					checkNPC = checkNPC.replace("\n", "");
-					FileInputStream fstream2 = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/npc/"+checkNPC+"/"+checkNPC+".lst");
+					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/npc/"+checkNPC+"/"+checkNPC+".lst");
 					DataInputStream in2 = new DataInputStream(fstream2);
 					BufferedReader br2 = new BufferedReader(new InputStreamReader(in));	
 					in2.close();
@@ -508,7 +512,7 @@ class ZaosClient extends Thread {
 		error = false;
 
 		try{
-			FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/rooms/" + location + "/" + location + ".obj");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/rooms/" + location + "/" + location + ".obj");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			while (true){
@@ -539,7 +543,7 @@ class ZaosClient extends Thread {
 	public void interpretUsr(){
 		String hp = "", xp = "";
 		try{
-			FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".hp");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".hp");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			strLine = br.readLine();
@@ -549,7 +553,7 @@ class ZaosClient extends Thread {
 			System.out.println("<ERROR> " + user + " was unable to access their user.hp file");
 		}
 		try{
-			FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".xp");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".xp");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			strLine = br.readLine();
@@ -567,15 +571,15 @@ class ZaosClient extends Thread {
 		str = str.trim();
 		str = str.toLowerCase();
 		if (str.equals("n") | str.equals("north")){
-			File bkup = new File("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".loc");
+			File bkup = new File(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
 			bkup.delete();
 			try{
-				FileWriter fstream = new FileWriter("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".loc");
+				FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
 				BufferedWriter writeout = new BufferedWriter(fstream);
 				writeout.write(northRoom);
 
 				try {
-					FileInputStream fstream2 = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/rooms/"+location+"/"+location+".n");
+					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".n");
 					DataInputStream in = new DataInputStream(fstream2);
 					BufferedReader br = new BufferedReader(new InputStreamReader(in));
 					out.println();
@@ -595,14 +599,14 @@ class ZaosClient extends Thread {
 			}
 			room();
 		} else if (str.equals("e") | str.equals("e")){
-			File bkup = new File("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".loc");
+			File bkup = new File(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
 			bkup.delete();
 			try{
-				FileWriter fstream = new FileWriter("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".loc");
+				FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
 				BufferedWriter writeout = new BufferedWriter(fstream);
 				writeout.write(eastRoom);
 				try {
-					FileInputStream fstream2 = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/rooms/"+location+"/"+location+".e");
+					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".e");
 					DataInputStream in = new DataInputStream(fstream2);
 					BufferedReader br = new BufferedReader(new InputStreamReader(in));
 					out.println();
@@ -621,14 +625,14 @@ class ZaosClient extends Thread {
 			}
 			room();
 		} else if (str.equals("s") | str.equals("south")){
-			File bkup = new File("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".loc");
+			File bkup = new File(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
 			bkup.delete();
 			try{
-				FileWriter fstream = new FileWriter("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".loc");
+				FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
 				BufferedWriter writeout = new BufferedWriter(fstream);
 				writeout.write(southRoom);
 				try {
-					FileInputStream fstream2 = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/rooms/"+location+"/"+location+".s");
+					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".s");
 					DataInputStream in = new DataInputStream(fstream2);
 					BufferedReader br = new BufferedReader(new InputStreamReader(in));
 					out.println();
@@ -646,14 +650,14 @@ class ZaosClient extends Thread {
 			}
 			room();
 		} else if (str.equals("w") | str.equals("west")){
-			File bkup = new File("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".loc");
+			File bkup = new File(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
 			bkup.delete();
 			try{
-				FileWriter fstream = new FileWriter("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".loc");
+				FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
 				BufferedWriter writeout = new BufferedWriter(fstream);
 				writeout.write(westRoom);
 				try {
-					FileInputStream fstream2 = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/rooms/"+location+"/"+location+".w");
+					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".w");
 					DataInputStream in = new DataInputStream(fstream2);
 					BufferedReader br = new BufferedReader(new InputStreamReader(in));
 					out.println();
@@ -671,15 +675,15 @@ class ZaosClient extends Thread {
 			}
 			room();
 		} else if (str.equals("d") | str.equals("down")){
-			File bkup = new File("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".loc");
+			File bkup = new File(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
 			bkup.delete();
 			try{
-				FileWriter fstream = new FileWriter("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".loc");
+				FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
 				BufferedWriter writeout = new BufferedWriter(fstream);
 				writeout.write(downRoom);
 
 				try {
-					FileInputStream fstream2 = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/rooms/"+location+"/"+location+".d");
+					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".d");
 					DataInputStream in = new DataInputStream(fstream2);
 					BufferedReader br = new BufferedReader(new InputStreamReader(in));
 					out.println();
@@ -698,15 +702,15 @@ class ZaosClient extends Thread {
 			}
 			room();
 		} else if (str.equals("u") | str.equals("up")){
-			File bkup = new File("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".loc");
+			File bkup = new File(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
 			bkup.delete();
 			try{
-				FileWriter fstream = new FileWriter("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".loc");
+				FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
 				BufferedWriter writeout = new BufferedWriter(fstream);
 				writeout.write(upRoom);
 
 				try {
-					FileInputStream fstream2 = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/rooms/"+location+"/"+location+".u");
+					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".u");
 					DataInputStream in = new DataInputStream(fstream2);
 					BufferedReader br = new BufferedReader(new InputStreamReader(in));
 					out.println();
@@ -776,7 +780,7 @@ class ZaosClient extends Thread {
 		error = false;
 
 		try{
-			FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/npc/"+list+"/"+list+".lst");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/npc/"+list+"/"+list+".lst");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			while (true){
@@ -818,7 +822,7 @@ class ZaosClient extends Thread {
 					shop = shop.toLowerCase();
 					if (shop.equals(str)){
 						try{
-							FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".gld");
+							FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".gld");
 							DataInputStream in = new DataInputStream(fstream);
 							BufferedReader br = new BufferedReader(new InputStreamReader(in));
 							strLine = br.readLine();
@@ -829,10 +833,10 @@ class ZaosClient extends Thread {
 							System.out.println("<ERROR> " + user + " was unable to access their user.gld file");
 						}
 						if (gld>price){
-							File file = new File("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".gld");
+							File file = new File(database + "/Zaot/charProfile/"+user+"/"+user+".gld");
 							file.delete();
 							try {
-								FileWriter fstream = new FileWriter("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".gld");
+								FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".gld");
 								BufferedWriter out = new BufferedWriter(fstream);
 								gld = gld - price;
 								out.write("" + gld);
@@ -841,7 +845,7 @@ class ZaosClient extends Thread {
 							}
 							try{
 								// Create file 
-								FileWriter fstream = new FileWriter("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".inv",true);
+								FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".inv",true);
 								BufferedWriter out = new BufferedWriter(fstream);
 								out.write("1:"+str + "\n");
 								//Close the output stream
@@ -868,7 +872,7 @@ class ZaosClient extends Thread {
 		String[] examineTemp;
 		String testExamine = "";
 		try{
-			FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/rooms/"+location+"/"+location+".ex");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".ex");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			while (true){
@@ -901,7 +905,7 @@ class ZaosClient extends Thread {
 		String[] characterSplit;
 
 		try{
-			FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/rooms/"+location+"/"+location+".npc");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".npc");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			while (true){
@@ -925,7 +929,7 @@ class ZaosClient extends Thread {
 		}
 		if (continueOn==true){
 			try{
-				FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/charProfile/" + user + "/" + user + ".wld");
+				FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/" + user + "/" + user + ".wld");
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				while(true){
@@ -942,7 +946,7 @@ class ZaosClient extends Thread {
 				System.out.println("<ERROR> " + user + " was unable to access  their .wld file");
 			}
 			try{
-				FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/npc/" + characterActual + "/" + characterActual + ".inv");
+				FileInputStream fstream = new FileInputStream(database + "/Zaot/npc/" + characterActual + "/" + characterActual + ".inv");
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				while(true){
@@ -959,7 +963,7 @@ class ZaosClient extends Thread {
 				System.out.println("<ERROR> " + user + " was unable to access NPC " + characterActual + " inv file");
 			}
 			try{
-				FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/objects/weapons/"+NPCweapon);
+				FileInputStream fstream = new FileInputStream(database + "/Zaot/objects/weapons/"+NPCweapon);
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				while(true){
@@ -988,7 +992,7 @@ class ZaosClient extends Thread {
 			}
 			
 			try{
-				FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/objects/weapons/"+userWeapon);
+				FileInputStream fstream = new FileInputStream(database + "/Zaot/objects/weapons/"+userWeapon);
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				while(true){
@@ -1093,7 +1097,7 @@ class ZaosClient extends Thread {
 		out.println("#   Name");
 		int i = -2 ;
 		try{
-			FileInputStream fstream = new FileInputStream("/Volumes/Untitled/Zaos/Zaot/charProfile/"+user+"/"+user+".inv");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".inv");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
 
