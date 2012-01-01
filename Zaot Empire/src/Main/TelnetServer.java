@@ -1092,6 +1092,7 @@ class ZaosClient extends Thread {
 		}
 	}
 	public void inv(){
+
 		out.println("");
 		out.println("--Inventory--");
 		out.println("#   Name");
@@ -1111,5 +1112,13 @@ class ZaosClient extends Thread {
 			
 		} catch (Exception e){
 		}
+	}
+	public void take(){
+		//Allows a user to pick up an object from the ground
+		//SYNTAX take $obj$ or take $obj$ ##
+	}
+	public void drop(){
+		//Allows a user to drop and object from their inventory
+		//SYNTAX drop $obj$ or drop $obj$ ##
 	}
 }
