@@ -766,6 +766,21 @@ class ZaosClient extends Thread {
 		} else if (str.contains("drop ")){
 			drop();
 			interpretUsr();
+		} else if (str.equals("stop")){
+			System.out.println("<CONTROL> " + user + " is attempting to stop the server");
+			out.println("Preparing to stop the server...");
+			try {
+				FileInputStream fstream2 = new FileInputStream(database + "/Zaot/charProfile/"+user+"/GOD");
+				DataInputStream in = new DataInputStream(fstream2);
+				BufferedReader br = new BufferedReader(new InputStreamReader(in));
+				br.close();
+				System.exit(0);
+			} catch (Exception e) {
+				out.println("You are not a GOD, I can't let you do that!");
+				System.out.println("<CONTROL> " + user + " failed to stop the server.");
+				interpretUsr();
+			}
+			
 		} else {
 			out.println("Sorry, I can't do that!");
 			interpretUsr();
@@ -1113,10 +1128,12 @@ class ZaosClient extends Thread {
 				strLine = br.readLine();
 				inventory = strLine.split(":");
 				out.println(inventory[i] + " " + inventory[i-+1]);
+				System.out.println("INV:" + inventory[1]);
 				out.println("");
 			}
 			
 		} catch (Exception e){
+			System.out.println("<ERROR> " + user + " cannot access their inventory file");
 		}
 	}
 	public void take(){
