@@ -760,6 +760,12 @@ class ZaosClient extends Thread {
 		} else if (str.equals("inventory")|str.equals("i")|str.equals("inv")){
 			inv();
 			interpretUsr();
+		} else if (str.contains("take ")){
+			take();
+			interpretUsr();
+		} else if (str.contains("drop ")){
+			drop();
+			interpretUsr();
 		} else {
 			out.println("Sorry, I can't do that!");
 			interpretUsr();
