@@ -33,13 +33,13 @@ public class TelnetServer {
 class ZaosClient extends Thread {
 	
 	//This will change the location of the MUD Dataset
-	String database = "/Volumes/Untitled/Zaos";
+	String database = "/Volumes/Amicitia 1/Zaos";
 	
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
 	String[] result;
-	String[] inventory;
+
 	ArrayList<String> itemList = new ArrayList<String>();
 	ArrayList<String> shopList = new ArrayList<String>();
 	String[] itemListTemp;
@@ -1100,27 +1100,24 @@ class ZaosClient extends Thread {
 		}
 	}
 	public void inv(){
-
+		String[] inventory;
 		out.println("");
 		out.println("--Inventory--");
 		out.println("#   Name");
-		int i = -2 ;
+		int i = 0 ;
 		try{
 			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".inv");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
-			
+
 			while ((strLine = br.readLine()) != null){
-				i=i+2;
-				System.out.println(strLine);
 				inventory = strLine.split(":");
-				out.println(inventory[i] + " " + inventory[i-+1]);
-				System.out.println("INV:" + inventory[0]);
-				out.println("");
+				out.println(inventory[i] + " " + inventory[i+1]);
 			}
 			br.close();
 		} catch (Exception e){
 			System.out.println("<ERROR> " + user + " cannot access their inventory file");
+			System.err.println("Error: " + e.getMessage());
 		}
 	}
 	public void take(){
