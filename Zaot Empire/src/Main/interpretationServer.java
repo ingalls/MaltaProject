@@ -746,7 +746,7 @@ public class interpretationServer extends Thread{
 				inv();
 				interpretUsr();
 			} else if (str.contains("take ")){
-				take();
+				take(str);
 				interpretUsr();
 			} else if (str.contains("drop ")){
 				drop();
@@ -1089,7 +1089,6 @@ public class interpretationServer extends Thread{
 			out.println("");
 			out.println("--Inventory--");
 			out.println("#   Name");
-			int i = 0 ;
 			try{
 				FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".inv");
 				DataInputStream in = new DataInputStream(fstream);
@@ -1097,17 +1096,67 @@ public class interpretationServer extends Thread{
 
 				while ((strLine = br.readLine()) != null){
 					inventory = strLine.split(":");
-					out.println(inventory[i] + " " + inventory[i+1]);
+					out.println(inventory[0] + " " + inventory[1]);
 				}
 				br.close();
 			} catch (Exception e){
 				System.out.println("<ERROR> " + user + " cannot access their inventory file");
-				System.err.println("Error: " + e.getMessage());
 			}
 		}
-		public void take(){
+		public void take(String userInpt){
 			//Allows a user to pick up an object from the ground
 			//SYNTAX take $obj$ or take $obj$ ##
+			
+			//Check number of items and make sure it is less than the number that need to be dropped
+			//Delete inv file and then re-write without the dropped item
+			
+			//Read room inv file into array
+			//Add num if inv item is already in room or create a new entry at end of array
+			//Delete room inv file and re-write
+		
+			ArrayList<String> stringInv = new ArrayList<String>();
+			ArrayList<Integer> numInv = new ArrayList<Integer>();
+			String[] inventory, userInputSplitter;
+			int invNum = 0;
+			int dropNum = 0; //The number of items to drop (-1 represents all items by that name in inv)
+			String dropName; //The name of the item to drop
+			try{
+				FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".inv");
+				DataInputStream in = new DataInputStream(fstream);
+				BufferedReader br = new BufferedReader(new InputStreamReader(in));	
+
+				while ((strLine = br.readLine()) != null){
+					inventory = strLine.split(":");
+					numInv.add(Integer.parseInt(inventory[0]));
+					stringInv.add(inventory[1]);
+				}
+				br.close();
+			} catch (Exception e){
+				System.out.println("<ERROR> " + user + " cannot access their inventory file");
+			}
+			
+			userInpt = userInpt.replace("take ", "");
+			userInputSplitter = userInpt.split(" ");
+			if (userInputSplitter[1] == null){
+				dropNum = 1;
+			} else if (userInputSplitter[1] == "all"){
+				dropNum = -1;
+			} else {
+				try {
+					dropNum = Integer.parseInt(userInputSplitter[1]);
+				} catch (NumberFormatException e) {
+					out.println("The item you want to drop must be one word");
+					interpretUsr();
+				}
+			}
+			
+			while (true){
+				
+			}
+			
+			
+			
+			
 		}
 		public void drop(){
 			//Allows a user to drop and object from their inventory
