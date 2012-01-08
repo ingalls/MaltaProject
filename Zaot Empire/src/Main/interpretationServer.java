@@ -1269,10 +1269,13 @@ public class interpretationServer extends Thread{
 	    		//true = append file
 	    		BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/Zaot/logs/"+user+".log", true));
 	    	    bW.write(logPhrase);
+	    	    bW.newLine();
 	    	    bW.close();
 	    	}catch(IOException e){
 	    		e.printStackTrace();
 	    	}
+	    	
+	    	/** Removed as high server loads could cause multiple threads to access this file at the same time, creating syncronization problems
 	    	try{
 	    		File file = new File(database + "/Zaot/logs/server.log");
 	    		//if file doesn't exists, then create it
@@ -1286,5 +1289,6 @@ public class interpretationServer extends Thread{
 	    	}catch(IOException e){
 	    		e.printStackTrace();
 	    	}
+	    	**/
 		}
 }
