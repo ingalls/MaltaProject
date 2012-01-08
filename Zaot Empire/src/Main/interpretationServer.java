@@ -18,7 +18,7 @@ import java.util.Scanner;
 public class interpretationServer extends Thread{
 		
 		//This will change the location of the MUD Dataset
-		String database = "/Volumes/Amicitia 1/Zaos";
+		String database = "/Volumes/AMICITIA/Zaos";
 		
 		private Socket socket;
 		private BufferedReader in;
@@ -28,7 +28,6 @@ public class interpretationServer extends Thread{
 		ArrayList<String> itemList = new ArrayList<String>();
 		ArrayList<String> shopList = new ArrayList<String>();
 		String[] itemListTemp;
-		static String path = "";  //TODO Allow the admin to set the path to the database
 		static String user = "";
 		static String age = "<none>";
 		static String race = "<none>";
@@ -201,6 +200,7 @@ public class interpretationServer extends Thread{
 					str=str.replace("\n", "");
 					user = str;
 					System.out.println("<Control> - " + user + " is attempting to login");
+					logging("<Control> - " + user + " is attempting to login");
 					try{
 						FileInputStream fstream = new FileInputStream(database + "/Zaot/login/"+user);
 						DataInputStream in = new DataInputStream(fstream);
@@ -223,9 +223,11 @@ public class interpretationServer extends Thread{
 							out.println((char)27 + "[0mLogin Sucessful!");			//Ansi reset
 							login = true;
 							System.out.println("<Control> - " + user + " has sucessfully logged in.");
+							logging("<Control> - " + user + " has sucessfully logged in.");
 						} else {
 							out.println("Incorrect!");
 							System.out.println("<Control> - " + user + " has FAILED login.");
+							logging("<Control> - " + user + " has FAILED login.");
 						}
 						failLogin = false;
 					}
@@ -268,6 +270,7 @@ public class interpretationServer extends Thread{
 					out.println("You account looks like it is suffering against data lose! An admin has been notified and we will endeavor to fix it as quickly as possible. Please also drop me a line at nicholas.ingalls@gmail.com");
 					out.println("");
 					System.out.println("<ERROR> - "+user+" was unable to load any of his character profiles.");
+					logging("<ERROR> - "+user+" was unable to load any of his character profiles.");
 				}
 			}
 
@@ -335,10 +338,12 @@ public class interpretationServer extends Thread{
 				in.close();
 			} catch (Exception e){
 				System.out.println("<ERROR> " + user + " was unable to access their user.loc file");
+				logging("<ERROR> " + user + " was unable to access their user.loc file");
 			}
 			strLine = strLine.replace("\n", "");
 			location = strLine;
 			System.out.println("<Control> - " + user + " has entered " + location);
+			logging("<Control> - " + user + " has entered " + location);
 
 			try{
 				FileInputStream fstream = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location);
@@ -370,6 +375,7 @@ public class interpretationServer extends Thread{
 							in2.close();
 						} catch (Exception e){
 							System.out.println("<ERROR> " + user + " cannot access a Dynamic room: " + Dynamic);
+							logging("<ERROR> " + user + " cannot access a Dynamic room: " + Dynamic);
 						}
 					} else {
 						out.println(strLine); 
@@ -441,6 +447,7 @@ public class interpretationServer extends Thread{
 				in.close();
 			} catch (Exception e){
 				System.out.println("<ERROR> " + user + " is located in a room which doesn't exist!");
+				logging("<ERROR> " + user + " is located in a room which doesn't exist!");
 			}
 
 			NPC();
@@ -469,6 +476,7 @@ public class interpretationServer extends Thread{
 						in2.close();
 					} catch (Exception e){
 						System.out.println("ERROR:"+result[numberofNPC]);
+						logging("ERROR:"+result[numberofNPC]);
 						checkList = false;
 					}
 					if (checkList==true){
@@ -536,6 +544,7 @@ public class interpretationServer extends Thread{
 				in.close();
 			} catch (Exception e){
 				System.out.println("<ERROR> " + user + " was unable to access their user.hp file");
+				logging("<ERROR> " + user + " was unable to access their user.hp file");
 			}
 			try{
 				FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".xp");
@@ -546,6 +555,7 @@ public class interpretationServer extends Thread{
 				in.close();
 			} catch (Exception e){
 				System.out.println("<ERROR> " + user + " was unable to access their user.xp file");
+				logging("<ERROR> " + user + " was unable to access their user.xp file");
 			}
 
 			out.println("");
@@ -730,6 +740,7 @@ public class interpretationServer extends Thread{
 					list(str);
 				} catch (IOException e) {
 					System.out.println("<ERROR> " + user + " can not access the shop list found in " + list);
+					logging("<ERROR> " + user + " can not access the shop list found in " + list);
 				}
 				interpretUsr();
 			} else if (str.contains("fight ")){
@@ -746,10 +757,10 @@ public class interpretationServer extends Thread{
 				inv();
 				interpretUsr();
 			} else if (str.contains("take ")){
-				take(str);
+				take();
 				interpretUsr();
 			} else if (str.contains("drop ")){
-				drop();
+				drop(str);
 				interpretUsr();
 			} else if (str.equals("stop")){
 				stopServer();
@@ -824,6 +835,7 @@ public class interpretationServer extends Thread{
 								price = Integer.parseInt(shopList.get(loc + 1));
 							} catch (Exception e){
 								System.out.println("<ERROR> " + user + " was unable to access their user.gld file");
+								logging("<ERROR> " + user + " was unable to access their user.gld file");
 							}
 							if (gld>price){
 								File file = new File(database + "/Zaot/charProfile/"+user+"/"+user+".gld");
@@ -845,6 +857,7 @@ public class interpretationServer extends Thread{
 									out.close();
 								}catch (Exception e){//Catch exception if any
 									System.err.println("Error: " + e.getMessage());
+									logging("Error: " + e.getMessage());
 								}
 								out.println(str+" has been added to your inventory.");
 								break;
@@ -937,6 +950,7 @@ public class interpretationServer extends Thread{
 					in.close();
 				} catch (Exception e){
 					System.out.println("<ERROR> " + user + " was unable to access  their .wld file");
+					logging("<ERROR> " + user + " was unable to access  their .wld file");
 				}
 				try{
 					FileInputStream fstream = new FileInputStream(database + "/Zaot/npc/" + characterActual + "/" + characterActual + ".inv");
@@ -954,6 +968,7 @@ public class interpretationServer extends Thread{
 					in.close();
 				} catch (Exception e){
 					System.out.println("<ERROR> " + user + " was unable to access NPC " + characterActual + " inv file");
+					logging("<ERROR> " + user + " was unable to access NPC " + characterActual + " inv file");
 				}
 				try{
 					FileInputStream fstream = new FileInputStream(database + "/Zaot/objects/weapons/"+NPCweapon);
@@ -982,6 +997,7 @@ public class interpretationServer extends Thread{
 					in.close();
 				} catch (Exception e){
 					System.out.println("<ERROR> " + user + " was unable to access obj " + characterActual + " file");
+					logging("<ERROR> " + user + " was unable to access obj " + characterActual + " file");
 				}
 				
 				try{
@@ -1011,6 +1027,7 @@ public class interpretationServer extends Thread{
 					in.close();
 				} catch (Exception e){
 					System.out.println("<ERROR> " + user + " was unable to access obj " + characterActual + " file");
+					logging("<ERROR> " + user + " was unable to access obj " + characterActual + " file");
 				}
 
 				Random r = new Random();
@@ -1021,6 +1038,7 @@ public class interpretationServer extends Thread{
 				int userAccuracyCheck = r.nextInt(100);
 				
 				System.out.println(accuracyCheck + " accuracy:" + NPCaccuracy);
+				logging(accuracyCheck + " accuracy:" + NPCaccuracy);
 				
 				if(accuracyCheck>NPCaccuracy){
 					out.println(characterActual + " attempts to kill you but misses!");
@@ -1038,7 +1056,7 @@ public class interpretationServer extends Thread{
 			}
 			interpretUsr();
 		}
-		public void help(String input){
+		public void help(String input){ //TODO This code should not be hardcoded. This needs to be removed and re-encoded into a text file that is read
 			if (input.equals("terrarians")){
 				out.println("The Terrarians originated on planet Earth in the system Sol.");
 				out.println("");
@@ -1078,10 +1096,12 @@ public class interpretationServer extends Thread{
 		public void quit(){
 			out.println("We only part to meet again.");
 			System.out.println("<Control> - " + user + " has left the game.");
+			logging("<Control> - " + user + " has left the game.");
 			try {
 				socket.close();
 			} catch(IOException e) {
 				System.out.println("<ERROR> - Could not close connection with user");
+				logging("<ERROR> - Could not close connection with user");
 			}
 		}
 		public void inv(){
@@ -1101,25 +1121,35 @@ public class interpretationServer extends Thread{
 				br.close();
 			} catch (Exception e){
 				System.out.println("<ERROR> " + user + " cannot access their inventory file");
+				logging("<ERROR> " + user + " cannot access their inventory file");
 			}
 		}
-		public void take(String userInpt){
+		public void take(){
 			//Allows a user to pick up an object from the ground
 			//SYNTAX take $obj$ or take $obj$ ##
 			
-			//Check number of items and make sure it is less than the number that need to be dropped
+
+		
+			
+		}
+		public void drop(String userInpt){
+			//Allows a user to drop and object from their inventory
+			//SYNTAX drop $obj$ or drop $obj$ ## or drop $obj$ all
+			
 			//Delete inv file and then re-write without the dropped item
 			
 			//Read room inv file into array
 			//Add num if inv item is already in room or create a new entry at end of array
 			//Delete room inv file and re-write
-		
+			
 			ArrayList<String> stringInv = new ArrayList<String>();
 			ArrayList<Integer> numInv = new ArrayList<Integer>();
+			ArrayList<String> stringRoom = new ArrayList<String>();
+			ArrayList<String> numRoom = new ArrayList<String>();
 			String[] inventory, userInputSplitter;
 			int invNum = 0;
 			int dropNum = 0; //The number of items to drop (-1 represents all items by that name in inv)
-			String dropName; //The name of the item to drop
+			String dropName = ""; //The name of the item to drop
 			try{
 				FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".inv");
 				DataInputStream in = new DataInputStream(fstream);
@@ -1133,6 +1163,7 @@ public class interpretationServer extends Thread{
 				br.close();
 			} catch (Exception e){
 				System.out.println("<ERROR> " + user + " cannot access their inventory file");
+				logging("<ERROR> " + user + " cannot access their inventory file");
 			}
 			
 			userInpt = userInpt.replace("take ", "");
@@ -1146,24 +1177,72 @@ public class interpretationServer extends Thread{
 					dropNum = Integer.parseInt(userInputSplitter[1]);
 				} catch (NumberFormatException e) {
 					out.println("The item you want to drop must be one word");
+					System.out.println("dropNum: " + dropNum);
+					System.out.println("userInputSplitter: " + userInputSplitter[1]);
+					System.out.println();
+					System.out.println();
 					interpretUsr();
 				}
 			}
 			
-			while (true){
+			
+			int i=0;
+			try {
+				while (true){
+					if (dropName.equals(stringInv.get(i))){
+						break;
+					}
+					
+					i++;
+				}
+			} catch (Exception e) {
+					out.println("You can't drop an item that you don't have!");
+					interpretUsr();
+			}
+			
+			if (dropNum > 0){
+				int tempInv = numInv.get(i);
+				tempInv=tempInv-dropNum;
+				numInv.set(i, tempInv);
+			} else if (dropNum == -1){
+				dropNum = numInv.get(i);
+			} else {
+				out.println("Sorry, I can't drop that many items!");
+				interpretUsr();
+			}
+			
+			File file = new File(database + "/Zaot/charProfile/"+user+"/"+user+".inv");
+			file.delete();
+			try{
+				// Create file 
+				FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".inv",true);
+				BufferedWriter fileOut = new BufferedWriter(fstream);
+				int invCounter = 0;
+				while(true){
+					if (numInv.get(invCounter) > 0){
+						fileOut.write(numInv.get(invCounter) +":" + stringInv.get(invCounter));
+						fileOut.newLine();
+					}
+					invCounter++;
+					
+					if (numInv.size() == invCounter){
+						break;
+					}
+				}
 				
+				//Close the output stream
+				fileOut.close();
+			}catch (Exception e){//Catch exception if any
+				System.err.println("Error: " + e.getMessage());
+				logging("Error: " + e.getMessage());
 			}
 			
 			
-			
-			
-		}
-		public void drop(){
-			//Allows a user to drop and object from their inventory
-			//SYNTAX drop $obj$ or drop $obj$ ##
 		}
 		public void stopServer(){
+
 			System.out.println("<CONTROL> " + user + " is attempting to stop the server");
+			logging("<CONTROL> " + user + " is attempting to stop the server");
 			out.println("Preparing to stop the server...");
 			try {
 				FileInputStream fstream2 = new FileInputStream(database + "/Zaot/charProfile/"+user+"/GOD");
@@ -1171,11 +1250,41 @@ public class interpretationServer extends Thread{
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				br.close();
 				System.out.println("<CONTROL>" + user + "has stopped the server");
+				logging("<CONTROL>" + user + "has stopped the server");
 				System.exit(0);
 			} catch (Exception e) {
 				out.println("You are not a GOD, I can't let you do that!");
 				System.out.println("<CONTROL> " + user + " failed to stop the server.");
+				logging("<CONTROL> " + user + " failed to stop the server.");
 				interpretUsr();
 			}
 		}
-	}
+		public void logging(String logPhrase){
+			try{
+	    		File file = new File(database + "/Zaot/logs/"+user+".log");
+	    		//if file doesn't exists, then create it
+	    		if(!file.exists()){
+	    			file.createNewFile();
+	    		}
+	    		//true = append file
+	    		BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/Zaot/logs/"+user+".log", true));
+	    	    bW.write(logPhrase);
+	    	    bW.close();
+	    	}catch(IOException e){
+	    		e.printStackTrace();
+	    	}
+	    	try{
+	    		File file = new File(database + "/Zaot/logs/server.log");
+	    		//if file doesn't exists, then create it
+	    		if(!file.exists()){
+	    			file.createNewFile();
+	    		}
+	    		//true = append file
+	    		BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/Zaot/logs/server.log", true));
+	    	    bW.write(logPhrase);
+	    	    bW.close();
+	    	}catch(IOException e){
+	    		e.printStackTrace();
+	    	}
+		}
+}
