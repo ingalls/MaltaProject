@@ -1285,6 +1285,7 @@ public class interpretationServer extends Thread{
 	    		//true = append file
 	    		BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/Zaot/logs/server.log", true));
 	    	    bW.write(logPhrase);
+	    	    bW.newLine();
 	    	    bW.close();
 	    	}catch(IOException e){
 	    		e.printStackTrace();
