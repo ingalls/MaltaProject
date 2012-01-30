@@ -51,6 +51,9 @@ public class interpretationServer extends Thread{
 		start(); // Calls run()
 	}
 	public void run() {
+		login();
+	}
+	public void login(){
 		out.println ((char)27 + "[2J");
 		out.println ((char)27 + "[0m");
 		out.println("#################################################");
@@ -73,9 +76,7 @@ public class interpretationServer extends Thread{
 		out.println("# empire? Only YOU can decide!                  #");
 		out.println("#################################################");
 
-		login();
-	}
-	public void login(){
+		
 		String str;
 		Scanner usrTxt = new Scanner(in);
 		String strLine = "";
@@ -176,27 +177,6 @@ public class interpretationServer extends Thread{
 				out.println("Your Profile has been sucessfully created. Please login to continue.");
 				out.println("");
 			} else if (str.equals("p")){
-				out.println ((char)27 + "[2J");
-				out.println ((char)27 + "[0m");
-				out.println("#################################################");
-				out.println("#       "+(char)27 + "[1mWelcome to  The Zaotian Empire"+(char)27 + "[22m          #");
-				out.println("#                                               #");
-				out.println("# New Characters should ("+(char)27 + "[34mR"+(char)27 + "[0m)egister              #");
-				out.println("# Current characters should ("+(char)27 + "[34mL"+(char)27 + "[0m)ogin             #");
-				out.println("# To leave the game one should ("+(char)27 + "[34mQ"+(char)27 + "[0m)uit           #");
-				out.println("# ("+(char)27 + "[34mP"+(char)27 + "[0m)rint this dialogue                         #");
-				out.println("#                                               #");
-				out.println("# The Zaot Empire has grown so large that it    #");
-				out.println("# now spans the entire width of the galaxy.     #");
-				out.println("# Within in the Zaot Empire, various faction    #");
-				out.println("# scheme for dominance and control of the       #");
-				out.println("# empire. While the Solar Guards strive to keep #");
-				out.println("# peace and prevent the fall of the empire.     #");
-				out.println("#                                               #");
-				out.println("# Who will win? The noble cause of the Solar    #");
-				out.println("# Guards or the warring factions within the     #");
-				out.println("# empire? Only YOU can decide!                  #");
-				out.println("#################################################");
 				login();
 			} else if (str.equals("l")){
 				out.println("");
@@ -313,7 +293,7 @@ public class interpretationServer extends Thread{
 			out.println("(A)bort character creation");
 			out.println("");
 		} else if (str.equals("p")){
-			room();
+			
 			/**
 			out.println("");
 			out.println("Name of the Character that you would like to play:");
