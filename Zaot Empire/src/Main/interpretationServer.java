@@ -59,7 +59,7 @@ public class interpretationServer extends Thread{
 			out.println("# New Characters should ("+(char)27 + "[34mR"+(char)27 + "[0m)egister              #");
 			out.println("# Current characters should ("+(char)27 + "[34mL"+(char)27 + "[0m)ogin             #");
 			out.println("# To leave the game one should ("+(char)27 + "[34mQ"+(char)27 + "[0m)uit           #");
-			out.println("# ("+(char)27 + "[34mR"+(char)27 + "[0m)eprint this dialogue                       #");
+			out.println("# ("+(char)27 + "[34mP"+(char)27 + "[0m)rint this dialogue                       #");
 			out.println("#                                               #");
 			out.println("# The Zaot Empire has grown so large that it    #");
 			out.println("# now spans the entire width of the galaxy.     #");
@@ -91,7 +91,7 @@ public class interpretationServer extends Thread{
 				if (str.equals("q")){ 
 					break;
 				} else if (str.equals("r")){
-					out.println("Welcome to the Zaot User Creator");
+					out.println("Welcome to the Zaotian User Creator");
 					out.println("First you must pick a username. This username will be the name of your character so it must be appropriate to a role playing game.");
 					boolean createUser = true;
 					boolean matchPass = true;
@@ -168,7 +168,7 @@ public class interpretationServer extends Thread{
 					out.println("");
 					out.println("Your Profile has been sucessfully created. Please login to continue.");
 					out.println("");
-				} else if (str.equals("r")){
+				} else if (str.equals("p")){
 					out.println ((char)27 + "[2J");
 					out.println ((char)27 + "[0m");
 					out.println("#################################################");
@@ -177,7 +177,7 @@ public class interpretationServer extends Thread{
 					out.println("# New Characters should ("+(char)27 + "[34mR"+(char)27 + "[0m)egister              #");
 					out.println("# Current characters should ("+(char)27 + "[34mL"+(char)27 + "[0m)ogin             #");
 					out.println("# To leave the game one should ("+(char)27 + "[34mQ"+(char)27 + "[0m)uit           #");
-					out.println("# ("+(char)27 + "[34mR"+(char)27 + "[0m)eprint this dialogue                       #");
+					out.println("# ("+(char)27 + "[34mP"+(char)27 + "[0m)rint this dialogue                       #");
 					out.println("#                                               #");
 					out.println("# The Zaot Empire has grown so large that it    #");
 					out.println("# now spans the entire width of the galaxy.     #");
@@ -190,6 +190,7 @@ public class interpretationServer extends Thread{
 					out.println("# Guards or the warring factions within the     #");
 					out.println("# empire? Only YOU can decide!                  #");
 					out.println("#################################################");
+					login();
 				} else if (str.equals("l")){
 					out.println("");
 					out.println("");
