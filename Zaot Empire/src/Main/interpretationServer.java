@@ -74,7 +74,6 @@ public class interpretationServer extends Thread{
 			out.println("#################################################");
 		
 			login();
-			characterLogin();
 		}
 		public void login(){
 			String str;
