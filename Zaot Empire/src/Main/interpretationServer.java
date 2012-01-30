@@ -17,7 +17,6 @@ import java.util.Scanner;
 
 public class interpretationServer extends Thread{
 		
-		//This will change the location of the MUD Dataset
 		//This will change the location of the MUD Data-set
 		String database = "/Volumes/AMICITIA/Zaos";
 		
@@ -1057,7 +1056,6 @@ public class interpretationServer extends Thread{
 			}
 			interpretUsr();
 		}
-		public void help(String input){ //TODO This code should not be hardcoded. This needs to be removed and re-encoded into a text file that is read
 		public void help(String input){ //TODO This code should not be hard-coded. This needs to be removed and re-encoded into a text file that is read
 			if (input.equals("terrarians")){
 				out.println("The Terrarians originated on planet Earth in the system Sol.");
