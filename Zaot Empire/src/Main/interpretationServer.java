@@ -319,6 +319,11 @@ public class interpretationServer extends Thread{
 			**/
 		} else if (str.equals("r")){
 			characterLogin();
+		} else if (str.equals("l")){
+			login();
+		} else {
+			out.println("That is not an option\n");
+			characterLogin();
 		}
 	}
 	public void room(){
