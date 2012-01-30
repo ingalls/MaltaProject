@@ -39,6 +39,7 @@ public class interpretationServer extends Thread{
 	String direction = "";
 	String northRoom, eastRoom, southRoom, westRoom, upRoom, downRoom;
 	static int numofItems;
+	boolean startup = true;
 	public void ZaosClient(Socket s) throws IOException {
 		socket = s;
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -52,10 +53,15 @@ public class interpretationServer extends Thread{
 	}
 	public void run() {
 		login();
+		
 	}
 	public void login(){
-		out.println ((char)27 + "[2J");
-		out.println ((char)27 + "[0m");
+		if (startup == true){
+			out.println ((char)27 + "[2J");
+			out.println ((char)27 + "[0m");
+			startup = false;
+		}
+		out.println();
 		out.println("#################################################");
 		out.println("#       "+(char)27 + "[1mWelcome to  The Zaotian Empire"+(char)27 + "[22m          #");
 		out.println("#                                               #");
