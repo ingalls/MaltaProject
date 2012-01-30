@@ -219,6 +219,7 @@ public class interpretationServer extends Thread{
 					out.println("<Control> I'm afraid I can't find that user. Have you created an account yet?");
 					out.println("<Control> If you need assistance you can speak to an admin @ nicholas.ingalls@gmail.com");
 					failLogin = true;
+					login();
 				}
 				if (failLogin==false){
 					out.println("");
@@ -232,12 +233,14 @@ public class interpretationServer extends Thread{
 						login = true;
 						System.out.println("<Control> - " + user + " has sucessfully logged in.");
 						logging("<Control> - " + user + " has sucessfully logged in.");
+						characterLogin();
 					} else {
 						out.println("Incorrect!");
 						System.out.println("<Control> - " + user + " has FAILED login.");
 						logging("<Control> - " + user + " has FAILED login.");
+						failLogin = true;
+						login();
 					}
-					failLogin = false;
 				}
 			}
 		}
@@ -310,6 +313,8 @@ public class interpretationServer extends Thread{
 			out.println("(A)bort character creation");
 			out.println("");
 		} else if (str.equals("p")){
+			room();
+			/**
 			out.println("");
 			out.println("Name of the Character that you would like to play:");
 			str = usrTxt.nextLine();
@@ -331,8 +336,9 @@ public class interpretationServer extends Thread{
 			} catch (Exception e){
 				out.println("That isn't the name of one of your characters!");
 			}
+			**/
 		} else if (str.equals("r")){
-			room();
+			characterLogin();
 		}
 	}
 	public void room(){
