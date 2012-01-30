@@ -299,7 +299,7 @@ public class interpretationServer extends Thread{
 			out.println("(A)bort character creation");
 			out.println("");
 		} else if (str.equals("p")){
-			
+			room();
 			/**
 			out.println("");
 			out.println("Name of the Character that you would like to play:");
