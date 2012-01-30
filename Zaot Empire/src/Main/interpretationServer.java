@@ -59,7 +59,7 @@ public class interpretationServer extends Thread{
 			out.println("# New Characters should ("+(char)27 + "[34mR"+(char)27 + "[0m)egister              #");
 			out.println("# Current characters should ("+(char)27 + "[34mL"+(char)27 + "[0m)ogin             #");
 			out.println("# To leave the game one should ("+(char)27 + "[34mQ"+(char)27 + "[0m)uit           #");
-			out.println("# ("+(char)27 + "[34mP"+(char)27 + "[0m)rint this dialogue                       #");
+			out.println("# ("+(char)27 + "[34mP"+(char)27 + "[0m)rint this dialogue                         #");
 			out.println("#                                               #");
 			out.println("# The Zaot Empire has grown so large that it    #");
 			out.println("# now spans the entire width of the galaxy.     #");
@@ -89,7 +89,15 @@ public class interpretationServer extends Thread{
 				str = str.trim();
 				str = str.toLowerCase();
 				if (str.equals("q")){ 
-					break;
+					out.println("We only part to meet again.");
+					System.out.println("<Control> - " + user + " has left the game.");
+					logging("<Control> - " + user + " has left the game.");
+					try {
+						socket.close();
+					} catch(IOException e) {
+						System.out.println("<ERROR> - Could not close connection with user");
+						logging("<ERROR> - Could not close connection with user");
+					}
 				} else if (str.equals("r")){
 					out.println("Welcome to the Zaotian User Creator");
 					out.println("First you must pick a username. This username will be the name of your character so it must be appropriate to a role playing game.");
@@ -177,7 +185,7 @@ public class interpretationServer extends Thread{
 					out.println("# New Characters should ("+(char)27 + "[34mR"+(char)27 + "[0m)egister              #");
 					out.println("# Current characters should ("+(char)27 + "[34mL"+(char)27 + "[0m)ogin             #");
 					out.println("# To leave the game one should ("+(char)27 + "[34mQ"+(char)27 + "[0m)uit           #");
-					out.println("# ("+(char)27 + "[34mP"+(char)27 + "[0m)rint this dialogue                       #");
+					out.println("# ("+(char)27 + "[34mP"+(char)27 + "[0m)rint this dialogue                         #");
 					out.println("#                                               #");
 					out.println("# The Zaot Empire has grown so large that it    #");
 					out.println("# now spans the entire width of the galaxy.     #");
