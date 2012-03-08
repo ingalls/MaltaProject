@@ -53,15 +53,16 @@ public class interpretationServer extends Thread{
 	}
 	public void run() {
 		login();
-		
 	}
+
 	public void login(){
+		
 		if (startup == true){
 			out.println ((char)27 + "[2J");
 			out.println ((char)27 + "[0m");
 			startup = false;
 		}
-		out.println();
+		out.println("");
 		out.println("#################################################");
 		out.println("#       "+(char)27 + "[1mWelcome to  The Zaotian Empire"+(char)27 + "[22m          #");
 		out.println("#                                               #");
