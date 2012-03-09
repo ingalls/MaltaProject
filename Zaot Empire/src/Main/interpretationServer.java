@@ -770,6 +770,9 @@ public class interpretationServer extends Thread{
 			interpretUsr();
 		} else if (str.equals("stop")){
 			stopServer();
+		} else if (str.equals("database")){
+			databaseManager DM = new databaseManager();
+			DM.start();
 		} else {
 			out.println("Sorry, I can't do that!");
 			interpretUsr();

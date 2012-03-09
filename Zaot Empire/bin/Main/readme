@@ -1,0 +1,10 @@
+Malta Project
+
+The malta project is an open-source, java based mud server.
+
+This read me will eventually be updated to include a list of all of the features that the mud currently supports as well as a list of planned features. This list can currently be found on my github page @ https://github.com/MaltaProject/MaltaProject
+
+Versions
+
+0.5 - Tiger Shark
+The login code is finalized and bug free! I will be focusing on other aspects of the game for now. The login screen still needs to be customizable for other data sets besides my own so the ability to read the intro message from a file will be added at a later date. For now one will have to change hard-coded values in the java file in order to change the intro message.
