@@ -15,75 +15,166 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+//TODO Section
+//Redo Fight Code
+//Add some sort of examine code for inv items
+//Finish drop()
+//start take()
+//Make skills() command. This command would print the skills a character currently has
+//make learn() command. This command would print the skills that a character can gain. This information is stored in the profession folder under skills
+//make some exits require an object.
+//Create chat somehow... Not sure how to go about this yet
+
 public class interpretationServer extends Thread{
 
-	//This will change the location of the MUD Data-set
-	String database = "/Volumes/AMICITIA/Zaos";
-
+	String database = null; //Database address is passed to interpretationServer() from TelnetServer(). To modify path edit TelnetServer()
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
 	String[] result;
-
 	ArrayList<String> itemList = new ArrayList<String>();
 	ArrayList<String> shopList = new ArrayList<String>();
 	String[] itemListTemp;
-	static String user = "";
+	static String user = ""; //name of the character being played. This string is used by file accessors to access various attribute files
 	static String age = "<none>";
 	static String race = "<none>";
 	static String location = "<none>";
 	static String name = "<none>";
 	static String list = "";
 	static int numberofNPC = 0;
-	String strLine;
+	boolean sleep = false; //True if the user is sleeping
+	String strLine; //String from the scanner class - AKA user input
 	String direction = "";
-	String northRoom, eastRoom, southRoom, westRoom, upRoom, downRoom;
+	String northRoom, eastRoom, southRoom, westRoom, upRoom, downRoom; //The program loads all rooms adjacent to the users current position.
 	static int numofItems;
+	boolean show = true; //decides whether to show the intro screen. For example if a password is incorrect, the intro screen will not be shown.
 	boolean startup = true;
-	public void ZaosClient(Socket s) throws IOException {
+	boolean north = false, south = false, east = false, west = false, up = false, down = false;
+	public void ZaosClient(Socket s, String databaseLoc) throws IOException {
+		database = databaseLoc;
 		socket = s;
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		// Enable auto-flush:
 		out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
-		// If any of the above calls throw an 
-		// exception, the caller is responsible for
-		// closing the socket. Otherwise the thread
-		// will close it.
+		// If any of the above calls throw an exception, the caller is responsible for closing the socket. Otherwise the thread will close it.
 		start(); // Calls run()
-	}
+	}	
 	public void run() {
 		login();
 	}
+	public void userCreator(){
+		String str = null;
+		Scanner usrTxt = new Scanner(in);
+		String strLine = "";
+		out.println("Welcome to the Zaotian User Creator");
+		out.println("First you must pick a username. This username will be the name of your character so it must be appropriate to a role playing game.");
+		boolean createUser = true;
+		boolean matchPass = true;
+		boolean error = false;
+		String strPass="";
+		while (createUser==true){
+			error = false;
+			out.println("");
+			out.println("Username:");
+			str = usrTxt.nextLine();
+			str = str.trim();
+			str = str.toLowerCase();
+			str=str.replace("\n", "");
+			user = str;
+			try{
+				FileInputStream fstream = new FileInputStream(database + "/Zaot/login/"+user);
+				DataInputStream in = new DataInputStream(fstream);
+				BufferedReader br = new BufferedReader(new InputStreamReader(in));
+				strLine = br.readLine();
+				in.close();
+			} catch (Exception e){
+				createUser = false;
+			}
+			if (createUser == true){
+				out.println("");
+				out.println("I'm afraid that username has already been taken.");
+			}
+		}
 
+		while (matchPass == true){
+			out.println("");
+			out.println("Password:");
+
+			strPass = usrTxt.nextLine();
+			str = str.trim();
+			str = str.toLowerCase();
+			str=str.replace("\n", "");
+			user = str;
+
+			out.println("");
+			out.println("");
+			out.println("Re-Type Password:");
+			String strPassChk = usrTxt.nextLine();
+			str = str.trim();
+			str = str.toLowerCase();
+			str=str.replace("\n", "");
+
+			if (strPass.equals(strPassChk)){
+				matchPass = false;
+			} else {
+				out.println("I'm afraid those passwords don't match! Please try it again.");
+			}
+		}
+		out.println("");
+		out.println("");
+		out.println("Adding an email acount will allow the administrators to contact you in the event of a problem or future updates. Although this is optional it is recommended.");
+		out.println("If you do not want to provide an email address please just press enter.");
+		out.println("");
+		out.println("Email:");
+		str = usrTxt.nextLine();
+		str = str.trim();
+		str = str.toLowerCase();
+		str=str.replace("\n", "");
+
+		try {
+			FileWriter fstream = new FileWriter(database + "/Zaot/login/"+user);
+			BufferedWriter out = new BufferedWriter(fstream);
+			out.write(strPass+"\n");
+			out.write(str);
+			out.close();
+		}catch (Exception e){
+		}
+
+		out.println("");
+		out.println("Your Profile has been sucessfully created. Please login to continue.");
+		out.println("");
+	}
 	public void login(){
-		
+
 		if (startup == true){
 			out.println ((char)27 + "[2J");
 			out.println ((char)27 + "[0m");
 			startup = false;
 		}
-		out.println("");
-		out.println("#################################################");
-		out.println("#       "+(char)27 + "[1mWelcome to  The Zaotian Empire"+(char)27 + "[22m          #");
-		out.println("#                                               #");
-		out.println("# New Characters should ("+(char)27 + "[34mR"+(char)27 + "[0m)egister              #");
-		out.println("# Current characters should ("+(char)27 + "[34mL"+(char)27 + "[0m)ogin             #");
-		out.println("# To leave the game one should ("+(char)27 + "[34mQ"+(char)27 + "[0m)uit           #");
-		out.println("# ("+(char)27 + "[34mP"+(char)27 + "[0m)rint this dialogue                         #");
-		out.println("#                                               #");
-		out.println("# The Zaot Empire has grown so large that it    #");
-		out.println("# now spans the entire width of the galaxy.     #");
-		out.println("# Within in the Zaot Empire, various faction    #");
-		out.println("# scheme for dominance and control of the       #");
-		out.println("# empire. While the Solar Guards strive to keep #");
-		out.println("# peace and prevent the fall of the empire.     #");
-		out.println("#                                               #");
-		out.println("# Who will win? The noble cause of the Solar    #");
-		out.println("# Guards or the warring factions within the     #");
-		out.println("# empire? Only YOU can decide!                  #");
-		out.println("#################################################");
+		if (show==true){
+			show = false;
+			out.println("");
+			out.println("#################################################");
+			out.println("#       "+(char)27 + "[1mWelcome to  The Zaotian Empire"+(char)27 + "[22m          #");
+			out.println("#                                               #");
+			out.println("# New Characters should ("+(char)27 + "[34mR"+(char)27 + "[0m)egister              #");
+			out.println("# Current characters should ("+(char)27 + "[34mL"+(char)27 + "[0m)ogin             #");
+			out.println("# To leave the game one should ("+(char)27 + "[34mQ"+(char)27 + "[0m)uit           #");
+			out.println("# ("+(char)27 + "[34mP"+(char)27 + "[0m)rint this dialogue                         #");
+			out.println("#                                               #");
+			out.println("# The Zaot Empire has grown so large that it    #");
+			out.println("# now spans the entire width of the galaxy.     #");
+			out.println("# Within in the Zaot Empire, various faction    #");
+			out.println("# scheme for dominance and control of the       #");
+			out.println("# empire. While the Solar Guards strive to keep #");
+			out.println("# peace and prevent the fall of the empire.     #");
+			out.println("#                                               #");
+			out.println("# Who will win? The noble cause of the Solar    #");
+			out.println("# Guards or the warring factions within the     #");
+			out.println("# empire? Only YOU can decide!                  #");
+			out.println("#################################################");
+		}
 
-		
 		String str;
 		Scanner usrTxt = new Scanner(in);
 		String strLine = "";
@@ -91,6 +182,7 @@ public class interpretationServer extends Thread{
 		boolean login = false;
 		while (login==false) {  
 			out.println();
+			out.println("p to reprint options");
 			out.println("Select an Option:");
 			str = usrTxt.nextLine();
 			str = str.trim();
@@ -106,84 +198,9 @@ public class interpretationServer extends Thread{
 					logging("<ERROR> - Could not close connection with user");
 				}
 			} else if (str.equals("r")){
-				out.println("Welcome to the Zaotian User Creator");
-				out.println("First you must pick a username. This username will be the name of your character so it must be appropriate to a role playing game.");
-				boolean createUser = true;
-				boolean matchPass = true;
-				boolean error = false;
-				String strPass="";
-				while (createUser==true){
-					error = false;
-					out.println("");
-					out.println("Username:");
-					str = usrTxt.nextLine();
-					str = str.trim();
-					str = str.toLowerCase();
-					str=str.replace("\n", "");
-					user = str;
-					try{
-						FileInputStream fstream = new FileInputStream(database + "/Zaot/login/"+user);
-						DataInputStream in = new DataInputStream(fstream);
-						BufferedReader br = new BufferedReader(new InputStreamReader(in));
-						strLine = br.readLine();
-						in.close();
-					} catch (Exception e){
-						createUser = false;
-					}
-					if (createUser == true){
-						out.println("");
-						out.println("I'm afraid that username has already been taken.");
-					}
-				}
-
-				while (matchPass == true){
-					out.println("");
-					out.println("Password:");
-
-					strPass = usrTxt.nextLine();
-					str = str.trim();
-					str = str.toLowerCase();
-					str=str.replace("\n", "");
-					user = str;
-
-					out.println("");
-					out.println("");
-					out.println("Re-Type Password:");
-					String strPassChk = usrTxt.nextLine();
-					str = str.trim();
-					str = str.toLowerCase();
-					str=str.replace("\n", "");
-
-					if (strPass.equals(strPassChk)){
-						matchPass = false;
-					} else {
-						out.println("I'm afraid those passwords don't match! Please try it again.");
-					}
-				}
-				out.println("");
-				out.println("");
-				out.println("Adding an email acount will allow the administrators to contact you in the event of a problem or future updates. Although this is optional it is recommended.");
-				out.println("If you do not want to provide an email address please just press enter.");
-				out.println("");
-				out.println("Email:");
-				str = usrTxt.nextLine();
-				str = str.trim();
-				str = str.toLowerCase();
-				str=str.replace("\n", "");
-
-				try {
-					FileWriter fstream = new FileWriter(database + "/Zaot/login/"+user);
-					BufferedWriter out = new BufferedWriter(fstream);
-					out.write(strPass+"\n");
-					out.write(str);
-					out.close();
-				}catch (Exception e){
-				}
-
-				out.println("");
-				out.println("Your Profile has been sucessfully created. Please login to continue.");
-				out.println("");
+				userCreator();
 			} else if (str.equals("p")){
+				show = true;
 				login();
 			} else if (str.equals("l")){
 				out.println("");
@@ -206,6 +223,7 @@ public class interpretationServer extends Thread{
 					out.println("<Control> I'm afraid I can't find that user. Have you created an account yet?");
 					out.println("<Control> If you need assistance you can speak to an admin @ nicholas.ingalls@gmail.com");
 					failLogin = true;
+					show = false;
 					login();
 				}
 				if (failLogin==false){
@@ -222,10 +240,11 @@ public class interpretationServer extends Thread{
 						logging("<Control> - " + user + " has sucessfully logged in.");
 						characterLogin();
 					} else {
-						out.println("Incorrect!");
+						out.println((char)27 + "[0mIncorrect!");
 						System.out.println("<Control> - " + user + " has FAILED login.");
 						logging("<Control> - " + user + " has FAILED login.");
 						failLogin = true;
+						show = false;
 						login();
 					}
 				}
@@ -299,6 +318,8 @@ public class interpretationServer extends Thread{
 			out.println("(D)one - create my character");
 			out.println("(A)bort character creation");
 			out.println("");
+			out.println("NOT CURRENTLY OPERATIONAL");
+			characterLogin();
 		} else if (str.equals("p")){
 			room();
 			/**
@@ -323,10 +344,11 @@ public class interpretationServer extends Thread{
 			} catch (Exception e){
 				out.println("That isn't the name of one of your characters!");
 			}
-			**/
+			 **/
 		} else if (str.equals("r")){
 			characterLogin();
 		} else if (str.equals("l")){
+			show = true;
 			login();
 		} else {
 			out.println("That is not an option\n");
@@ -337,14 +359,14 @@ public class interpretationServer extends Thread{
 		numberofNPC = 0;
 		list = "";
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/location");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			strLine = br.readLine();
 			in.close();
 		} catch (Exception e){
-			System.out.println("<ERROR> " + user + " was unable to access their user.loc file");
-			logging("<ERROR> " + user + " was unable to access their user.loc file");
+			System.out.println("<ERROR> " + user + " was unable to access their location file");
+			logging("<ERROR> " + user + " was unable to access their location file");
 		}
 		strLine = strLine.replace("\n", "");
 		location = strLine;
@@ -386,53 +408,53 @@ public class interpretationServer extends Thread{
 				} else {
 					out.println(strLine); 
 				}
-
 			}
 			direction = "";
 			out.println("");
 			strLine = br.readLine();
 			if (strLine.contains("[North:none]")){
 			} else {
+				north = true;
 				direction = direction + "[North] ";
 			}
 			northRoom=strLine;
 			northRoom = northRoom.replace("[North:", "");
 			northRoom = northRoom.replace("]", "");
 
-
 			strLine = br.readLine();
 			if (strLine.contains("[East:none]")){
 			} else {
+				east = true;
 				direction = direction + "[East] ";
 			}		
 			eastRoom=strLine;
 			eastRoom = eastRoom.replace("[East:", "");
 			eastRoom = eastRoom.replace("]", "");
 
-
 			strLine = br.readLine();
 			if (strLine.contains("[South:none]")){
 			} else {
+				south = true;
 				direction = direction + "[South] ";
 			}
 			southRoom=strLine;
 			southRoom = southRoom.replace("[South:", "");
 			southRoom = southRoom.replace("]", "");
 
-
 			strLine = br.readLine();
 			if (strLine.contains("[West:none]")){
 			} else {
+				west = true;
 				direction = direction + "[West] ";
 			}
 			westRoom=strLine;
 			westRoom = westRoom.replace("[West:", "");
 			westRoom = westRoom.replace("]", "");
 
-
 			strLine = br.readLine();
 			if (strLine.contains("[Up:none]")){
 			} else {
+				up = true;
 				direction = direction + "[Up] ";
 			}
 			upRoom=strLine;
@@ -443,6 +465,7 @@ public class interpretationServer extends Thread{
 			strLine = br.readLine();
 			if (strLine.contains("[Down:none]")){
 			} else {
+				down = true;
 				direction = direction + "[Down] ";
 			}
 			downRoom=strLine;
@@ -452,6 +475,7 @@ public class interpretationServer extends Thread{
 			out.println((char)27 + "[34m" + direction + (char)27 + "[0m");
 			in.close();
 		} catch (Exception e){
+			out.println("You have entered a room which doesn't exist!");
 			System.out.println("<ERROR> " + user + " is located in a room which doesn't exist!");
 			logging("<ERROR> " + user + " is located in a room which doesn't exist!");
 		}
@@ -540,28 +564,29 @@ public class interpretationServer extends Thread{
 
 	}
 	public void interpretUsr(){
+
 		String hp = "", xp = "";
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".hp");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/health");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			strLine = br.readLine();
 			hp = strLine;
 			in.close();
 		} catch (Exception e){
-			System.out.println("<ERROR> " + user + " was unable to access their user.hp file");
-			logging("<ERROR> " + user + " was unable to access their user.hp file");
+			System.out.println("<ERROR> " + user + " was unable to access their health file");
+			logging("<ERROR> " + user + " was unable to access their health file");
 		}
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".xp");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/experience");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			strLine = br.readLine();
 			xp = strLine;
 			in.close();
 		} catch (Exception e){
-			System.out.println("<ERROR> " + user + " was unable to access their user.xp file");
-			logging("<ERROR> " + user + " was unable to access their user.xp file");
+			System.out.println("<ERROR> " + user + " was unable to access their experience file");
+			logging("<ERROR> " + user + " was unable to access their user experience file");
 		}
 
 		out.println("");
@@ -571,211 +596,259 @@ public class interpretationServer extends Thread{
 		str = usrTxt.nextLine();
 		str = str.trim();
 		str = str.toLowerCase();
-		if (str.equals("n") | str.equals("north")){
-			File bkup = new File(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
-			bkup.delete();
-			try{
-				FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
-				BufferedWriter writeout = new BufferedWriter(fstream);
-				writeout.write(northRoom);
-
-				try {
-					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".n");
-					DataInputStream in = new DataInputStream(fstream2);
-					BufferedReader br = new BufferedReader(new InputStreamReader(in));
-					out.println();
-					out.println(br.readLine());
-					out.println();
-					br.close();
-				} catch (Exception e) {
-					out.println();
-					out.println("You walk to the north.");
-					out.println();
-				}
 
 
-				writeout.close();
-			} catch (Exception e){
-
+		if (sleep==true) {
+			if (str.equals("wake")){
+				out.println("You wake up");
+				sleep = false;
+				interpretUsr();
+			} else {
+				out.println("You can't do that while you are slepping!");
+				interpretUsr();
 			}
-			room();
-		} else if (str.equals("e") | str.equals("e")){
-			File bkup = new File(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
-			bkup.delete();
-			try{
-				FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
-				BufferedWriter writeout = new BufferedWriter(fstream);
-				writeout.write(eastRoom);
-				try {
-					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".e");
-					DataInputStream in = new DataInputStream(fstream2);
-					BufferedReader br = new BufferedReader(new InputStreamReader(in));
-					out.println();
-					out.println(br.readLine());
-					out.println();
-					br.close();
-				} catch (Exception e) {
-					out.println();
-					out.println("You walk to the east.");
-					out.println();
-				}
-
-				writeout.close();
-			} catch (Exception e){
-
-			}
-			room();
-		} else if (str.equals("s") | str.equals("south")){
-			File bkup = new File(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
-			bkup.delete();
-			try{
-				FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
-				BufferedWriter writeout = new BufferedWriter(fstream);
-				writeout.write(southRoom);
-				try {
-					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".s");
-					DataInputStream in = new DataInputStream(fstream2);
-					BufferedReader br = new BufferedReader(new InputStreamReader(in));
-					out.println();
-					out.println(br.readLine());
-					out.println();
-					br.close();
-				} catch (Exception e) {
-					out.println();
-					out.println("You walk to the south.");
-					out.println();
-				}
-				writeout.close();
-			} catch (Exception e){
-
-			}
-			room();
-		} else if (str.equals("w") | str.equals("west")){
-			File bkup = new File(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
-			bkup.delete();
-			try{
-				FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
-				BufferedWriter writeout = new BufferedWriter(fstream);
-				writeout.write(westRoom);
-				try {
-					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".w");
-					DataInputStream in = new DataInputStream(fstream2);
-					BufferedReader br = new BufferedReader(new InputStreamReader(in));
-					out.println();
-					out.println(br.readLine());
-					out.println();
-					br.close();
-				} catch (Exception e) {
-					out.println();
-					out.println("You walk to the west.");
-					out.println();
-				}
-				writeout.close();
-			} catch (Exception e){
-
-			}
-			room();
-		} else if (str.equals("d") | str.equals("down")){
-			File bkup = new File(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
-			bkup.delete();
-			try{
-				FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
-				BufferedWriter writeout = new BufferedWriter(fstream);
-				writeout.write(downRoom);
-
-				try {
-					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".d");
-					DataInputStream in = new DataInputStream(fstream2);
-					BufferedReader br = new BufferedReader(new InputStreamReader(in));
-					out.println();
-					out.println(br.readLine());
-					out.println();
-					br.close();
-				} catch (Exception e) {
-					out.println();
-					out.println("You climb down.");
-					out.println();
-				}
-
-				writeout.close();
-			} catch (Exception e){
-
-			}
-			room();
-		} else if (str.equals("u") | str.equals("up")){
-			File bkup = new File(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
-			bkup.delete();
-			try{
-				FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".loc");
-				BufferedWriter writeout = new BufferedWriter(fstream);
-				writeout.write(upRoom);
-
-				try {
-					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".u");
-					DataInputStream in = new DataInputStream(fstream2);
-					BufferedReader br = new BufferedReader(new InputStreamReader(in));
-					out.println();
-					out.println(br.readLine());
-					out.println();
-					br.close();
-				} catch (Exception e) {
-					out.println();
-					out.println("You climb up.");
-					out.println();
-				}
-
-				writeout.close();
-			} catch (Exception e){
-
-			}
-			room();
-		}  else if (str.contains("help")){
-			str.replace("help ", "");
-			help(str);
-			interpretUsr();
-		} else if (str.contains("jump")){
-			out.println("You jump up and down on the spot.");
-			interpretUsr();
-		}	else if (str.contains("kiss")){
-			out.println("Your advances would not be appreciated!");
-			interpretUsr();
-		} else if (str.equals("l")| str.contains("look") | str.equals("")){
-			room();
-		} else if (str.equals("list") | str.contains("buy ")){
-			try {
-				list(str);
-			} catch (IOException e) {
-				System.out.println("<ERROR> " + user + " can not access the shop list found in " + list);
-				logging("<ERROR> " + user + " can not access the shop list found in " + list);
-			}
-			interpretUsr();
-		} else if (str.contains("fight ")){
-			String character = str;
-			character = character.replace("fight ", "");
-			fight(character);
-		} else if (str.contains("examine ")){
-			String examine = str;
-			examine = examine.replace("examine ", "");
-			examine(examine);
-		} else if (str.contains("quit")){
-			quit();
-		} else if (str.equals("inventory")|str.equals("i")|str.equals("inv")){
-			inv();
-			interpretUsr();
-		} else if (str.contains("take ")){
-			take();
-			interpretUsr();
-		} else if (str.contains("drop ")){
-			drop(str);
-			interpretUsr();
-		} else if (str.equals("stop")){
-			stopServer();
-		} else if (str.equals("database")){
-			databaseManager DM = new databaseManager();
-			DM.start();
 		} else {
-			out.println("Sorry, I can't do that!");
-			interpretUsr();
+			if (str.equals("n") | str.equals("north")) {
+				File bkup = new File(database + "/Zaot/charProfile/" + user + "/location");
+				bkup.delete();
+				try {
+					FileWriter fstream = new FileWriter(database
+							+ "/Zaot/charProfile/" + user + "/location");
+					BufferedWriter writeout = new BufferedWriter(fstream);
+					writeout.write(northRoom);
+
+					try {
+						FileInputStream fstream2 = new FileInputStream(database
+								+ "/Zaot/rooms/" + location + "/" + location
+								+ ".n");
+						DataInputStream in = new DataInputStream(fstream2);
+						BufferedReader br = new BufferedReader(
+								new InputStreamReader(in));
+						out.println();
+						out.println(br.readLine());
+						out.println();
+						br.close();
+					} catch (Exception e) {
+						out.println();
+						out.println("You walk to the north.");
+						out.println();
+					}
+
+					writeout.close();
+				} catch (Exception e) {
+
+				}
+				room();
+			} else if (str.equals("e") | str.equals("e")) {
+				File bkup = new File(database + "/Zaot/charProfile/" + user
+						+ "/location");
+				bkup.delete();
+				try {
+					FileWriter fstream = new FileWriter(database
+							+ "/Zaot/charProfile/" + user + "/location");
+					BufferedWriter writeout = new BufferedWriter(fstream);
+					writeout.write(eastRoom);
+					try {
+						FileInputStream fstream2 = new FileInputStream(database
+								+ "/Zaot/rooms/" + location + "/" + location
+								+ ".e");
+						DataInputStream in = new DataInputStream(fstream2);
+						BufferedReader br = new BufferedReader(
+								new InputStreamReader(in));
+						out.println();
+						out.println(br.readLine());
+						out.println();
+						br.close();
+					} catch (Exception e) {
+						out.println();
+						out.println("You walk to the east.");
+						out.println();
+					}
+
+					writeout.close();
+				} catch (Exception e) {
+
+				}
+				room();
+			} else if (str.equals("s") | str.equals("south")) {
+				File bkup = new File(database + "/Zaot/charProfile/" + user
+						+ "/location");
+				bkup.delete();
+				try {
+					FileWriter fstream = new FileWriter(database
+							+ "/Zaot/charProfile/" + user + "/location");
+					BufferedWriter writeout = new BufferedWriter(fstream);
+					writeout.write(southRoom);
+					try {
+						FileInputStream fstream2 = new FileInputStream(database
+								+ "/Zaot/rooms/" + location + "/" + location
+								+ ".s");
+						DataInputStream in = new DataInputStream(fstream2);
+						BufferedReader br = new BufferedReader(
+								new InputStreamReader(in));
+						out.println();
+						out.println(br.readLine());
+						out.println();
+						br.close();
+					} catch (Exception e) {
+						out.println();
+						out.println("You walk to the south.");
+						out.println();
+					}
+					writeout.close();
+				} catch (Exception e) {
+
+				}
+				room();
+			} else if (str.equals("w") | str.equals("west")) {
+				File bkup = new File(database + "/Zaot/charProfile/" + user
+						+ "/location");
+				bkup.delete();
+				try {
+					FileWriter fstream = new FileWriter(database
+							+ "/Zaot/charProfile/" + user + "/location");
+					BufferedWriter writeout = new BufferedWriter(fstream);
+					writeout.write(westRoom);
+					try {
+						FileInputStream fstream2 = new FileInputStream(database
+								+ "/Zaot/rooms/" + location + "/" + location
+								+ ".w");
+						DataInputStream in = new DataInputStream(fstream2);
+						BufferedReader br = new BufferedReader(
+								new InputStreamReader(in));
+						out.println();
+						out.println(br.readLine());
+						out.println();
+						br.close();
+					} catch (Exception e) {
+						out.println();
+						out.println("You walk to the west.");
+						out.println();
+					}
+					writeout.close();
+				} catch (Exception e) {
+
+				}
+				room();
+			} else if (str.equals("d") | str.equals("down")) {
+				File bkup = new File(database + "/Zaot/charProfile/" + user
+						+ "/location");
+				bkup.delete();
+				try {
+					FileWriter fstream = new FileWriter(database
+							+ "/Zaot/charProfile/" + user + "/location");
+					BufferedWriter writeout = new BufferedWriter(fstream);
+					writeout.write(downRoom);
+
+					try {
+						FileInputStream fstream2 = new FileInputStream(database
+								+ "/Zaot/rooms/" + location + "/" + location
+								+ ".d");
+						DataInputStream in = new DataInputStream(fstream2);
+						BufferedReader br = new BufferedReader(
+								new InputStreamReader(in));
+						out.println();
+						out.println(br.readLine());
+						out.println();
+						br.close();
+					} catch (Exception e) {
+						out.println();
+						out.println("You climb down.");
+						out.println();
+					}
+
+					writeout.close();
+				} catch (Exception e) {
+
+				}
+				room();
+			} else if (str.equals("u") | str.equals("up")) {
+				File bkup = new File(database + "/Zaot/charProfile/" + user
+						+ "/location");
+				bkup.delete();
+				try {
+					FileWriter fstream = new FileWriter(database
+							+ "/Zaot/charProfile/" + user + "/location");
+					BufferedWriter writeout = new BufferedWriter(fstream);
+					writeout.write(upRoom);
+
+					try {
+						FileInputStream fstream2 = new FileInputStream(database
+								+ "/Zaot/rooms/" + location + "/" + location
+								+ ".u");
+						DataInputStream in = new DataInputStream(fstream2);
+						BufferedReader br = new BufferedReader(
+								new InputStreamReader(in));
+						out.println();
+						out.println(br.readLine());
+						out.println();
+						br.close();
+					} catch (Exception e) {
+						out.println();
+						out.println("You climb up.");
+						out.println();
+					}
+
+					writeout.close();
+				} catch (Exception e) {
+
+				}
+				room();
+			} else if (str.contains("help")) {
+				str.replace("help ", "");
+				help(str);
+				interpretUsr();
+			} else if (str.contains("jump")) {
+				out.println("You jump up and down on the spot.");
+				interpretUsr();
+			} else if (str.contains("kiss")) {
+				out.println("Your advances would not be appreciated!");
+				interpretUsr();
+			} else if (str.equals("l") | str.contains("look") | str.equals("")) {
+				room();
+			} else if (str.equals("list") | str.contains("buy ")) {
+				try {
+					list(str);
+				} catch (IOException e) {
+					System.out.println("<ERROR> " + user
+							+ " can not access the shop list found in " + list);
+					logging("<ERROR> " + user
+							+ " can not access the shop list found in " + list);
+				}
+				interpretUsr();
+			} else if (str.contains("fight ")) {
+				String character = str;
+				character = character.replace("fight ", "");
+				fight(character);
+			} else if (str.contains("examine ")) {
+				String examine = str;
+				examine = examine.replace("examine ", "");
+				examine(examine);
+			} else if (str.contains("quit")) {
+				quit();
+			} else if (str.equals("inventory") | str.equals("i")
+					| str.equals("inv")) {
+				inv();
+				interpretUsr();
+			} else if (str.contains("take ")) {
+				take();
+				interpretUsr();
+			} else if (str.contains("drop ")) {
+				drop(str);
+				interpretUsr();
+			} else if (str.equals("gold")) {
+				gold();
+			} else if (str.equals("stop")) {
+				stopServer();
+			} else if (str.equals("sleep")){
+				sleep();
+			} else if (str.equals("database")) {
+				//databaseManager DM = new databaseManager();
+				//DM.start();
+			} else {
+				out.println("Sorry, I can't do that!");
+				interpretUsr();
+			}
 		}
 
 	}
@@ -835,7 +908,7 @@ public class interpretationServer extends Thread{
 					shop = shop.toLowerCase();
 					if (shop.equals(str)){
 						try{
-							FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".gld");
+							FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/gold");
 							DataInputStream in = new DataInputStream(fstream);
 							BufferedReader br = new BufferedReader(new InputStreamReader(in));
 							strLine = br.readLine();
@@ -843,14 +916,14 @@ public class interpretationServer extends Thread{
 							gld = Integer.parseInt(strLine);
 							price = Integer.parseInt(shopList.get(loc + 1));
 						} catch (Exception e){
-							System.out.println("<ERROR> " + user + " was unable to access their user.gld file");
-							logging("<ERROR> " + user + " was unable to access their user.gld file");
+							System.out.println("<ERROR> " + user + " was unable to access their gold file");
+							logging("<ERROR> " + user + " was unable to access their gold file");
 						}
 						if (gld>price){
-							File file = new File(database + "/Zaot/charProfile/"+user+"/"+user+".gld");
+							File file = new File(database + "/Zaot/charProfile/"+user+"/gold");
 							file.delete();
 							try {
-								FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".gld");
+								FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/gold");
 								BufferedWriter out = new BufferedWriter(fstream);
 								gld = gld - price;
 								out.write("" + gld);
@@ -859,7 +932,7 @@ public class interpretationServer extends Thread{
 							}
 							try{
 								// Create file 
-								FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".inv",true);
+								FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/inventory",true);
 								BufferedWriter out = new BufferedWriter(fstream);
 								out.write("1:"+str + "\n");
 								//Close the output stream
@@ -882,6 +955,20 @@ public class interpretationServer extends Thread{
 			}
 
 		}
+	}
+	public void gold(){
+		try{
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/gold");
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			String gold = br.readLine();
+			in.close();
+			out.println("You currently have " + gold + " gold!"); //TODO use ansi to make the gold amount be in yellow
+		} catch (Exception e){
+			System.out.println("<ERROR> " + user + " was unable to access their gold file");
+			logging("<ERROR> " + user + " was unable to access their gold file");
+		}
+		interpretUsr();
 	}
 	public void examine(String examine){
 		String[] examineTemp;
@@ -909,11 +996,14 @@ public class interpretationServer extends Thread{
 	}
 	public void sleep(){
 		//TODO Sleep increases the rate at which health is regenerated.
+		sleep = true;
+		out.println("You lay down and fall into a deep sleep.");
+		interpretUsr();
 	}
 	public void score(){
 		//TODO Have a nicely formated table that prints out lvl, hp, etc.
 	}
-	public void fight(String character){
+	public void fight(String character){ //TODO Needs to be completely redone as /object directory was changed
 		boolean continueOn = false;
 		String characterActual = "", hurtDesc = "", killDesc = "", userWeapon = "", NPCweapon = "", userHurtdesc = "", userKilldesc = "";
 		int NPCaccuracy = 0, userAccuracy = 0, userMindamage = 0, userMaxdamage = 0, maxDamage = 0, minDamage = 0;
@@ -944,7 +1034,7 @@ public class interpretationServer extends Thread{
 		}
 		if (continueOn==true){
 			try{
-				FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/" + user + "/" + user + ".wld");
+				FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/" + user + "/wield");
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				while(true){
@@ -958,8 +1048,8 @@ public class interpretationServer extends Thread{
 				}
 				in.close();
 			} catch (Exception e){
-				System.out.println("<ERROR> " + user + " was unable to access  their .wld file");
-				logging("<ERROR> " + user + " was unable to access  their .wld file");
+				System.out.println("<ERROR> " + user + " was unable to access  their wield file");
+				logging("<ERROR> " + user + " was unable to access  their wield file");
 			}
 			try{
 				FileInputStream fstream = new FileInputStream(database + "/Zaot/npc/" + characterActual + "/" + characterActual + ".inv");
@@ -1065,42 +1155,7 @@ public class interpretationServer extends Thread{
 		}
 		interpretUsr();
 	}
-	public void help(String input){ //TODO This code should not be hard-coded. This needs to be removed and re-encoded into a text file that is read
-		if (input.equals("terrarians")){
-			out.println("The Terrarians originated on planet Earth in the system Sol.");
-			out.println("");
-			out.println("It has often been said that in older times, the Earth was a marvel"); 
-			out.println("of planetary beauty. However, during the third and final tropospheric");
-			out.println("revolution, much of Earth's natural beauty was transformed into ");
-			out.println("industrial waste-land. The pollution amount eventually became so ");
-			out.println("high, it led the commander Julius the 3rd to remark idly, 'The whole");
-			out.println("quadrant at my hand, and a trash can at my disposal.' ");
-			out.println("");
-			out.println("The Terranians have always been at the fore-front of the innovative"); 
-			out.println("worlds. Producing many galaxy renown scientists. Much of Earth's");
-			out.println("technology is shared within the Zaotian Empire though their large ");
-			out.println("pirate fleet is always equipped with the very latest. The Terrarians");
-			out.println("are eager explorers and have many colonies spread throughout the ");
-			out.println("galaxy.");
-			out.println("");
-			out.println("Earth has a Military ruled government built on a system of Sars.");
-			out.println("Currently reigning is Sar Grule the 1st, whose diplomatic ties were"); 
-			out.println("severely crippled after the Croctail Nebula Ambush. Therefore the ");
-			out.println("Terrarians have very weak ties with the Solar Guards as well.");
-		} else if (input.equals("")){
-
-		} else if (input.equals("")){
-
-		} else if (input.equals("")){
-
-		} else if (input.equals("")){
-
-		}else if (input.equals("")){
-
-		} else {
-			out.println("I'm afraid there isn't any help avaliable for that topic");
-		}
-
+	public void help(String input){
 	}
 	public void quit(){
 		out.println("We only part to meet again.");
@@ -1119,7 +1174,7 @@ public class interpretationServer extends Thread{
 		out.println("--Inventory--");
 		out.println("#   Name");
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".inv");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/inventory");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
 
@@ -1160,7 +1215,7 @@ public class interpretationServer extends Thread{
 		int dropNum = 0; //The number of items to drop (-1 represents all items by that name in inv)
 		String dropName = ""; //The name of the item to drop
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/"+user+".inv");
+			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/inventory");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
 
@@ -1220,11 +1275,11 @@ public class interpretationServer extends Thread{
 			interpretUsr();
 		}
 
-		File file = new File(database + "/Zaot/charProfile/"+user+"/"+user+".inv");
+		File file = new File(database + "/Zaot/charProfile/"+user+"/inventory");
 		file.delete();
 		try{
 			// Create file 
-			FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/"+user+".inv",true);
+			FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/inventory",true);
 			BufferedWriter fileOut = new BufferedWriter(fstream);
 			int invCounter = 0;
 			while(true){
@@ -1254,7 +1309,7 @@ public class interpretationServer extends Thread{
 		logging("<CONTROL> " + user + " is attempting to stop the server");
 		out.println("Preparing to stop the server...");
 		try {
-			FileInputStream fstream2 = new FileInputStream(database + "/Zaot/charProfile/"+user+"/GOD");
+			FileInputStream fstream2 = new FileInputStream(database + "/Zaot/charProfile/"+user+"/Wizard");
 			DataInputStream in = new DataInputStream(fstream2);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			br.close();
@@ -1262,7 +1317,7 @@ public class interpretationServer extends Thread{
 			logging("<CONTROL>" + user + "has stopped the server");
 			System.exit(0);
 		} catch (Exception e) {
-			out.println("You are not a GOD, I can't let you do that!");
+			out.println("You are not a Wizard, I can't let you do that!");
 			System.out.println("<CONTROL> " + user + " failed to stop the server.");
 			logging("<CONTROL> " + user + " failed to stop the server.");
 			interpretUsr();
@@ -1270,7 +1325,8 @@ public class interpretationServer extends Thread{
 	}
 	public void logging(String logPhrase){
 		try{
-			File file = new File(database + "/Zaot/logs/"+user+".log");
+			String fileloc = database + "/Zaot/logs/"+user+".log";
+			File file = new File(fileloc);
 			//if file doesn't exists, then create it
 			if(!file.exists()){
 				file.createNewFile();
