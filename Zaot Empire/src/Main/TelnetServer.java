@@ -7,11 +7,10 @@ public class TelnetServer {
 	
 	//-------------Change-With-Caution-----------------
 	//This will change the location of the MUD Data-set
-	static String database = "/Users/sherryingalls/git";
+	static String database = "/home/aurora/Programming/MaltaProject/Zaot-Server-Dataset/Zaot";
 	//This will change the port for the MUD
 	static final int PORT = 1337;
 	//-------------------------------------------------
-	
 	
 	public static void main(String[] args) throws IOException {
 		ServerSocket s = new ServerSocket(PORT);
@@ -32,7 +31,7 @@ public class TelnetServer {
 		boolean error = false;
 		System.out.println("<Control> Checking for Database");
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/check");
+			FileInputStream fstream = new FileInputStream(database + "/check");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			in.read();
@@ -43,7 +42,7 @@ public class TelnetServer {
 			error = true;
 		}
 		if (error==false){
-			System.out.print("<Control> Database OKAY");
+			System.out.println("<Control> Database OKAY");
 		}
 	}
 }

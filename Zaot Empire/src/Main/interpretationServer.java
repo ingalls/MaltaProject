@@ -16,14 +16,15 @@ import java.util.Random;
 import java.util.Scanner;
 
 //TODO Section
-//Redo Fight Code
-//Add some sort of examine code for inv items
-//Finish drop()
-//start take()
-//Make skills() command. This command would print the skills a character currently has
-//make learn() command. This command would print the skills that a character can gain. This information is stored in the profession folder under skills
-//make some exits require an object.
-//Create chat somehow... Not sure how to go about this yet
+//TODO Redo Fight Code
+//TODO Add some sort of examine code for inv items
+//TODO Finish drop()
+//TODO start take()
+//TODO Make skills() command. This command would print the skills a character currently has
+//TODO make learn() command. This command would print the skills that a character can gain. This information is stored in the profession folder under skills
+//TODO make some exits require an object.
+//TODO Create chat somehow... Not sure how to go about this yet
+//TODO Give() command
 
 public class interpretationServer extends Thread{
 
@@ -31,6 +32,7 @@ public class interpretationServer extends Thread{
 	private Socket socket;
 	private BufferedReader in;
 	private PrintWriter out;
+	getValue getValue = new getValue();
 	String[] result;
 	ArrayList<String> itemList = new ArrayList<String>();
 	ArrayList<String> shopList = new ArrayList<String>();
@@ -62,7 +64,7 @@ public class interpretationServer extends Thread{
 	public void run() {
 		login();
 	}
-	public void userCreator(){
+	public void userCreator(){//Allows for new users to create an account
 		String str = null;
 		Scanner usrTxt = new Scanner(in);
 		String strLine = "";
@@ -82,7 +84,7 @@ public class interpretationServer extends Thread{
 			str=str.replace("\n", "");
 			user = str;
 			try{
-				FileInputStream fstream = new FileInputStream(database + "/Zaot/login/"+user);
+				FileInputStream fstream = new FileInputStream(database + "/login/"+user);
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				strLine = br.readLine();
@@ -132,7 +134,7 @@ public class interpretationServer extends Thread{
 		str=str.replace("\n", "");
 
 		try {
-			FileWriter fstream = new FileWriter(database + "/Zaot/login/"+user);
+			FileWriter fstream = new FileWriter(database + "/login/"+user);
 			BufferedWriter out = new BufferedWriter(fstream);
 			out.write(strPass+"\n");
 			out.write(str);
@@ -144,7 +146,7 @@ public class interpretationServer extends Thread{
 		out.println("Your Profile has been sucessfully created. Please login to continue.");
 		out.println("");
 	}
-	public void login(){
+	public void login(){//Account Login Page
 
 		if (startup == true){
 			out.println ((char)27 + "[2J");
@@ -214,7 +216,7 @@ public class interpretationServer extends Thread{
 				System.out.println("<Control> - " + user + " is attempting to login");
 				logging("<Control> - " + user + " is attempting to login");
 				try{
-					FileInputStream fstream = new FileInputStream(database + "/Zaot/login/"+user);
+					FileInputStream fstream = new FileInputStream(database + "/login/"+user);
 					DataInputStream in = new DataInputStream(fstream);
 					BufferedReader br = new BufferedReader(new InputStreamReader(in));
 					strLine = br.readLine();
@@ -252,7 +254,7 @@ public class interpretationServer extends Thread{
 		}
 
 	}
-	public void characterLogin(){
+	public void characterLogin(){//Character Login Page
 		String strLine;
 		boolean loadChar = false;
 		int charLen = 0;
@@ -264,7 +266,7 @@ public class interpretationServer extends Thread{
 		out.println("' Character:                                   '");
 
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/characters/"+user);
+			FileInputStream fstream = new FileInputStream(database + "/characters/"+user);
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			while(loadChar==false){
@@ -329,7 +331,7 @@ public class interpretationServer extends Thread{
 			str = str.trim();
 			str = str.toLowerCase();
 			try{
-				FileInputStream fstream = new FileInputStream(database + "/Zaot/characters/"+user);
+				FileInputStream fstream = new FileInputStream(database + "/characters/"+user);
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				while(loadChar==false){
@@ -355,26 +357,15 @@ public class interpretationServer extends Thread{
 			characterLogin();
 		}
 	}
-	public void room(){
+	public void room(){//Prints Description and exits of a room - called by interpretUsr()
 		numberofNPC = 0;
 		list = "";
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/location");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			strLine = br.readLine();
-			in.close();
-		} catch (Exception e){
-			System.out.println("<ERROR> " + user + " was unable to access their location file");
-			logging("<ERROR> " + user + " was unable to access their location file");
-		}
-		strLine = strLine.replace("\n", "");
-		location = strLine;
+		location = getValue.getLoc(database, user);
 		System.out.println("<Control> - " + user + " has entered " + location);
 		logging("<Control> - " + user + " has entered " + location);
 
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location);
+			FileInputStream fstream = new FileInputStream(database + "/rooms/"+location+"/"+location);
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			strLine = br.readLine();
@@ -389,7 +380,7 @@ public class interpretationServer extends Thread{
 					try{	
 						Dynamic = Dynamic.replace("<Dynamic:", "");
 						Dynamic = Dynamic.replace(">", "");
-						FileInputStream fstream2 = new FileInputStream(database + "/Zaot/DynamicRooms/" + Dynamic + "/" + Dynamic + ".desc");
+						FileInputStream fstream2 = new FileInputStream(database + "/DynamicRooms/" + Dynamic + "/" + Dynamic + ".desc");
 						DataInputStream in2 = new DataInputStream(fstream2);
 						BufferedReader br2 = new BufferedReader(new InputStreamReader(in2));
 						while (exitDesc==false){
@@ -484,12 +475,12 @@ public class interpretationServer extends Thread{
 		objects();
 		interpretUsr();
 	}
-	public void NPC(){
+	public void NPC(){//Prints NPCs in a room - called by room();
 		boolean error = false;
 		boolean checkList = true;
 		String checkNPC = "";
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".npc");
+			FileInputStream fstream = new FileInputStream(database + "/rooms/"+location+"/"+location+".npc");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
 			while (error == false){
@@ -500,7 +491,7 @@ public class interpretationServer extends Thread{
 					checkNPC = checkNPC.replace("[", "");
 					checkNPC = checkNPC.replace("]", "");
 					checkNPC = checkNPC.replace("\n", "");
-					FileInputStream fstream2 = new FileInputStream(database + "/Zaot/npc/"+checkNPC+"/"+checkNPC+".lst");
+					FileInputStream fstream2 = new FileInputStream(database + "/npc/"+checkNPC+"/"+checkNPC+".lst");
 					DataInputStream in2 = new DataInputStream(fstream2);
 					BufferedReader br2 = new BufferedReader(new InputStreamReader(in));	
 					in2.close();
@@ -528,14 +519,14 @@ public class interpretationServer extends Thread{
 			}
 		}
 	}
-	public void objects(){
+	public void objects(){//Prints objects in a room - called by room();
 		boolean error = false;
 		int numofItems = 0;
 		int getItemsList = 0;
 		error = false;
 
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/rooms/" + location + "/" + location + ".obj");
+			FileInputStream fstream = new FileInputStream(database + "/rooms/" + location + "/" + location + ".obj");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			while (true){
@@ -563,31 +554,11 @@ public class interpretationServer extends Thread{
 		}
 
 	}
-	public void interpretUsr(){
+	public void interpretUsr(){//User Input
 
 		String hp = "", xp = "";
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/health");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			strLine = br.readLine();
-			hp = strLine;
-			in.close();
-		} catch (Exception e){
-			System.out.println("<ERROR> " + user + " was unable to access their health file");
-			logging("<ERROR> " + user + " was unable to access their health file");
-		}
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/experience");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			strLine = br.readLine();
-			xp = strLine;
-			in.close();
-		} catch (Exception e){
-			System.out.println("<ERROR> " + user + " was unable to access their experience file");
-			logging("<ERROR> " + user + " was unable to access their user experience file");
-		}
+		hp = getValue.getHP(database, user);
+		xp = getValue.getXP(database, user);
 
 		out.println("");
 		out.println("(" + hp + " HP/" + xp + " XP):");
@@ -609,18 +580,15 @@ public class interpretationServer extends Thread{
 			}
 		} else {
 			if (str.equals("n") | str.equals("north")) {
-				File bkup = new File(database + "/Zaot/charProfile/" + user + "/location");
+				File bkup = new File(database + "/charProfile/" + user + "/location");
 				bkup.delete();
 				try {
-					FileWriter fstream = new FileWriter(database
-							+ "/Zaot/charProfile/" + user + "/location");
+					FileWriter fstream = new FileWriter(database + "/charProfile/" + user + "/location");
 					BufferedWriter writeout = new BufferedWriter(fstream);
 					writeout.write(northRoom);
 
 					try {
-						FileInputStream fstream2 = new FileInputStream(database
-								+ "/Zaot/rooms/" + location + "/" + location
-								+ ".n");
+						FileInputStream fstream2 = new FileInputStream(database + "/rooms/" + location + "/" + location + ".n");
 						DataInputStream in = new DataInputStream(fstream2);
 						BufferedReader br = new BufferedReader(
 								new InputStreamReader(in));
@@ -640,18 +608,14 @@ public class interpretationServer extends Thread{
 				}
 				room();
 			} else if (str.equals("e") | str.equals("e")) {
-				File bkup = new File(database + "/Zaot/charProfile/" + user
-						+ "/location");
+				File bkup = new File(database + "/charProfile/" + user + "/location");
 				bkup.delete();
 				try {
-					FileWriter fstream = new FileWriter(database
-							+ "/Zaot/charProfile/" + user + "/location");
+					FileWriter fstream = new FileWriter(database + "/charProfile/" + user + "/location");
 					BufferedWriter writeout = new BufferedWriter(fstream);
 					writeout.write(eastRoom);
 					try {
-						FileInputStream fstream2 = new FileInputStream(database
-								+ "/Zaot/rooms/" + location + "/" + location
-								+ ".e");
+						FileInputStream fstream2 = new FileInputStream(database + "/rooms/" + location + "/" + location + ".e");
 						DataInputStream in = new DataInputStream(fstream2);
 						BufferedReader br = new BufferedReader(
 								new InputStreamReader(in));
@@ -671,17 +635,17 @@ public class interpretationServer extends Thread{
 				}
 				room();
 			} else if (str.equals("s") | str.equals("south")) {
-				File bkup = new File(database + "/Zaot/charProfile/" + user
+				File bkup = new File(database + "/charProfile/" + user
 						+ "/location");
 				bkup.delete();
 				try {
 					FileWriter fstream = new FileWriter(database
-							+ "/Zaot/charProfile/" + user + "/location");
+							+ "/charProfile/" + user + "/location");
 					BufferedWriter writeout = new BufferedWriter(fstream);
 					writeout.write(southRoom);
 					try {
 						FileInputStream fstream2 = new FileInputStream(database
-								+ "/Zaot/rooms/" + location + "/" + location
+								+ "/rooms/" + location + "/" + location
 								+ ".s");
 						DataInputStream in = new DataInputStream(fstream2);
 						BufferedReader br = new BufferedReader(
@@ -701,17 +665,17 @@ public class interpretationServer extends Thread{
 				}
 				room();
 			} else if (str.equals("w") | str.equals("west")) {
-				File bkup = new File(database + "/Zaot/charProfile/" + user
+				File bkup = new File(database + "/charProfile/" + user
 						+ "/location");
 				bkup.delete();
 				try {
 					FileWriter fstream = new FileWriter(database
-							+ "/Zaot/charProfile/" + user + "/location");
+							+ "/charProfile/" + user + "/location");
 					BufferedWriter writeout = new BufferedWriter(fstream);
 					writeout.write(westRoom);
 					try {
 						FileInputStream fstream2 = new FileInputStream(database
-								+ "/Zaot/rooms/" + location + "/" + location
+								+ "/rooms/" + location + "/" + location
 								+ ".w");
 						DataInputStream in = new DataInputStream(fstream2);
 						BufferedReader br = new BufferedReader(
@@ -731,18 +695,18 @@ public class interpretationServer extends Thread{
 				}
 				room();
 			} else if (str.equals("d") | str.equals("down")) {
-				File bkup = new File(database + "/Zaot/charProfile/" + user
+				File bkup = new File(database + "/charProfile/" + user
 						+ "/location");
 				bkup.delete();
 				try {
 					FileWriter fstream = new FileWriter(database
-							+ "/Zaot/charProfile/" + user + "/location");
+							+ "/charProfile/" + user + "/location");
 					BufferedWriter writeout = new BufferedWriter(fstream);
 					writeout.write(downRoom);
 
 					try {
 						FileInputStream fstream2 = new FileInputStream(database
-								+ "/Zaot/rooms/" + location + "/" + location
+								+ "/rooms/" + location + "/" + location
 								+ ".d");
 						DataInputStream in = new DataInputStream(fstream2);
 						BufferedReader br = new BufferedReader(
@@ -763,18 +727,18 @@ public class interpretationServer extends Thread{
 				}
 				room();
 			} else if (str.equals("u") | str.equals("up")) {
-				File bkup = new File(database + "/Zaot/charProfile/" + user
+				File bkup = new File(database + "/charProfile/" + user
 						+ "/location");
 				bkup.delete();
 				try {
 					FileWriter fstream = new FileWriter(database
-							+ "/Zaot/charProfile/" + user + "/location");
+							+ "/charProfile/" + user + "/location");
 					BufferedWriter writeout = new BufferedWriter(fstream);
 					writeout.write(upRoom);
 
 					try {
 						FileInputStream fstream2 = new FileInputStream(database
-								+ "/Zaot/rooms/" + location + "/" + location
+								+ "/rooms/" + location + "/" + location
 								+ ".u");
 						DataInputStream in = new DataInputStream(fstream2);
 						BufferedReader br = new BufferedReader(
@@ -838,6 +802,10 @@ public class interpretationServer extends Thread{
 				interpretUsr();
 			} else if (str.equals("gold")) {
 				gold();
+				interpretUsr();
+			} else if (str.equals("exit")){
+				exit();
+				interpretUsr();
 			} else if (str.equals("stop")) {
 				stopServer();
 			} else if (str.equals("sleep")){
@@ -852,7 +820,7 @@ public class interpretationServer extends Thread{
 		}
 
 	}
-	public void list(String str) throws IOException{
+	public void list(String str) throws IOException{ //Lists the items in the store and also controls the buy command
 		boolean buyList = false;					//If true user is buying, if false user is listing
 		if (str.contains("buy ")){
 			buyList = true;
@@ -866,7 +834,7 @@ public class interpretationServer extends Thread{
 		error = false;
 
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/npc/"+list+"/"+list+".lst");
+			FileInputStream fstream = new FileInputStream(database + "/npc/"+list+"/"+list+".lst");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			while (true){
@@ -907,23 +875,13 @@ public class interpretationServer extends Thread{
 					shop = shopList.get(loc);
 					shop = shop.toLowerCase();
 					if (shop.equals(str)){
-						try{
-							FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/gold");
-							DataInputStream in = new DataInputStream(fstream);
-							BufferedReader br = new BufferedReader(new InputStreamReader(in));
-							strLine = br.readLine();
-							in.close();
-							gld = Integer.parseInt(strLine);
+							gld = Integer.parseInt(getValue.getGold(database, user));
 							price = Integer.parseInt(shopList.get(loc + 1));
-						} catch (Exception e){
-							System.out.println("<ERROR> " + user + " was unable to access their gold file");
-							logging("<ERROR> " + user + " was unable to access their gold file");
-						}
 						if (gld>price){
-							File file = new File(database + "/Zaot/charProfile/"+user+"/gold");
+							File file = new File(database + "/charProfile/"+user+"/gold");
 							file.delete();
 							try {
-								FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/gold");
+								FileWriter fstream = new FileWriter(database + "/charProfile/"+user+"/gold");
 								BufferedWriter out = new BufferedWriter(fstream);
 								gld = gld - price;
 								out.write("" + gld);
@@ -932,7 +890,7 @@ public class interpretationServer extends Thread{
 							}
 							try{
 								// Create file 
-								FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/inventory",true);
+								FileWriter fstream = new FileWriter(database + "/charProfile/"+user+"/inventory",true);
 								BufferedWriter out = new BufferedWriter(fstream);
 								out.write("1:"+str + "\n");
 								//Close the output stream
@@ -956,25 +914,102 @@ public class interpretationServer extends Thread{
 
 		}
 	}
-	public void gold(){
+	public void exit(){ //Prints a list of exits for the specific room
+		location = getValue.getLoc(database, user);
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/gold");
+			FileInputStream fstream = new FileInputStream(database + "/rooms/"+location+"/"+location);
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			String gold = br.readLine();
+			strLine = br.readLine();
+			boolean exitDesc = false;
+			while (true){
+				strLine = br.readLine();
+				if (strLine.equals("<endofdesc>")){
+					break;
+				}
+			}
+			direction = "";
+			out.println("");
+			strLine = br.readLine();
+			if (strLine.contains("[North:none]")){
+			} else {
+				north = true;
+				direction = direction + "[North] ";
+			}
+			northRoom=strLine;
+			northRoom = northRoom.replace("[North:", "");
+			northRoom = northRoom.replace("]", "");
+
+			strLine = br.readLine();
+			if (strLine.contains("[East:none]")){
+			} else {
+				east = true;
+				direction = direction + "[East] ";
+			}		
+			eastRoom=strLine;
+			eastRoom = eastRoom.replace("[East:", "");
+			eastRoom = eastRoom.replace("]", "");
+
+			strLine = br.readLine();
+			if (strLine.contains("[South:none]")){
+			} else {
+				south = true;
+				direction = direction + "[South] ";
+			}
+			southRoom=strLine;
+			southRoom = southRoom.replace("[South:", "");
+			southRoom = southRoom.replace("]", "");
+
+			strLine = br.readLine();
+			if (strLine.contains("[West:none]")){
+			} else {
+				west = true;
+				direction = direction + "[West] ";
+			}
+			westRoom=strLine;
+			westRoom = westRoom.replace("[West:", "");
+			westRoom = westRoom.replace("]", "");
+
+			strLine = br.readLine();
+			if (strLine.contains("[Up:none]")){
+			} else {
+				up = true;
+				direction = direction + "[Up] ";
+			}
+			upRoom=strLine;
+			upRoom = upRoom.replace("[Up:", "");
+			upRoom = upRoom.replace("]", "");
+
+
+			strLine = br.readLine();
+			if (strLine.contains("[Down:none]")){
+			} else {
+				down = true;
+				direction = direction + "[Down] ";
+			}
+			downRoom=strLine;
+			downRoom = downRoom.replace("[Down:", "");
+			downRoom = downRoom.replace("]", "");
+
+			out.println("There are exits to the:");
+			out.println((char)27 + "[34m" + direction + (char)27 + "[0m");
 			in.close();
-			out.println("You currently have " + gold + " gold!"); //TODO use ansi to make the gold amount be in yellow
 		} catch (Exception e){
-			System.out.println("<ERROR> " + user + " was unable to access their gold file");
-			logging("<ERROR> " + user + " was unable to access their gold file");
+			out.println("You are in a room which doesn't exist!");
+			System.out.println("<ERROR> " + user + " is located in a room which doesn't exist!");
+			logging("<ERROR> " + user + " is located in a room which doesn't exist!");
 		}
+	}
+	public void gold(){//Prints the amount of gold that a user has in their posession
+		String gold = getValue.getGold(database, user);
+		out.println("You currently have: " + gold);
 		interpretUsr();
 	}
-	public void examine(String examine){
+	public void examine(String examine){// Prints out a more detailed description of an item described in a room description
 		String[] examineTemp;
 		String testExamine = "";
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".ex");
+			FileInputStream fstream = new FileInputStream(database + "/rooms/"+location+"/"+location+".ex");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			while (true){
@@ -994,14 +1029,34 @@ public class interpretationServer extends Thread{
 
 		interpretUsr();
 	}
-	public void sleep(){
+	public void sleep(){ //increases the rate at which health is regenerated by *3
 		//TODO Sleep increases the rate at which health is regenerated.
 		sleep = true;
 		out.println("You lay down and fall into a deep sleep.");
 		interpretUsr();
 	}
-	public void score(){
+	public void rest(){ //increases the rate at which health is regenerated by *1.5
+		
+	}
+	public void score(){ //prints out a formatted table of stats
 		//TODO Have a nicely formated table that prints out lvl, hp, etc.
+		String level = getValue.getLvl(database, user);
+		
+		System.out.println("|-----------------------User-----------------------|");
+		System.out.println("| Name: " + user);
+		System.out.println("| Level: " + level);
+		System.out.println("|");
+		System.out.println("|");
+		System.out.println("|");
+		System.out.println("|");
+		System.out.println("|");
+		System.out.println("|");
+		System.out.println("|");
+		System.out.println("|");
+		System.out.println("|");
+		System.out.println("|");
+		
+		interpretUsr();
 	}
 	public void fight(String character){ //TODO Needs to be completely redone as /object directory was changed
 		boolean continueOn = false;
@@ -1010,7 +1065,7 @@ public class interpretationServer extends Thread{
 		String[] characterSplit;
 
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/rooms/"+location+"/"+location+".npc");
+			FileInputStream fstream = new FileInputStream(database + "/rooms/"+location+"/"+location+".npc");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			while (true){
@@ -1034,7 +1089,7 @@ public class interpretationServer extends Thread{
 		}
 		if (continueOn==true){
 			try{
-				FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/" + user + "/wield");
+				FileInputStream fstream = new FileInputStream(database + "/charProfile/" + user + "/wield");
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				while(true){
@@ -1052,7 +1107,7 @@ public class interpretationServer extends Thread{
 				logging("<ERROR> " + user + " was unable to access  their wield file");
 			}
 			try{
-				FileInputStream fstream = new FileInputStream(database + "/Zaot/npc/" + characterActual + "/" + characterActual + ".inv");
+				FileInputStream fstream = new FileInputStream(database + "/npc/" + characterActual + "/" + characterActual + ".inv");
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				while(true){
@@ -1070,7 +1125,7 @@ public class interpretationServer extends Thread{
 				logging("<ERROR> " + user + " was unable to access NPC " + characterActual + " inv file");
 			}
 			try{
-				FileInputStream fstream = new FileInputStream(database + "/Zaot/objects/weapons/"+NPCweapon);
+				FileInputStream fstream = new FileInputStream(database + "/objects/weapons/"+NPCweapon);
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				while(true){
@@ -1100,7 +1155,7 @@ public class interpretationServer extends Thread{
 			}
 
 			try{
-				FileInputStream fstream = new FileInputStream(database + "/Zaot/objects/weapons/"+userWeapon);
+				FileInputStream fstream = new FileInputStream(database + "/objects/weapons/"+userWeapon);
 				DataInputStream in = new DataInputStream(fstream);
 				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 				while(true){
@@ -1157,7 +1212,7 @@ public class interpretationServer extends Thread{
 	}
 	public void help(String input){
 	}
-	public void quit(){
+	public void quit(){ //Exits the game and closes the thread
 		out.println("We only part to meet again.");
 		System.out.println("<Control> - " + user + " has left the game.");
 		logging("<Control> - " + user + " has left the game.");
@@ -1168,13 +1223,13 @@ public class interpretationServer extends Thread{
 			logging("<ERROR> - Could not close connection with user");
 		}
 	}
-	public void inv(){
+	public void inv(){//Prints the user's inventory
 		String[] inventory;
 		out.println("");
 		out.println("--Inventory--");
 		out.println("#   Name");
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/inventory");
+			FileInputStream fstream = new FileInputStream(database + "/charProfile/"+user+"/inventory");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
 
@@ -1188,7 +1243,7 @@ public class interpretationServer extends Thread{
 			logging("<ERROR> " + user + " cannot access their inventory file");
 		}
 	}
-	public void take(){
+	public void take(){//Takes an item from a room and puts it in the user's inventory
 		//Allows a user to pick up an object from the ground
 		//SYNTAX take $obj$ or take $obj$ ##
 
@@ -1196,7 +1251,7 @@ public class interpretationServer extends Thread{
 
 
 	}
-	public void drop(String userInpt){
+	public void drop(String userInpt){//Allows a user to drop an item from their inventory to the room
 		//Allows a user to drop and object from their inventory
 		//SYNTAX drop $obj$ or drop $obj$ ## or drop $obj$ all
 
@@ -1212,14 +1267,15 @@ public class interpretationServer extends Thread{
 		ArrayList<String> numRoom = new ArrayList<String>();
 		String[] inventory, userInputSplitter;
 		int invNum = 0;
-		int dropNum = 0; //The number of items to drop (-1 represents all items by that name in inv)
+		int dropNum = 1; //The number of items to drop (-1 represents all items by that name in inv)
 		String dropName = ""; //The name of the item to drop
 		try{
-			FileInputStream fstream = new FileInputStream(database + "/Zaot/charProfile/"+user+"/inventory");
+			FileInputStream fstream = new FileInputStream(database + "/charProfile/"+user+"/inventory");
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
 
 			while ((strLine = br.readLine()) != null){
+				System.out.println(strLine);
 				inventory = strLine.split(":");
 				numInv.add(Integer.parseInt(inventory[0]));
 				stringInv.add(inventory[1]);
@@ -1230,26 +1286,17 @@ public class interpretationServer extends Thread{
 			logging("<ERROR> " + user + " cannot access their inventory file");
 		}
 
-		userInpt = userInpt.replace("take ", "");
+		userInpt = userInpt.replace("drop ", "");
 		userInputSplitter = userInpt.split(" ");
-		if (userInputSplitter[1] == null){
-			dropNum = 1;
-		} else if (userInputSplitter[1] == "all"){
+		if (userInputSplitter[0] == "all"){
 			dropNum = -1;
 		} else {
 			try {
-				dropNum = Integer.parseInt(userInputSplitter[1]);
+				dropNum = Integer.parseInt(userInputSplitter[0]);
 			} catch (NumberFormatException e) {
-				out.println("The item you want to drop must be one word");
-				System.out.println("dropNum: " + dropNum);
-				System.out.println("userInputSplitter: " + userInputSplitter[1]);
-				System.out.println();
-				System.out.println();
-				interpretUsr();
+				dropNum = 1;
 			}
 		}
-
-
 		int i=0;
 		try {
 			while (true){
@@ -1263,7 +1310,6 @@ public class interpretationServer extends Thread{
 			out.println("You can't drop an item that you don't have!");
 			interpretUsr();
 		}
-
 		if (dropNum > 0){
 			int tempInv = numInv.get(i);
 			tempInv=tempInv-dropNum;
@@ -1275,11 +1321,11 @@ public class interpretationServer extends Thread{
 			interpretUsr();
 		}
 
-		File file = new File(database + "/Zaot/charProfile/"+user+"/inventory");
+		File file = new File(database + "/charProfile/"+user+"/inventory");
 		file.delete();
 		try{
 			// Create file 
-			FileWriter fstream = new FileWriter(database + "/Zaot/charProfile/"+user+"/inventory",true);
+			FileWriter fstream = new FileWriter(database + "/charProfile/"+user+"/inventory",true);
 			BufferedWriter fileOut = new BufferedWriter(fstream);
 			int invCounter = 0;
 			while(true){
@@ -1300,16 +1346,25 @@ public class interpretationServer extends Thread{
 			System.err.println("Error: " + e.getMessage());
 			logging("Error: " + e.getMessage());
 		}
+			try {
+				FileInputStream fstream2 = new FileInputStream(database + "/rooms/" + location + "/" + location + ".obj");
+				DataInputStream in = new DataInputStream(fstream2);
+				BufferedReader br = new BufferedReader(new InputStreamReader(in));
+				out.println(dropNum+":"+dropName);
+				br.close();
+			} catch (Exception e) {
+			}
+		interpretUsr();
 
 
 	}
-	public void stopServer(){
+	public void stopServer(){//TODO fix this
 
 		System.out.println("<CONTROL> " + user + " is attempting to stop the server");
 		logging("<CONTROL> " + user + " is attempting to stop the server");
 		out.println("Preparing to stop the server...");
 		try {
-			FileInputStream fstream2 = new FileInputStream(database + "/Zaot/charProfile/"+user+"/Wizard");
+			FileInputStream fstream2 = new FileInputStream(database + "/charProfile/"+user+"/Wizard");
 			DataInputStream in = new DataInputStream(fstream2);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			br.close();
@@ -1323,38 +1378,21 @@ public class interpretationServer extends Thread{
 			interpretUsr();
 		}
 	}
-	public void logging(String logPhrase){
+	public void logging(String logPhrase){//Logs errors to the users log file
 		try{
-			String fileloc = database + "/Zaot/logs/"+user+".log";
+			String fileloc = database + "/logs/"+user+".log";
 			File file = new File(fileloc);
 			//if file doesn't exists, then create it
 			if(!file.exists()){
 				file.createNewFile();
 			}
 			//true = append file
-			BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/Zaot/logs/"+user+".log", true));
+			BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/logs/"+user+".log", true));
 			bW.write(logPhrase);
 			bW.newLine();
 			bW.close();
 		}catch(IOException e){
 			e.printStackTrace();
 		}
-
-		/** Removed as high server loads could cause multiple threads to access this file at the same time, creating syncronization problems
-	    	try{
-	    		File file = new File(database + "/Zaot/logs/server.log");
-	    		//if file doesn't exists, then create it
-	    		if(!file.exists()){
-	    			file.createNewFile();
-	    		}
-	    		//true = append file
-	    		BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/Zaot/logs/server.log", true));
-	    	    bW.write(logPhrase);
-	    	    bW.newLine();
-	    	    bW.close();
-	    	}catch(IOException e){
-	    		e.printStackTrace();
-	    	}
-		 **/
 	}
 }
