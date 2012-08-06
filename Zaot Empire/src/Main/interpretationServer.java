@@ -1,5 +1,7 @@
 package Main;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -12,12 +14,19 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-//TODO Section
+import javax.swing.JFrame;
+import javax.swing.Action;
+
+//--- TODO Section ---
 //TODO Redo Fight Code
 //TODO Add some sort of examine code for inv items
 //TODO Finish drop()
@@ -25,11 +34,15 @@ import java.util.TimerTask;
 //TODO Make skills() command. This command would print the skills a character currently has
 //TODO make learn() command. This command would print the skills that a character can gain. This information is stored in the profession folder under skills
 //TODO make some exits require an object.
-//TODO Create chat somehow... Not sure how to go about this yet
+//TODO Create chat 
+	//Make who file append instead of overwrite
+	//Make chat refresh automatically instead of having to hit enter
+	//finish IC, Yell, Tell (Finish tokenizer for usrInterpret first)
+	//OOC Green, IC purple, Yell red, tell yellow
+	//Make the program delete the chat gfile once the chat has been read. this way chats will not be duplicated
 //TODO Give() command
 
 public class interpretationServer extends Thread{
-
 	String database = null; //Database address is passed to interpretationServer() from TelnetServer(). To modify path edit TelnetServer()
 	private Socket socket;
 	private BufferedReader in;
@@ -54,7 +67,8 @@ public class interpretationServer extends Thread{
 	boolean show = true; //decides whether to show the intro screen. For example if a password is incorrect, the intro screen will not be shown.
 	boolean startup = true;
 	boolean north = false, south = false, east = false, west = false, up = false, down = false;
-	public void ZaosClient(Socket s, String databaseLoc) throws IOException {
+boolean showHealth = true;	
+public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 		database = databaseLoc;
 		socket = s;
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -325,6 +339,17 @@ public class interpretationServer extends Thread{
 			out.println("NOT CURRENTLY OPERATIONAL");
 			characterLogin();
 		} else if (str.equals("p")){
+			try{
+				BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/who"));
+				bW.write(user);
+				bW.newLine();
+				bW.close();
+			}catch(IOException e){
+				e.printStackTrace();
+			}
+		    
+			//Print current room
+			Reminder(500);
 			room();
 			/**
 			out.println("");
@@ -556,28 +581,72 @@ public class interpretationServer extends Thread{
 		}
 
 	}
+	public void chat(){
+		//Chat Functions
+			showHealth = false;
+				try{
+					FileInputStream fstream = new FileInputStream(database + "/charProfile/"+user+"/chat");
+					DataInputStream in = new DataInputStream(fstream);
+					BufferedReader br = new BufferedReader(new InputStreamReader(in));	
+
+					while ((strLine = br.readLine()) != null){
+						setColor setColor = new setColor();
+						strLine = setColor.color(strLine);
+						out.println(strLine);
+					}
+					br.close();
+				} catch (Exception e){
+					System.out.println("<ERROR> " + user + " cannot access their chat file");
+					logging("<ERROR> " + user + " cannot access their chat file");
+				}
+				if (strLine!=null){
+					showHealth = true;
+				File file = new File(database + "/charProfile/"+user+"/chat");
+				file.delete();
+				File newFile = new File(database + "/charProfile/"+user+"/chat");
+				try {
+					newFile.createNewFile();
+				} catch (IOException e1) {
+					System.out.println("<ERROR> " + user + " cannot create new chat file");
+					logging("<ERROR> " + user + " cannot create new chat file");
+				}
+				}
+				interpretUsr();
+	}
 	public void interpretUsr(){//User Input
-
-		String hp = "", xp = "";
-		hp = getValue.getHP(database, user);
-		xp = getValue.getXP(database, user);
-
-		out.println("");
-		out.println("(" + hp + " HP/" + xp + " XP):");
+		
+		if (showHealth==true){
+			String hp = "", xp = "";
+			hp = getValue.getHP(database, user);
+			xp = getValue.getXP(database, user);
+			out.println("");
+			out.println("(" + hp + " HP/" + xp + " XP):");
+		}
+		showHealth = true;
 		Scanner usrTxt = new Scanner(in);
 		String str;
 		str = usrTxt.nextLine();
 		str = str.trim();
 		str = str.toLowerCase();
 
-
+		
+			String token = null;
+			try {
+				StringTokenizer st = new StringTokenizer(str);
+				token = st.nextToken();
+			} catch (Exception e1) {
+				//Usually means the user just hit enter if there is an error here.
+			}
+		
+		
+		
 		if (sleep==true) {
 			if (str.equals("wake")){
 				out.println("You wake up");
 				sleep = false;
 				interpretUsr();
 			} else {
-				out.println("You can't do that while you are slepping!");
+				out.println("You can't do that while you are sleeping!");
 				interpretUsr();
 			}
 		} else {
@@ -802,6 +871,12 @@ public class interpretationServer extends Thread{
 			} else if (str.contains("drop ")) {
 				drop(str);
 				interpretUsr();
+			} else if (token.equals("ooc")){
+				ooc(str);
+				interpretUsr();
+			} else if (token.equals("ic")){
+				ic(str);
+				interpretUsr();
 			} else if (str.equals("gold")) {
 				gold();
 				interpretUsr();
@@ -877,8 +952,8 @@ public class interpretationServer extends Thread{
 					shop = shopList.get(loc);
 					shop = shop.toLowerCase();
 					if (shop.equals(str)){
-							gld = Integer.parseInt(getValue.getGold(database, user));
-							price = Integer.parseInt(shopList.get(loc + 1));
+						gld = Integer.parseInt(getValue.getGold(database, user));
+						price = Integer.parseInt(shopList.get(loc + 1));
 						if (gld>price){
 							File file = new File(database + "/charProfile/"+user+"/gold");
 							file.delete();
@@ -1038,12 +1113,12 @@ public class interpretationServer extends Thread{
 		interpretUsr();
 	}
 	public void rest(){ //increases the rate at which health is regenerated by *1.5
-		
+
 	}
 	public void score(){ //prints out a formatted table of stats
 		//TODO Have a nicely formated table that prints out lvl, hp, etc.
 		String level = getValue.getLvl(database, user);
-		
+
 		System.out.println("|-----------------------User-----------------------|");
 		System.out.println("| Name: " + user);
 		System.out.println("| Level: " + level);
@@ -1057,7 +1132,7 @@ public class interpretationServer extends Thread{
 		System.out.println("|");
 		System.out.println("|");
 		System.out.println("|");
-		
+
 		interpretUsr();
 	}
 	public void fight(String character){ //TODO Needs to be completely redone as /object directory was changed
@@ -1277,7 +1352,6 @@ public class interpretationServer extends Thread{
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
 
 			while ((strLine = br.readLine()) != null){
-				System.out.println(strLine);
 				inventory = strLine.split(":");
 				numInv.add(Integer.parseInt(inventory[0]));
 				stringInv.add(inventory[1]);
@@ -1286,6 +1360,7 @@ public class interpretationServer extends Thread{
 		} catch (Exception e){
 			System.out.println("<ERROR> " + user + " cannot access their inventory file");
 			logging("<ERROR> " + user + " cannot access their inventory file");
+			//A blank line in the users inv file can also cause this error
 		}
 
 		userInpt = userInpt.replace("drop ", "");
@@ -1302,6 +1377,7 @@ public class interpretationServer extends Thread{
 		int i=0;
 		try {
 			while (true){
+				System.out.println(dropName + ":" + stringInv.get(i));
 				if (dropName.equals(stringInv.get(i))){
 					break;
 				}
@@ -1348,14 +1424,14 @@ public class interpretationServer extends Thread{
 			System.err.println("Error: " + e.getMessage());
 			logging("Error: " + e.getMessage());
 		}
-			try {
-				FileInputStream fstream2 = new FileInputStream(database + "/rooms/" + location + "/" + location + ".obj");
-				DataInputStream in = new DataInputStream(fstream2);
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				out.println(dropNum+":"+dropName);
-				br.close();
-			} catch (Exception e) {
-			}
+		try {
+			FileInputStream fstream2 = new FileInputStream(database + "/rooms/" + location + "/" + location + ".obj");
+			DataInputStream in = new DataInputStream(fstream2);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			out.println(dropNum+":"+dropName);
+			br.close();
+		} catch (Exception e) {
+		}
 		interpretUsr();
 
 
@@ -1397,6 +1473,80 @@ public class interpretationServer extends Thread{
 			e.printStackTrace();
 		}
 	}
-	
-	
+	public void time(){// Will allow the retrieval of the system time in seconds.
+	}
+	public void commands(){
+
+	}
+	//---chat routines--//
+	public void ooc(String chatString){
+		chatString = chatString.replace("ooc ", "");
+		try{
+			FileInputStream fstream = new FileInputStream(database + "/who");
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
+
+			while ((strLine = br.readLine()) != null){
+				try{
+					BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/charProfile/"+strLine+"/chat", true));
+					bW.write(user + " oocs " +"[green] '"+ chatString+"'[white]");					
+					bW.newLine();
+					bW.close();
+				}catch(IOException e){
+					e.printStackTrace();
+				}
+			}
+			br.close();
+		} catch (Exception e){
+			System.out.println("<ERROR> " + user + " cannot access chat file of "+strLine);
+			logging("<ERROR> " + user + " cannot access chat file of "+strLine);
+		}
+	}
+	public void ic(String chatString){
+		chatString = chatString.replace("ic ", "");
+		try{
+			FileInputStream fstream = new FileInputStream(database + "/who");
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
+
+			while ((strLine = br.readLine()) != null){
+				try{
+					BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/charProfile/"+strLine+"/chat", true));
+					bW.write(user + " ics " +"[purple] '"+ chatString+"'[white]");					
+					bW.newLine();
+					bW.close();
+				}catch(IOException e){
+					e.printStackTrace();
+				}
+			}
+			br.close();
+		} catch (Exception e){
+			System.out.println("<ERROR> " + user + " cannot access chat file of "+strLine);
+			logging("<ERROR> " + user + " cannot access chat file of "+strLine);
+		}
+	}
+	public void tell(String chatString){
+	}
+	public void say(){
+		
+	}
+	public void yell(){
+	}
+	public void timer(){
+	}
+	  Timer timer;
+
+    public void Reminder(int milli) {
+        timer = new Timer();
+        timer.schedule(new RemindTask(), milli);
+	}
+
+    class RemindTask extends TimerTask {
+        public void run() {
+        	
+            Reminder(500);
+            chat();
+    }
+
+    }
 }
