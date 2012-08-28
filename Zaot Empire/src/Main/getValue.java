@@ -81,6 +81,11 @@ public class getValue {
 		String userWeight = accessFile(fileLoc);
 		return userWeight;
 	}
+	public String getMaxHealth(String database, String user){
+		String fileLoc = database + "/charProfile/"+user+"/maxhealth";
+		String maxHealth = accessFile(fileLoc);
+		return maxHealth;
+	}
 	public String getWis(String database, String user){
 		String fileLoc = database + "/charProfile/"+user+"/wisdom";
 		String userWis = accessFile(fileLoc);

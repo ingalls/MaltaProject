@@ -1,7 +1,5 @@
 package Main;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -14,19 +12,14 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JFrame;
-import javax.swing.Action;
 
 //--- TODO Section ---
+//TODO ***A user can currently go in a direction in which there is no room
 //TODO Redo Fight Code
 //TODO Add some sort of examine code for inv items
 //TODO Finish drop()
@@ -35,29 +28,46 @@ import javax.swing.Action;
 //TODO make learn() command. This command would print the skills that a character can gain. This information is stored in the profession folder under skills
 //TODO make some exits require an object.
 //TODO Create chat 
-	//Make who file append instead of overwrite
-	//Make chat refresh automatically instead of having to hit enter
-	//finish IC, Yell, Tell (Finish tokenizer for usrInterpret first)
+	//finish Yell (To Room and rooms surrounding), Tell, Say? (To room)
 	//OOC Green, IC purple, Yell red, tell yellow
-	//Make the program delete the chat gfile once the chat has been read. this way chats will not be duplicated
 //TODO Give() command
+//TODO Make health/hp bar color depending on percentage. (50+ green)(25+ white)(15+ yellow)(0+ red)
+//TODO when user exits it currently wipes who file instead of removing single entry.
+//TODO *** Timer needs to work in a new thread or else it screws up the users location within the program. This is evident from the inability to utilize the wizard dialogue and also from the healthbar menu.
+
 
 public class interpretationServer extends Thread{
+	//---Called Classes---//
+	setColor setColor = new setColor();
+	getValue getValue = new getValue(); //Class used to retrieve values about the character
+	
+	//---Chat Variables---//
+	Timer timer;
+	boolean timerstop = false; //If true the timer will not restart itself when called
+	
+	//---Database Location---//
 	String database = null; //Database address is passed to interpretationServer() from TelnetServer(). To modify path edit TelnetServer()
-	private Socket socket;
-	private BufferedReader in;
-	private PrintWriter out;
-	getValue getValue = new getValue();
+	
+	//---Telnet Socket---//
+	public Socket socket;
+	public BufferedReader in;
+	public PrintWriter out;
+
+	//---Character Variables---//
+	static String user = "";
+	String age = "<none>";
+	String race = "<none>";
+	String location = "<none>";
+	String name = "<none>";
+	int hp = 0;
+	int maxHp = 0;
+	int xp = 0;
+	int maxXp = 0;
+	
+	String list = "";
 	String[] result;
-	ArrayList<String> itemList = new ArrayList<String>();
-	ArrayList<String> shopList = new ArrayList<String>();
+	ArrayList<String> itemList = new ArrayList<String>(), shopList = new ArrayList<String>();
 	String[] itemListTemp;
-	static String user = ""; //name of the character being played. This string is used by file accessors to access various attribute files
-	static String age = "<none>";
-	static String race = "<none>";
-	static String location = "<none>";
-	static String name = "<none>";
-	static String list = "";
 	static int numberofNPC = 0;
 	boolean sleep = false; //True if the user is sleeping
 	String strLine; //String from the scanner class - AKA user input
@@ -66,9 +76,8 @@ public class interpretationServer extends Thread{
 	static int numofItems;
 	boolean show = true; //decides whether to show the intro screen. For example if a password is incorrect, the intro screen will not be shown.
 	boolean startup = true;
-	boolean north = false, south = false, east = false, west = false, up = false, down = false;
-boolean showHealth = true;	
-public void ZaosClient(Socket s, String databaseLoc) throws IOException {
+	boolean north = false, south = false, east = false, west = false, up = false, down = false;	
+	public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 		database = databaseLoc;
 		socket = s;
 		in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -84,7 +93,7 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 		String str = null;
 		Scanner usrTxt = new Scanner(in);
 		String strLine = "";
-		out.println("Welcome to the Zaotian User Creator");
+		out.println("Welcome to the User Creator");
 		out.println("First you must pick a username. This username will be the name of your character so it must be appropriate to a role playing game.");
 		boolean createUser = true;
 		boolean matchPass = true;
@@ -172,25 +181,21 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 		if (show==true){
 			show = false;
 			out.println("");
-			out.println("#################################################");
-			out.println("#       "+(char)27 + "[1mWelcome to  The Zaotian Empire"+(char)27 + "[22m          #");
-			out.println("#                                               #");
-			out.println("# New Characters should ("+(char)27 + "[34mR"+(char)27 + "[0m)egister              #");
-			out.println("# Current characters should ("+(char)27 + "[34mL"+(char)27 + "[0m)ogin             #");
-			out.println("# To leave the game one should ("+(char)27 + "[34mQ"+(char)27 + "[0m)uit           #");
-			out.println("# ("+(char)27 + "[34mP"+(char)27 + "[0m)rint this dialogue                         #");
-			out.println("#                                               #");
-			out.println("# The Zaot Empire has grown so large that it    #");
-			out.println("# now spans the entire width of the galaxy.     #");
-			out.println("# Within in the Zaot Empire, various faction    #");
-			out.println("# scheme for dominance and control of the       #");
-			out.println("# empire. While the Solar Guards strive to keep #");
-			out.println("# peace and prevent the fall of the empire.     #");
-			out.println("#                                               #");
-			out.println("# Who will win? The noble cause of the Solar    #");
-			out.println("# Guards or the warring factions within the     #");
-			out.println("# empire? Only YOU can decide!                  #");
-			out.println("#################################################");
+			try{
+				FileInputStream fstream = new FileInputStream(database + "/interface/welcome");
+				DataInputStream in = new DataInputStream(fstream);
+				BufferedReader br = new BufferedReader(new InputStreamReader(in));	
+
+				while ((strLine = br.readLine()) != null){
+					setColor setColor = new setColor();
+					strLine = setColor.color(strLine);
+					out.println(strLine);
+				}
+				br.close();
+			} catch (Exception e){
+				System.out.println("An incoming user can't access welcome interface");
+				logging("An incoming user can't access welcome interface");
+			}
 		}
 
 		String str;
@@ -276,6 +281,7 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 		int charLen = 0;
 		boolean error = true;
 		String space = " ";
+		setColor setColor = new setColor();
 		out.println("''''''''''''''''''''''''''''''''''''''''''''''''");
 		out.println("'              Character Selection             '");
 		out.println("'                                              '");
@@ -310,10 +316,10 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 		}
 
 		out.println("'                                              '");
-		out.println("' (P)lay a current Character.                  '");
-		out.println("' (C)reate a new Character                     '");
-		out.println("' (R)eprint this dialogue                      '");
-		out.println("' (L)ogout                                     '");
+		out.println(setColor.color("' ([blue]P[white])lay a current Character.                  '"));
+		out.println(setColor.color("' ([blue]C[white])reate a new Character                     '"));
+		out.println(setColor.color("' ([blue]R[white])eprint this dialogue                      '"));
+		out.println(setColor.color("' ([blue]L[white])ogout                                     '"));
 		out.println("''''''''''''''''''''''''''''''''''''''''''''''''");
 		out.println("");
 		out.println("");
@@ -340,16 +346,16 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 			characterLogin();
 		} else if (str.equals("p")){
 			try{
-				BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/who"));
+				BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/who", true));
 				bW.write(user);
 				bW.newLine();
 				bW.close();
 			}catch(IOException e){
 				e.printStackTrace();
 			}
-		    
+
 			//Print current room
-			Reminder(500);
+			//Reminder();//TODO Reintroduce this once chat is fixed
 			room();
 			/**
 			out.println("");
@@ -583,63 +589,83 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 	}
 	public void chat(){
 		//Chat Functions
-			showHealth = false;
-				try{
-					FileInputStream fstream = new FileInputStream(database + "/charProfile/"+user+"/chat");
-					DataInputStream in = new DataInputStream(fstream);
-					BufferedReader br = new BufferedReader(new InputStreamReader(in));	
+		boolean chatPrinted = false;
+		try{
+			FileInputStream fstream = new FileInputStream(database + "/charProfile/"+user+"/chat");
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
 
-					while ((strLine = br.readLine()) != null){
-						setColor setColor = new setColor();
-						strLine = setColor.color(strLine);
-						out.println(strLine);
-					}
-					br.close();
-				} catch (Exception e){
-					System.out.println("<ERROR> " + user + " cannot access their chat file");
-					logging("<ERROR> " + user + " cannot access their chat file");
-				}
+			while ((strLine = br.readLine()) != null){
+				setColor setColor = new setColor();
+				strLine = setColor.color(strLine);
+				out.println(strLine);
 				if (strLine!=null){
-					showHealth = true;
-				File file = new File(database + "/charProfile/"+user+"/chat");
-				file.delete();
-				File newFile = new File(database + "/charProfile/"+user+"/chat");
-				try {
-					newFile.createNewFile();
-				} catch (IOException e1) {
-					System.out.println("<ERROR> " + user + " cannot create new chat file");
-					logging("<ERROR> " + user + " cannot create new chat file");
+					chatPrinted=true;
 				}
-				}
-				interpretUsr();
-	}
-	public void interpretUsr(){//User Input
+			}
+			br.close();
+		} catch (Exception e){
+			System.out.println("<ERROR> " + user + " cannot access their chat file");
+			logging("<ERROR> " + user + " cannot access their chat file");
+		}
+		if (chatPrinted==true){
+			chatPrinted = false;
+			File file = new File(database + "/charProfile/"+user+"/chat");
+			file.delete();
+			File newFile = new File(database + "/charProfile/"+user+"/chat");
+			try {
+				newFile.createNewFile();
+			} catch (IOException e1) {
+				System.out.println("<ERROR> " + user + " cannot create new chat file");
+				logging("<ERROR> " + user + " cannot create new chat file");
+			}
+		}
 		
-		if (showHealth==true){
-			String hp = "", xp = "";
+			//interpretUsr();
+
+	}
+	public String showHealthbar(){
+			String hp = "", xp = "", maxHP = "";
 			hp = getValue.getHP(database, user);
 			xp = getValue.getXP(database, user);
+			maxHP = getValue.getMaxHealth(database, user);
+			double hpint = Double.parseDouble(hp), hpmax = Double.parseDouble(maxHP);
+			String color = null;
+			double ratio = hpint/hpmax;
+			if (ratio >= 0.50){
+				color = "[green]";
+			} else if (ratio >= 0.25 & ratio < 0.50){
+				color = "[white]";
+			} else if (ratio >= 0.15 & ratio < 0.25){
+				color = "[yellow]";
+			} else if (ratio >= 0 & ratio < 0.15){
+				color = "[red]";
+			}
 			out.println("");
-			out.println("(" + hp + " HP/" + xp + " XP):");
-		}
-		showHealth = true;
+			setColor setColor = new setColor();
+			String healthBar = setColor.color("("+color + hp + "HP[white]/" + xp + " XP):");
+			return healthBar;
+	}
+	public String getInput(){
 		Scanner usrTxt = new Scanner(in);
 		String str;
 		str = usrTxt.nextLine();
 		str = str.trim();
 		str = str.toLowerCase();
+		return str;
+	}
+	public void interpretUsr(){//User Input
+		
+		out.println(showHealthbar());
+		String str = getInput();
+		String token = null;
+		try {
+			StringTokenizer st = new StringTokenizer(str);
+			token = st.nextToken();
+		} catch (Exception e1) {
+			//Usually means the user just hit enter if there is an error here.
+		}
 
-		
-			String token = null;
-			try {
-				StringTokenizer st = new StringTokenizer(str);
-				token = st.nextToken();
-			} catch (Exception e1) {
-				//Usually means the user just hit enter if there is an error here.
-			}
-		
-		
-		
 		if (sleep==true) {
 			if (str.equals("wake")){
 				out.println("You wake up");
@@ -883,8 +909,8 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 			} else if (str.equals("exit")){
 				exit();
 				interpretUsr();
-			} else if (str.equals("stop")) {
-				stopServer();
+			} else if (str.equals("wizard")|str.equals("wiz")) {
+				wizardMenu();
 			} else if (str.equals("sleep")){
 				sleep();
 			} else if (str.equals("database")) {
@@ -1077,7 +1103,7 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 			logging("<ERROR> " + user + " is located in a room which doesn't exist!");
 		}
 	}
-	public void gold(){//Prints the amount of gold that a user has in their posession
+	public void gold(){//Prints the amount of gold that a user has in their possession
 		String gold = getValue.getGold(database, user);
 		out.println("You currently have: " + gold);
 		interpretUsr();
@@ -1106,13 +1132,13 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 
 		interpretUsr();
 	}
-	public void sleep(){ //increases the rate at which health is regenerated by *3
+	public void sleep(){ //TODO increases the rate at which health is regenerated by *3
 		//TODO Sleep increases the rate at which health is regenerated.
 		sleep = true;
 		out.println("You lay down and fall into a deep sleep.");
 		interpretUsr();
 	}
-	public void rest(){ //increases the rate at which health is regenerated by *1.5
+	public void rest(){ //TODO increases the rate at which health is regenerated by *1.5
 
 	}
 	public void score(){ //prints out a formatted table of stats
@@ -1293,6 +1319,48 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 		out.println("We only part to meet again.");
 		System.out.println("<Control> - " + user + " has left the game.");
 		logging("<Control> - " + user + " has left the game.");
+		timerstop = true;
+		
+		//Removes entry from the who file
+		ArrayList<String> whoList = new ArrayList<String>();
+		try{
+			FileInputStream fstream = new FileInputStream(database + "/whp");
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
+
+			while ((strLine = br.readLine()) != null){
+				whoList.add(strLine);
+			}
+			br.close();
+		} catch (Exception e){
+			System.out.println("<ERROR> " + user + " cannot access who file");
+			logging("<ERROR> " + user + " cannot access access who file");
+		}
+
+
+
+		File file = new File(database + "/who");
+		file.delete();
+		try{
+			FileWriter fstream = new FileWriter(database + "/who",true);
+			BufferedWriter fileOut = new BufferedWriter(fstream);
+			int i = whoList.size();
+
+			while(i>-1){
+				if (whoList.get(i)!=user){
+					fileOut.write(whoList.get(i));
+				}
+				i--;
+				break;
+			}
+
+			//Close the output stream
+			fileOut.close();
+		} catch (Exception e){//Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+			logging("Error: " + e.getMessage());
+		}
+
 		try {
 			socket.close();
 		} catch(IOException e) {
@@ -1329,7 +1397,7 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 
 	}
 	public void drop(String userInpt){//Allows a user to drop an item from their inventory to the room
-		//Allows a user to drop and object from their inventory
+		//Allows a user to drop an object from their inventory
 		//SYNTAX drop $obj$ or drop $obj$ ## or drop $obj$ all
 
 		//Delete inv file and then re-write without the dropped item
@@ -1436,26 +1504,6 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 
 
 	}
-	public void stopServer(){//TODO fix this
-
-		System.out.println("<CONTROL> " + user + " is attempting to stop the server");
-		logging("<CONTROL> " + user + " is attempting to stop the server");
-		out.println("Preparing to stop the server...");
-		try {
-			FileInputStream fstream2 = new FileInputStream(database + "/charProfile/"+user+"/Wizard");
-			DataInputStream in = new DataInputStream(fstream2);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			br.close();
-			System.out.println("<CONTROL>" + user + "has stopped the server");
-			logging("<CONTROL>" + user + "has stopped the server");
-			System.exit(0);
-		} catch (Exception e) {
-			out.println("You are not a Wizard, I can't let you do that!");
-			System.out.println("<CONTROL> " + user + " failed to stop the server.");
-			logging("<CONTROL> " + user + " failed to stop the server.");
-			interpretUsr();
-		}
-	}
 	public void logging(String logPhrase){//Logs errors to the users log file
 		try{
 			String fileloc = database + "/logs/"+user+".log";
@@ -1478,7 +1526,7 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 	public void commands(){
 
 	}
-	//---chat routines--//
+	//---chat routines---//
 	public void ooc(String chatString){
 		chatString = chatString.replace("ooc ", "");
 		try{
@@ -1525,28 +1573,108 @@ public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 			logging("<ERROR> " + user + " cannot access chat file of "+strLine);
 		}
 	}
-	public void tell(String chatString){
+	public void tell(String chatString){//TODO finish
 	}
-	public void say(){
+	public void say(){//TODO finish
+
+	}
+	public void yell(){//TODO finish
+	}
+	public void Reminder() {
+		if (timerstop == false){
+				timer = new Timer();
+				timer.schedule(new RemindTask(), 500);
+		}
+	}
+	class RemindTask extends TimerTask {
+		public void run() {
+
+			Reminder();
+			chat();
+	}
+
+	}
+	//---wizard functions---//
+	public void wizardCheck(){
+		//TODO add security check to make sure that user has wiz file &
+	}
+	public void wizardMenu(){//TODO make dialogue draw at 0,0 instead of halfway down
+		setColor setColor = new setColor();
+		out.println ((char)27 + "[2J");
+		out.println ((char)27 + "[0m");
+		out.println(setColor.color("#####################[red]Wizard[white]######################"));
+		out.println(setColor.color("# Room ([blue]C[white])reation - Make new stuff              #"));
+		out.println(setColor.color("# ([blue]O[white])nline Users  - See a list of online users  #"));
+		out.println(setColor.color("# ([blue]C[white])hat Logs - - - Archive of conversations    #"));
+		out.println(setColor.color("# ([blue]W[white])atch User  - - Eagle eye on a user         #"));
+		out.println(setColor.color("# ([blue]M[white])ove  - - - - - Move a user to a room       #"));
+		out.println(setColor.color("# ([blue]B[white])ump a user - - Bump a user off the server  #"));
+		out.println(setColor.color("# ([blue]S[white])top  - - - - - Stop the server             #"));
+		out.println(setColor.color("# ([blue]R[white])estart - - - - Restart the server          #"));
+		out.println(setColor.color("# ([blue]L[white])ogout  - - - - Logout of Wizard            #"));
+		out.println(setColor.color("# ([blue]P[white])rint - - - - - Reprint this dialogue       #"));
+		out.println(setColor.color("#################################################"));
+		String str = getInput();
+
+		if (str.equals("c")){
+			roomCreation();
+		} else if (str.equals("p")){
+			wizardMenu();
+		} else {
+			wizardMenu();
+		}
+	}
+	public void roomCreation(){//TODO Not very practical...
+		out.println ((char)27 + "[2J");
+		out.println ((char)27 + "[0m");
+		setColor setColor = new setColor();
+		out.println(setColor.color("##################################[red]Room Creation[white]###################################"));
+		out.println(setColor.color("# ([blue]R[white])oom Description (70 Characters/Line)                                        #"));
+		out.println(setColor.color("#                                                                                #"));
+		out.println(setColor.color("##################################################################################"));
+		out.println(setColor.color("# ([blue]E[white])xits & Exit Descriptions                                                    #"));
+		out.println(setColor.color("#  Direction  Name                            Room Description                   #"));
+		out.println(setColor.color("#   [North] - none                                                               #"));
+		out.println(setColor.color("#   [South] - none                                                               #"));
+		out.println(setColor.color("#   [East]  - none                                                               #"));
+		out.println(setColor.color("#   [West]  - none                                                               #"));
+		out.println(setColor.color("#   [Up]    - none                                                               #"));
+		out.println(setColor.color("#   [Down]  - none                                                               #"));
+		out.println(setColor.color("##################################################################################"));
+		out.println(setColor.color("# ([blue]N[white])on-Playable-Characters                                                      #"));
+		out.println(setColor.color("#                                                                                #"));
+		out.println(setColor.color("##################################################################################"));
+		out.println(setColor.color("# ([blue]O[white])bjects                                                                      #"));
+		out.println(setColor.color("#                                                                                #"));
+		out.println(setColor.color("##################################################################################"));
+		out.println(setColor.color("# ([blue]D[white])etailed Descriptions (Examine Command)                                      #"));
+		out.println(setColor.color("#                                                                                #"));
+		out.println(setColor.color("##################################################################################"));
+	
+		String str = getInput();
+	
+		if (str.equals("e")){
+			
+		}
+	}
+	public void onlineUsers(){//TODO
 		
 	}
-	public void yell(){
+	public void chatLogs(){//TODO
+		
 	}
-	public void timer(){
+	public void watchUser(){//TODO
+		
 	}
-	  Timer timer;
-
-    public void Reminder(int milli) {
-        timer = new Timer();
-        timer.schedule(new RemindTask(), milli);
+	public void moveUser(){//TODO
+		
 	}
-
-    class RemindTask extends TimerTask {
-        public void run() {
-        	
-            Reminder(500);
-            chat();
-    }
-
-    }
+	public void bumpUser(){//TODO
+		
+	}
+	public void stopServer(){//TODO
+	}
+	public void restartServer(){//TODO
+		
+	}
 }

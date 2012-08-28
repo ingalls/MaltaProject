@@ -10,6 +10,7 @@ public class TelnetServer {
 	static String database = "/home/aurora/Programming/MaltaProject/Zaot-Server-Dataset/Zaot";
 	//This will change the port for the MUD
 	static final int PORT = 1337;
+	//WARNING - Linux needs root privileges for ports below 1000.
 	//-------------------------------------------------
 	
 	public static void main(String[] args) throws IOException {
