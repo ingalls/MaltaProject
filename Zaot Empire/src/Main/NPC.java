@@ -11,6 +11,7 @@ package Main;
 */
 
 public class NPC {
+	/**stores the name of the NPC*/
 	String name;
 	
 	

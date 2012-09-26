@@ -399,7 +399,7 @@ public class interpretationServer extends Thread{
 	public void room(){//Prints Description and exits of a room - called by interpretUsr()
 		numberofNPC = 0;
 		list = "";
-		getUserValue getValue = new getUserValue(database,user);
+		UserValue getValue = new UserValue(database,user);
 		location = getValue.getLoc();
 		System.out.println("<Control> - " + user + " has entered " + location);
 		logging("<Control> - " + user + " has entered " + location);
@@ -633,7 +633,7 @@ public class interpretationServer extends Thread{
 	}
 	public String showHealthbar(){
 			String hp = "", xp = "", maxHP = "";
-			getUserValue getValue = new getUserValue(database,user);
+			UserValue getValue = new UserValue(database,user);
 			hp = getValue.getHP();
 			xp = getValue.getXP();
 			maxHP = getValue.getMaxHealth();
@@ -986,7 +986,7 @@ public class interpretationServer extends Thread{
 					shop = shopList.get(loc);
 					shop = shop.toLowerCase();
 					if (shop.equals(str)){
-						getUserValue getValue = new getUserValue(database,user);
+						UserValue getValue = new UserValue(database,user);
 						gld = Integer.parseInt(getValue.getGold());
 						price = Integer.parseInt(shopList.get(loc + 1));
 						if (gld>price){
@@ -1027,7 +1027,7 @@ public class interpretationServer extends Thread{
 		}
 	}
 	public void exit(){ //Prints a list of exits for the specific room
-		getUserValue getValue = new getUserValue(database, user);
+		UserValue getValue = new UserValue(database, user);
 		location = getValue.getLoc();
 		try{
 			FileInputStream fstream = new FileInputStream(database + "/rooms/"+location+"/"+location);
@@ -1114,7 +1114,7 @@ public class interpretationServer extends Thread{
 		}
 	}
 	public void gold(){//Prints the amount of gold that a user has in their possession
-		getUserValue getValue = new getUserValue(database, user);
+		UserValue getValue = new UserValue(database, user);
 		String gold = getValue.getGold();
 		out.println("You currently have: " + gold);
 		interpretUsr();
@@ -1154,7 +1154,7 @@ public class interpretationServer extends Thread{
 	}
 	public void score(){ //prints out a formatted table of stats
 		//TODO Have a nicely formated table that prints out lvl, hp, etc.
-		getUserValue getValue = new getUserValue(database, user);
+		UserValue getValue = new UserValue(database, user);
 		String level = getValue.getLvl();
 
 		System.out.println("|-----------------------User-----------------------|");

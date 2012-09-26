@@ -2,11 +2,19 @@ package Main;
 
 /**
 * This class is used to convert tag colors to their ASCII alternative.
+* It will take color tags and convert them to ASCII values.
+* Current color tags are as follows:
+* [red] [green] [yellow] [blue] [purple] [cyan] [white] [highwhite]
 *
 * @author  Nicholas Ingalls
 */
 
 public class setColor{
+	/**
+	 * Takes string and converts tags to ASCII colors.
+	 * @param line String containing the text to parse for color tags.
+	 * @return
+	 */
 	public String color(String line){
 		line = line.replace("[red]", (char)27+"[31m");
 		line = line.replace("[green]", (char)27+"[32m");

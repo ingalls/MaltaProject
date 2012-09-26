@@ -13,7 +13,7 @@ import java.io.InputStreamReader;
 * @author  Nicholas Ingalls
 */
 
-public class getUserValue {
+public class UserValue {
 	/**Stores database location - initialised by constructor*/
 	String database = "";
 	/**Stores username - initialised by constructor*/
@@ -21,7 +21,7 @@ public class getUserValue {
 	/**
 	* Constructs a new object with a string containing the database location and a string containing the username.
 	*/ 
-	getUserValue(String data, String username){
+	UserValue(String data, String username){
 		database = data;
 		user = username;
 	}
