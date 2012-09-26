@@ -3,6 +3,12 @@ package Main;
 import java.io.*;
 import java.net.*;
 
+/**
+* This class accepts telnet connections as well as checking for the database.
+* 
+* @author  Nicholas Ingalls
+*/
+
 public class TelnetServer {
 	
 	//-------------Change-With-Caution-----------------

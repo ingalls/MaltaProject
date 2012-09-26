@@ -1,5 +1,11 @@
 package Main;
 
+/**
+* This class is used to convert tag colors to their ASCII alternative.
+*
+* @author  Nicholas Ingalls
+*/
+
 public class setColor{
 	public String color(String line){
 		line = line.replace("[red]", (char)27+"[31m");
