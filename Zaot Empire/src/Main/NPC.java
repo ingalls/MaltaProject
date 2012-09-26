@@ -1,4 +1,5 @@
 package Main;
+<<<<<<< HEAD
 //This class is responsible for creating a new NPC object
 //It is used primarily when a user chooses to fight an NPC
 
@@ -17,4 +18,10 @@ public class NPC {
 	NPC(String NPCname){ //Constructor
 		name = NPCname;
 	}
+=======
+
+public class NPC {
+
+	//private name
+>>>>>>> mac changeset
 }
