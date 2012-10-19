@@ -16,16 +16,17 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Timer;
-import java.util.TimerTask;
+
 
 /**
-* This class obtains user input. It then analyzes the input and chooses the appropriate action.
+* This class obtains user input. It then analyses the input and chooses the appropriate action.
 *
 * @author  Nicholas Ingalls
 */
 
 
 //--- TODO Section ---
+//TODO ***KILL CHAT THREAD WHEN USER LOGS OUT***
 //TODO ***A user can currently go in a direction in which there is no room
 //TODO Redo Fight Code
 //TODO Add some sort of examine code for inv items
@@ -46,10 +47,6 @@ import java.util.TimerTask;
 public class interpretationServer extends Thread{
 	//---Called Classes---//
 	setColor setColor = new setColor();
-	
-	//---Chat Variables---//
-	Timer timer;
-	boolean timerstop = false; //If true the timer will not restart itself when called
 	
 	//---Database Location---//
 	String database = null; //Database address is passed to interpretationServer() from TelnetServer(). To modify path edit TelnetServer()
@@ -203,7 +200,7 @@ public class interpretationServer extends Thread{
 				logging("An incoming user can't access welcome interface");
 			}
 		}
-
+		
 		String str;
 		Scanner usrTxt = new Scanner(in);
 		String strLine = "";
@@ -361,7 +358,10 @@ public class interpretationServer extends Thread{
 			}
 
 			//Print current room
-			//Reminder();//TODO Reintroduce this once chat is fixed
+			
+			//---Starts Chat Server--//
+			startChat SC = new startChat(socket, database, user);
+			
 			room();
 			/**
 			out.println("");
@@ -592,43 +592,6 @@ public class interpretationServer extends Thread{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
-	}
-	public void chat(){
-		//Chat Functions
-		boolean chatPrinted = false;
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/charProfile/"+user+"/chat");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
-
-			while ((strLine = br.readLine()) != null){
-				setColor setColor = new setColor();
-				strLine = setColor.color(strLine);
-				out.println(strLine);
-				if (strLine!=null){
-					chatPrinted=true;
-				}
-			}
-			br.close();
-		} catch (Exception e){
-			System.out.println("<ERROR> " + user + " cannot access their chat file");
-			logging("<ERROR> " + user + " cannot access their chat file");
-		}
-		if (chatPrinted==true){
-			chatPrinted = false;
-			File file = new File(database + "/charProfile/"+user+"/chat");
-			file.delete();
-			File newFile = new File(database + "/charProfile/"+user+"/chat");
-			try {
-				newFile.createNewFile();
-			} catch (IOException e1) {
-				System.out.println("<ERROR> " + user + " cannot create new chat file");
-				logging("<ERROR> " + user + " cannot create new chat file");
-			}
-		}
-		
-			//interpretUsr();
 
 	}
 	public String showHealthbar(){
@@ -906,10 +869,12 @@ public class interpretationServer extends Thread{
 				drop(str);
 				interpretUsr();
 			} else if (token.equals("ooc")){
-				ooc(str);
+				sendChat SC = new sendChat(database, user);
+				SC.ooc(str);
 				interpretUsr();
 			} else if (token.equals("ic")){
-				ic(str);
+				sendChat SC = new sendChat(database, user);
+				SC.ic(str);
 				interpretUsr();
 			} else if (str.equals("gold")) {
 				gold();
@@ -1331,7 +1296,7 @@ public class interpretationServer extends Thread{
 		out.println("We only part to meet again.");
 		System.out.println("<Control> - " + user + " has left the game.");
 		logging("<Control> - " + user + " has left the game.");
-		timerstop = true;
+		//TODO send close to chatServer thread
 		
 		//Removes entry from the who file
 		ArrayList<String> whoList = new ArrayList<String>();
@@ -1536,76 +1501,8 @@ public class interpretationServer extends Thread{
 	public void time(){// Will allow the retrieval of the system time in seconds.
 	}
 	public void commands(){
-
-	}
-	//---chat routines---//
-	public void ooc(String chatString){
-		chatString = chatString.replace("ooc ", "");
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/who");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
-
-			while ((strLine = br.readLine()) != null){
-				try{
-					BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/charProfile/"+strLine+"/chat", true));
-					bW.write(user + " oocs " +"[green] '"+ chatString+"'[white]");					
-					bW.newLine();
-					bW.close();
-				}catch(IOException e){
-					e.printStackTrace();
-				}
-			}
-			br.close();
-		} catch (Exception e){
-			System.out.println("<ERROR> " + user + " cannot access chat file of "+strLine);
-			logging("<ERROR> " + user + " cannot access chat file of "+strLine);
-		}
-	}
-	public void ic(String chatString){
-		chatString = chatString.replace("ic ", "");
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/who");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
-
-			while ((strLine = br.readLine()) != null){
-				try{
-					BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/charProfile/"+strLine+"/chat", true));
-					bW.write(user + " ics " +"[purple] '"+ chatString+"'[white]");					
-					bW.newLine();
-					bW.close();
-				}catch(IOException e){
-					e.printStackTrace();
-				}
-			}
-			br.close();
-		} catch (Exception e){
-			System.out.println("<ERROR> " + user + " cannot access chat file of "+strLine);
-			logging("<ERROR> " + user + " cannot access chat file of "+strLine);
-		}
-	}
-	public void tell(String chatString){//TODO finish
-	}
-	public void say(){//TODO finish
-
-	}
-	public void yell(){//TODO finish
-	}
-	public void Reminder() {
-		if (timerstop == false){
-				timer = new Timer();
-				timer.schedule(new RemindTask(), 500);
-		}
-	}
-	class RemindTask extends TimerTask {
-		public void run() {
-
-			Reminder();
-			chat();
 	}
 
-	}
 	//---wizard functions---//
 	public void wizardCheck(){
 		//TODO add security check to make sure that user has wiz file &

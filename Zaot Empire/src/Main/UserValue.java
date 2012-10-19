@@ -31,7 +31,7 @@ public class UserValue {
 	 */
 	public String getAge(){
 		String fileLoc = database + "/charProfile/"+user+"/age";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userAge = open.getLine();
 		return userAge;
 	}
@@ -41,7 +41,7 @@ public class UserValue {
 	 */
 	public String getUserClass(){
 		String fileLoc = database + "/charProfile/"+user+"/class";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userClass = open.getLine();
 		return userClass;
 	}
@@ -51,7 +51,7 @@ public class UserValue {
 	 */
 	public String getDex(){
 		String fileLoc = database + "/charProfile/"+user+"/dexterity";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userDex = open.getLine();
 		return userDex;
 	}
@@ -61,7 +61,7 @@ public class UserValue {
 	 */
 	public String getXP(){
 		String fileLoc = database + "/charProfile/"+user+"/experience";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userXP = open.getLine();
 		return userXP;
 	}
@@ -71,7 +71,7 @@ public class UserValue {
 	 */
 	public String getGold(){
 		String fileLoc = database + "/charProfile/"+user+"/gold";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userGold = open.getLine();
 		return userGold;
 	}
@@ -81,7 +81,7 @@ public class UserValue {
 	 */
 	public String getHP(){
 		String fileLoc = database + "/charProfile/"+user+"/health";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userHP = open.getLine();
 		return userHP;
 	}
@@ -91,7 +91,7 @@ public class UserValue {
 	 */
 	public String getInt(){
 		String fileLoc = database + "/charProfile/"+user+"/intelligence";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userInt = open.getLine();
 		return userInt;
 	}
@@ -101,7 +101,7 @@ public class UserValue {
 	 */
 	public String getLvl(){
 		String fileLoc = database + "/charProfile/"+user+"/level";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userLvl = open.getLine();
 		return userLvl;
 	}
@@ -111,7 +111,7 @@ public class UserValue {
 	 */
 	public String getLoc(){
 		String fileLoc = database + "/charProfile/"+user+"/location";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userLoc = open.getLine();
 		return userLoc;
 	}
@@ -121,7 +121,7 @@ public class UserValue {
 	 */
 	public String getRace(){
 		String fileLoc = database + "/charProfile/"+user+"/race";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userRace = open.getLine();
 		return userRace;
 	}
@@ -131,7 +131,7 @@ public class UserValue {
 	 */
 	public String getReligion(){
 		String fileLoc = database + "/charProfile/"+user+"/religion";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userReligion = open.getLine();
 		return userReligion;
 	}
@@ -141,7 +141,7 @@ public class UserValue {
 	 */
 	public String getSex(){
 		String fileLoc = database + "/charProfile/"+user+"/sex";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userSex = open.getLine();
 		return userSex;
 	}
@@ -151,7 +151,7 @@ public class UserValue {
 	 */
 	public String getStr(){
 		String fileLoc = database + "/charProfile/"+user+"/strength";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userStr = open.getLine();
 		return userStr;
 	}
@@ -161,7 +161,7 @@ public class UserValue {
 	 */
 	public String getWeight(){
 		String fileLoc = database + "/charProfile/"+user+"/weight";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userWeight = open.getLine();
 		return userWeight;
 	}
@@ -171,7 +171,7 @@ public class UserValue {
 	 */
 	public String getMaxHealth(){
 		String fileLoc = database + "/charProfile/"+user+"/maxhealth";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String maxHealth = open.getLine();
 		return maxHealth;
 	}
@@ -181,7 +181,7 @@ public class UserValue {
 	 */
 	public String getWis(){
 		String fileLoc = database + "/charProfile/"+user+"/wisdom";
-		openFile open = new openFile(fileLoc);
+		FileOperations open = new FileOperations(fileLoc);
 		String userWis = open.getLine();
 		return userWis;
 	}
