@@ -36,7 +36,7 @@ public class TelnetServer {
 	} 
 	public static void check(){
 		boolean error = false;
-		System.out.println("<Control> Checking for Database");
+		System.out.println("[Control] Checking for Database");
 		try{
 			FileInputStream fstream = new FileInputStream(database + "/check");
 			DataInputStream in = new DataInputStream(fstream);
@@ -49,7 +49,8 @@ public class TelnetServer {
 			error = true;
 		}
 		if (error==false){
-			System.out.println("<Control> Database OKAY");
+			System.out.println("[Control] Database OKAY");
+			GameKeeper GM = new GameKeeper(database);
 		}
 	}
 }

@@ -38,7 +38,7 @@ import java.util.Vector;
 //TODO make some exits require an object.
 //TODO Create chat
 //finish Yell (To Room and rooms surrounding), Tell, Say? (To room)
-//OOC Green, IC purple, Yell red, tell yellow
+//OOC Green, IC purple, Yell red, tell blue, Add OPRAY. Add mute support except for opray
 //TODO Give() command
 //TODO Make health/hp bar color depending on percentage. (50+ green)(25+ white)(15+ yellow)(0+ red)
 //TODO when user exits it currently wipes who file instead of removing single entry.
@@ -67,7 +67,7 @@ public class interpretationServer extends Thread{
 	int maxHp = 0;
 	int xp = 0;
 	int maxXp = 0;
-
+	
 	String list = "";
 	String[] result;
 	ArrayList<String> itemList = new ArrayList<String>(), shopList = new ArrayList<String>();
@@ -88,7 +88,7 @@ public class interpretationServer extends Thread{
 		// Enable auto-flush:
 		out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 		// If any of the above calls throw an exception, the caller is responsible for closing the socket. Otherwise the thread will close it.
-		start(); // Calls run()
+		start(); // Calls run
 	}	
 	public void run() {
 		login();
