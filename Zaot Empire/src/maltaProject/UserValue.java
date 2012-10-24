@@ -58,7 +58,7 @@ public class UserValue {
 	 * Sets the class of a user
 	 * @param userClass A String containing the class of a user
 	 */
-	public void setClass(String userClass){
+	public void setUserClass(String userClass){
 		String fileLoc = database + "/charProfile/"+user+"/class";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(userClass);
