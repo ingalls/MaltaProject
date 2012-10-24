@@ -654,15 +654,13 @@ public class UserValue {
 		OP.deleteFile("/charProfile/"+user+"/skills/"+skill);
 	}
 	
-	
-	
 	/**
 	 * Returns a String array containing the inventory of a user.
 	 * @return A String array containing the inventory of a user.
 	 */
 	public String[] getInventory(){
 		FileOperations FO = new FileOperations(database);
-		String[] files = FO.getDirectory("/"+user+"/inventory/");
+		String[] files = FO.getDirectory("/charProfile/"+user+"/inventory/");
 		return files;
 	}
 	
