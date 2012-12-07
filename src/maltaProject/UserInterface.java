@@ -1,24 +1,17 @@
 package maltaProject;
+import getValue.UserValue;
+
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
-import java.util.Timer;
-
-import maltaProject.UserValue;
-import maltaProject.setColor;
-
-
 
 public class UserInterface {
 	public Socket socket;
 	public PrintWriter out;
 	public String database;
 	public String user;
-	
+
 	public UserInterface(String data, String name){
 		database = data;
 		user = name;
@@ -44,13 +37,12 @@ public class UserInterface {
 		setColor setColor = new setColor();
 		String healthBar = setColor.color("("+color + hp + "HP[white]/" + xp + " XP):");
 		return healthBar;
-}
+	}
 	public String getInput(BufferedReader in){
 		Scanner usrTxt = new Scanner(in);
 		String str;
 		str = usrTxt.nextLine();
 		str = str.trim();
-		str = str.toLowerCase();
 		return str;
 	}
 }

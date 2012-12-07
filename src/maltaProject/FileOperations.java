@@ -8,7 +8,6 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.InputStreamReader;
-
 /**
  * This class is used to obtain a string from a given file.
  * When constructed, the file location is passed to the program.
@@ -22,51 +21,67 @@ public class FileOperations {
 	private String line = null;
 	/**
 	 * Constructs a new object with the given location & stores first line of file in String line.
-	 */ 
+	 */
 
+	boolean error = false;
+	boolean errorReport = true;
 	String loc = ""; //Database location
 
 	public FileOperations(String location) {
 		loc = location;
 	}
 
+	public void createDirectory(String folder){
+		File f = new File(loc + folder);
+		try {
+			f.mkdir();
+		} catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteDirectory(String folder){
+
+	}
+
 	public void deleteFile(String file){
 		try{
-    		File F = new File(loc + file);
-    		F.delete();
-    	}catch(Exception e){
-    		e.printStackTrace();
-    	}
+			File F = new File(loc + file);
+			F.delete();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
-	
+
 	public String[] getDirectory(String location){
 		File dir = new File(loc+location);
 
 		String[] files = dir.list();
 		if (files == null) {
-		    // Either dir does not exist or is not a directory
+			// Either dir does not exist or is not a directory
 		} else {
-		    for (int i=0; i<files.length; i++) {
-		        // Get filename of file or directory
-		        String filename = files[i];
-		    }
+			for (int i=0; i<files.length; i++) {
+				// Get filename of file or directory
+				String filename = files[i];
+			}
 		}
 
 		//Does not display hidden files
 		FilenameFilter filter = new FilenameFilter() {
-		    public boolean accept(File dir, String name) {
-		        return !name.startsWith(".");
-		    }
+			@Override
+			public boolean accept(File dir, String name) {
+				return !name.startsWith(".");
+			}
 		};
-		
+
 		files = dir.list(filter);
-		
+
 		return files;
 
 	}
 
 	public void setLine(String strLine){
-		try{ 
+		try{
 			FileWriter fstream = new FileWriter(loc);
 			BufferedWriter out = new BufferedWriter(fstream);
 			out.write(strLine);
@@ -88,9 +103,30 @@ public class FileOperations {
 			line = br.readLine();
 			in.close();
 		} catch (Exception e){
+
 			System.out.println("Cannot access the file " + loc);
 		}
 
 		return line;
+	}
+
+	/**
+	 * Allows the calling method to set whether the class will print errors
+	 * to the Admins.
+	 * 
+	 * @param error a boolean containing whether to report errors or not.
+	 */
+	public void setErrorReport(boolean error){
+		errorReport = error;
+	}
+
+	/**
+	 * Returns a boolean of whether or not an error occured when performing
+	 * an operation
+	 * 
+	 * @return A boolean containing whether or not an error occured.
+	 */
+	public boolean hasError(){
+		return error;
 	}
 }

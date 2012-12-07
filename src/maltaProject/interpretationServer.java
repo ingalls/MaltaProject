@@ -1,5 +1,11 @@
 package maltaProject;
 
+import getValue.InstanceNPCValue;
+import getValue.NPCValue;
+import getValue.ObjectValue;
+import getValue.RoomValue;
+import getValue.UserValue;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -16,18 +22,30 @@ import java.util.Enumeration;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.StringTokenizer;
-import java.util.Timer;
 import java.util.Vector;
+
+import userOperations.Inventory;
+import chatService.sendChat;
+import chatService.startChat;
 
 
 /**
- * This class obtains user input. It then analyses the input and chooses the appropriate action.
+ * This class obtains user input. It then analyzes the input and chooses the appropriate action.
  *
  * @author  Nicholas Ingalls
  */
 
 
 //--- TODO Section ---
+//TODO SkillsValue
+//TODO DropValue
+//TODO HelpRetrieval
+
+//TODO ClassValue --used for stat gen on usr creation
+//TODO religionValue --used for stat gen on usr creation
+//TODO raceValue --used for stat gen on usr creation
+
+//TODO Delete instanceObjects, InstanceNPCs, Objects, NPC's, Rooms (Need to import apache FileUtils)
 //TODO ***KILL CHAT THREAD WHEN USER LOGS OUT***
 //TODO Redo Fight Code
 //TODO Add some sort of examine code for inv items
@@ -43,7 +61,7 @@ import java.util.Vector;
 //TODO Make health/hp bar color depending on percentage. (50+ green)(25+ white)(15+ yellow)(0+ red)
 //TODO when user exits it currently wipes who file instead of removing single entry.
 //TODO *** Timer needs to work in a new thread or else it screws up the users location within the program. This is evident from the inability to utilize the wizard dialogue and also from the healthbar menu.
-
+//TODO Drop & Take
 
 public class interpretationServer extends Thread{
 	//---Called Classes---//
@@ -67,7 +85,7 @@ public class interpretationServer extends Thread{
 	int maxHp = 0;
 	int xp = 0;
 	int maxXp = 0;
-	
+
 	String list = "";
 	String[] result;
 	ArrayList<String> itemList = new ArrayList<String>(), shopList = new ArrayList<String>();
@@ -80,7 +98,7 @@ public class interpretationServer extends Thread{
 	static int numofItems;
 	boolean show = true; //decides whether to show the intro screen. For example if a password is incorrect, the intro screen will not be shown.
 	boolean startup = true;
-	boolean north = false, south = false, east = false, west = false, up = false, down = false;	
+	boolean north = false, south = false, east = false, west = false, up = false, down = false;
 	public void ZaosClient(Socket s, String databaseLoc) throws IOException {
 		database = databaseLoc;
 		socket = s;
@@ -89,7 +107,8 @@ public class interpretationServer extends Thread{
 		out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 		// If any of the above calls throw an exception, the caller is responsible for closing the socket. Otherwise the thread will close it.
 		start(); // Calls run
-	}	
+	}
+	@Override
 	public void run() {
 		login();
 	}
@@ -188,7 +207,7 @@ public class interpretationServer extends Thread{
 			try{
 				FileInputStream fstream = new FileInputStream(database + "/interface/welcome");
 				DataInputStream in = new DataInputStream(fstream);
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));	
+				BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
 				while ((strLine = br.readLine()) != null){
 					setColor setColor = new setColor();
@@ -207,14 +226,14 @@ public class interpretationServer extends Thread{
 		String strLine = "";
 		boolean failLogin = false;
 		boolean login = false;
-		while (login==false) {  
+		while (login==false) {
 			out.println();
 			out.println("p to reprint options");
 			out.println("Select an Option:");
 			str = usrTxt.nextLine();
 			str = str.trim();
 			str = str.toLowerCase();
-			if (str.equals("q")){ 
+			if (str.equals("q")){
 				out.println("We only part to meet again.");
 				System.out.println("<Control> - " + user + " has left the game.");
 				logging("<Control> - " + user + " has left the game.");
@@ -396,8 +415,6 @@ public class interpretationServer extends Thread{
 		}
 	}
 	public void room(){//Prints Description and exits of a room - called by interpretUsr()
-		numberofNPC = 0;
-		list = "";
 		UserValue getValue = new UserValue(database,user);
 		location = getValue.getLoc();
 		System.out.println("<Control> - " + user + " has entered " + location);
@@ -413,7 +430,7 @@ public class interpretationServer extends Thread{
 		upRoom = RV.getUp();
 		downRoom = RV.getDown();
 
-		out.println((char)27 + "[34m" + "---" + Title + "---" + (char)27 + "[0m"); //Prints the title of the room
+		out.println((char)27 + "[1m" + "---" + Title + "---" + (char)27 + "[39m"); //Prints the title of the room
 		out.println("");
 
 		int len = 60;
@@ -458,7 +475,7 @@ public class interpretationServer extends Thread{
 			for (Enumeration e = lines.elements(); e.hasMoreElements(); c++) {
 				ret[c] = (String) e.nextElement();
 			}
-			
+
 			int length = ret.length;
 			int current = 0;
 			while (length>current+1){
@@ -474,88 +491,48 @@ public class interpretationServer extends Thread{
 		interpretUsr();
 	}
 	public void NPC(){//Prints NPCs in a room - called by room();
-		boolean error = false;
-		boolean checkList = true;
-		String checkNPC = "";
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/rooms/"+location+"/npc");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
-			while (error == false){
-				strLine = br.readLine();
-				result = strLine.split(":");
-				try{
-					checkNPC = result[numberofNPC];
-					checkNPC = checkNPC.replace("[", "");
-					checkNPC = checkNPC.replace("]", "");
-					checkNPC = checkNPC.replace("\n", "");
-					FileInputStream fstream2 = new FileInputStream(database + "/npc/"+checkNPC+"/"+checkNPC+".lst");
-					DataInputStream in2 = new DataInputStream(fstream2);
-					BufferedReader br2 = new BufferedReader(new InputStreamReader(in));	
-					in2.close();
-				} catch (Exception e){
-					System.out.println("ERROR:"+result[numberofNPC]);
-					logging("ERROR:"+result[numberofNPC]);
-					checkList = false;
-				}
-				if (checkList==true){
-					list = checkNPC;		
-				} else {
-					checkList = true;
-				}
-				numberofNPC=numberofNPC+2;
-			}
-			in.close();
-		} catch (Exception e){
-			error = true;
-		}
-		int currentNPC = 0;
-		if (numberofNPC != 0){
-			while (numberofNPC > currentNPC){
-				out.println("["+result[currentNPC]+"] " + result[currentNPC+1]);
-				currentNPC = currentNPC+2;
-			}
+		RoomValue Room = new RoomValue(database, location);
+		String[] NPClist = Room.getNPC();
+		setColor color = new setColor();
+
+		int npcGet = 0;
+		while (npcGet < NPClist.length){
+			InstanceNPCValue iNPC = new InstanceNPCValue(database, NPClist[npcGet]);
+			String npcName = iNPC.getReference();
+
+			NPCValue NPC = new NPCValue(database, npcName);
+			String npcDesc = NPC.getDesc();
+
+			String textOut = color.color("[cyan]["+npcName+"][white] "+ npcDesc);
+			out.println(textOut);
+
+			npcGet++;
 		}
 	}
 	public void objects(){//Prints objects in a room - called by room();
-		boolean error = false;
-		int numofItems = 0;
-		int getItemsList = 0;
-		error = false;
+		RoomValue Room = new RoomValue(database, location);
+		String[] OBJlist = Room.getObjects();
+		setColor color = new setColor();
 
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/rooms/" + location + "/obj");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			while (true){
-				strLine = br.readLine();
-				itemListTemp = strLine.split(":");
-				itemList.add(itemListTemp[1]);
-				itemList.add(itemListTemp[0]);
-				numofItems=numofItems+2;
-			}
-		} catch (Exception e){
-			error = true;
+		int objGet = 0;
+
+		while (objGet < OBJlist.length){
+			int number = Integer.parseInt(Room.getObjectNumber(OBJlist[objGet]));
+			ObjectValue OV = new ObjectValue(database, OBJlist[objGet]);
+			String objDesc = OV.getDesc();
+
+			String textOut = color.color("[blue]["+OBJlist[objGet]+"][white]*"+number+" - "+ objDesc);
+			out.println(textOut);
+
+			objGet++;
 		}
-		error = false;
-
-		try {
-			while (true){
-				if (numofItems==getItemsList){
-					break;
-				}
-				out.println("[" + itemList.get(getItemsList+1)+ "] - " + itemList.get(getItemsList));
-				getItemsList = getItemsList + 2;
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
 	}
 	public void interpretUsr(){//User Input
 		UserInterface UI = new UserInterface(database, user);
 		out.println(UI.showHealthbar());
 		String str = UI.getInput(in);
+		String orig = str;
+		str = str.toLowerCase();
 		String token = null;
 		try {
 			StringTokenizer st = new StringTokenizer(str);
@@ -800,35 +777,144 @@ public class interpretationServer extends Thread{
 				interpretUsr();
 			} else if (str.equals("l") | str.contains("look") | str.equals("")) {
 				room();
-			} else if (str.equals("list") | str.contains("buy ")) {
-				try {
-					list(str);
-				} catch (IOException e) {
-					System.out.println("<ERROR> " + user
-							+ " can not access the shop list found in " + list);
-					logging("<ERROR> " + user
-							+ " can not access the shop list found in " + list);
-				}
-				interpretUsr();
 			} else if (str.contains("fight ")) {
 				String character = str;
 				character = character.replace("fight ", "");
 				fight(character);
-			} else if (str.contains("examine ")) {
-				String examine = str;
-				examine = examine.replace("examine ", "");
-				examine(examine);
 			} else if (str.contains("quit")) {
 				quit();
-			} else if (str.equals("inventory") | str.equals("i")
-					| str.equals("inv")) {
-				inv();
+			} else if (str.equals("inventory") | str.equals("i") | str.equals("inv")) {
+				UserValue UV = new UserValue(database, user);
+				String[] OBJlist = UV.getInventory();
+				setColor color = new setColor();
+
+				int objGet = 0;
+
+				if(OBJlist.length == 0){
+					out.println("You are not carrying anything!");
+				} else {
+					out.println("\n # | Description");
+					while (objGet < OBJlist.length){
+						int number = Integer.parseInt(UV.getInventoryItem((OBJlist[objGet])));
+						ObjectValue OV = new ObjectValue(database, OBJlist[objGet]);
+						String title = OV.getTitle();
+						String objDesc = OV.getDesc();
+
+						String textOut = color.color(" " + number + "  "+title+" - "+ objDesc);
+						out.println(textOut);
+
+						objGet++;
+					}
+				}
+
 				interpretUsr();
 			} else if (str.contains("take ")) {
-				take();
 				interpretUsr();
 			} else if (str.contains("drop ")) {
-				drop(str);
+				//Commands should be formatted as follows
+				//drop all <item>
+				//drop <item>
+				//drop ## <item>
+
+				int drop = 0; //Number to drop. If the user doesn't specify this should be 1. -1 means drop all of specified type.
+				int testDrop = 0;
+				String command = "", second = "", third = "";
+				boolean inValue = false; //Tells whether the user entered an amount
+
+				StringTokenizer st = new StringTokenizer(orig); //Breaks input into tokens
+				command = st.nextToken();
+				second = st.nextToken();
+				third = st.nextToken();
+				try {
+					if (second.equals("all")){
+						drop = -1;
+						inValue = true;
+					} else {
+						try {
+							drop = Integer.parseInt(second);
+						} catch (Exception e) {
+							out.println("Invalid number to drop!");
+							interpretUsr();
+						}
+						inValue = true;
+					}
+				} catch (Exception e1) { //Means the user didn't enter a value to drop (Program will assume 1)
+					drop = 1;
+				}
+
+				String finalItem;
+
+				if (st.hasMoreTokens()){
+					if (inValue == false){
+						third = second+"-"+third;
+					}
+					finalItem = third;
+				} else {
+					if(inValue == false){
+						finalItem = second;
+					} else {
+						finalItem = third;
+					}
+				}
+
+				while (st.hasMoreTokens()){
+					finalItem = finalItem + "-" + st.nextToken();
+				}
+
+				UserValue UV = new UserValue(database, user);
+				String inv[] = UV.getInventory();
+				int invLen = inv.length;
+				int test = 0;
+				String item = "";
+				while (invLen > test){
+					String invContainer;
+					String userContainer;
+					invContainer = inv[test];
+					userContainer = finalItem;
+
+					invContainer = invContainer.toLowerCase();
+					userContainer = userContainer.toLowerCase();
+					invContainer = invContainer.replace(" ", "");
+					userContainer = userContainer.replace(" ", "");
+
+					if (userContainer.equals(invContainer)){
+						item = inv[test];
+					}
+					test++;
+
+					//TODO
+					System.out.println("Match:"+invContainer + "|User:" + userContainer);
+
+					//TODO get multiple lines working
+					//TODO finish setting up error reporting/errorReport in fileOperations
+
+				}
+
+				if (item.equals("")){
+					//TODO
+					System.out.println("Items do not match");
+					out.println("You can't drop an item you don't have!");
+					interpretUsr();
+				}
+
+
+				//TODO
+				System.out.println("Attempting to drop");
+				Inventory Inv = new Inventory(database, user);
+				Inv.drop(item, drop, location);
+
+				if (drop != -1 && drop != 1){
+					out.println("You drop " + drop + "x" + item + " from your inventory");
+				} else if (drop == -1) {
+					out.println("You drop all the " + item + " from your inventory");
+				} else {
+					if (item.startsWith("a")|item.startsWith("e")|item.startsWith("i")|item.startsWith("o")|item.startsWith("u")){
+						out.println("You drop an " + item + " from your inventory");
+					} else {
+						out.println("You drop a " + item + " from your inventory");
+					}
+				}
+
 				interpretUsr();
 			} else if (token.equals("ooc")){
 				sendChat SC = new sendChat(database, user);
@@ -844,8 +930,11 @@ public class interpretationServer extends Thread{
 			} else if (str.equals("exit")){
 				exit();
 				interpretUsr();
+			} else if (str.equals("clear")){
+				out.println ((char)27 + "[2J");
+				out.println ((char)27 + "[0m");
+				interpretUsr();
 			} else if (str.equals("wizard")|str.equals("wiz")) {
-				wizardMenu();
 			} else if (str.equals("sleep")){
 				sleep();
 			} else if (str.equals("database")) {
@@ -858,110 +947,15 @@ public class interpretationServer extends Thread{
 		}
 
 	}
-	public void list(String str) throws IOException{ //Lists the items in the store and also controls the buy command
-		boolean buyList = false;					//If true user is buying, if false user is listing
-		if (str.contains("buy ")){
-			buyList = true;
-		}
-		String shop = "";
-		ArrayList<String> shopList = new ArrayList<String>();
-		String[] shopListTemp;
-		boolean error = false;
-		int numofItems = 0;
-		int getItemsList = 0;
-		error = false;
-
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/npc/"+list+"/"+list+".lst");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			while (true){
-				strLine = br.readLine();
-				shopListTemp = strLine.split(":");
-				shopList.add(shopListTemp[1]);
-				strLine = br.readLine();
-				shopListTemp = strLine.split(":");
-				shopList.add(shopListTemp[1]);
-				numofItems=numofItems+2;
-			}
-		} catch (Exception e){
-			error = true;
-		}
-		error = false;
-
-		if (buyList==false){
-			out.println("Cost   Item");
-			try {
-				while (true){
-					out.println(shopList.get(getItemsList+1)+ " " + shopList.get(getItemsList));
-					getItemsList = getItemsList + 2;
-					if (numofItems==getItemsList){
-						break;
-					}
-
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		} else {
-			str = str.replace("buy ", "");
-			str = str.toLowerCase();
-			try {
-				int loc = 0;
-				int gld = 0, price = 0;
-				while (true){
-					shop = shopList.get(loc);
-					shop = shop.toLowerCase();
-					if (shop.equals(str)){
-						UserValue getValue = new UserValue(database,user);
-						gld = Integer.parseInt(getValue.getGold());
-						price = Integer.parseInt(shopList.get(loc + 1));
-						if (gld>price){
-							File file = new File(database + "/charProfile/"+user+"/gold");
-							file.delete();
-							try {
-								FileWriter fstream = new FileWriter(database + "/charProfile/"+user+"/gold");
-								BufferedWriter out = new BufferedWriter(fstream);
-								gld = gld - price;
-								out.write("" + gld);
-								out.close();
-							}catch (Exception e){
-							}
-							try{
-								// Create file 
-								FileWriter fstream = new FileWriter(database + "/charProfile/"+user+"/inventory",true);
-								BufferedWriter out = new BufferedWriter(fstream);
-								out.write("1:"+str + "\n");
-								//Close the output stream
-								out.close();
-							}catch (Exception e){//Catch exception if any
-								System.err.println("Error: " + e.getMessage());
-								logging("Error: " + e.getMessage());
-							}
-							out.println(str+" has been added to your inventory.");
-							break;
-						} else {
-							out.println("You don't have that much money!");
-							break;
-						}
-					}
-					loc = loc + 2;
-				}
-			} catch (Exception e) {
-				out.println("That item isn't offered in this store!");
-			}
-
-		}
-	}
 	public void exit(){ //Prints a list of exits for the specific room
 		UserValue getValue = new UserValue(database, user);
 		location = getValue.getLoc();
 		String direction = listExit(location);
 		if (direction.equals("")){
-			out.print("There are no exits to this room.");
+			out.println("There are no exits to this room.");
 		} else {
-		out.println("There are exits to the:");
-		out.println((char)27 + "[34m" + direction + (char)27 + "[0m");
+			out.println("There are exits to the:");
+			out.println((char)27 + "[34m" + direction + (char)27 + "[0m");
 		}
 	}
 	public String listExit(String location){
@@ -997,36 +991,12 @@ public class interpretationServer extends Thread{
 			direction = direction + "[Down] ";
 		}
 
-		return direction;	
-	}	
+		return direction;
+	}
 	public void gold(){//Prints the amount of gold that a user has in their possession
 		UserValue getValue = new UserValue(database, user);
 		String gold = getValue.getGold();
 		out.println("You currently have: " + gold);
-		interpretUsr();
-	}
-	public void examine(String examine){// Prints out a more detailed description of an item described in a room description
-		String[] examineTemp;
-		String testExamine = "";
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/rooms/"+location+"/examine");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			while (true){
-				strLine = br.readLine();
-				examineTemp = strLine.split(":");
-				testExamine = examineTemp[0];
-
-				if (testExamine.equals(examine)){
-					break;
-				}
-			}
-			out.println(examineTemp[1]);
-			in.close();
-		} catch (Exception e){
-			out.println("I'm afraid there isn't anything by that name to examine!");
-		}
-
 		interpretUsr();
 	}
 	public void sleep(){ //TODO increases the rate at which health is regenerated by *3
@@ -1146,7 +1116,7 @@ public class interpretationServer extends Thread{
 						break;
 					} else if (strLine.contains("accuracy:")){
 						strLine = strLine.replace("accuracy:", "");
-						NPCaccuracy = Integer.parseInt(strLine);	
+						NPCaccuracy = Integer.parseInt(strLine);
 					}
 				}
 				in.close();
@@ -1172,7 +1142,7 @@ public class interpretationServer extends Thread{
 						userHurtdesc = strLine;
 					} else if (strLine.contains("killDesc:")){
 						strLine = strLine.replace("killDesc:", "");
-						userKilldesc = strLine;	
+						userKilldesc = strLine;
 						break;
 					} else if (strLine.contains("accuracy:")){
 						strLine = strLine.replace("accuracy:", "");
@@ -1224,7 +1194,7 @@ public class interpretationServer extends Thread{
 		try{
 			FileInputStream fstream = new FileInputStream(database + "/whp");
 			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
 			while ((strLine = br.readLine()) != null){
 				whoList.add(strLine);
@@ -1266,142 +1236,6 @@ public class interpretationServer extends Thread{
 			logging("<ERROR> - Could not close connection with user");
 		}
 	}
-	public void inv(){//Prints the user's inventory
-		String[] inventory;
-		out.println("");
-		out.println("--Inventory--");
-		out.println("#   Name");
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/charProfile/"+user+"/inventory");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
-
-			while ((strLine = br.readLine()) != null){
-				inventory = strLine.split(":");
-				out.println(inventory[0] + " " + inventory[1]);
-			}
-			br.close();
-		} catch (Exception e){
-			System.out.println("<ERROR> " + user + " cannot access their inventory file");
-			logging("<ERROR> " + user + " cannot access their inventory file");
-		}
-	}
-	public void take(){//Takes an item from a room and puts it in the user's inventory
-		//Allows a user to pick up an object from the ground
-		//SYNTAX take $obj$ or take $obj$ ##
-
-
-
-
-	}
-	public void drop(String userInpt){//Allows a user to drop an item from their inventory to the room
-		//Allows a user to drop an object from their inventory
-		//SYNTAX drop $obj$ or drop $obj$ ## or drop $obj$ all
-
-		//Delete inv file and then re-write without the dropped item
-
-		//Read room inv file into array
-		//Add num if inv item is already in room or create a new entry at end of array
-		//Delete room inv file and re-write
-
-		ArrayList<String> stringInv = new ArrayList<String>();
-		ArrayList<Integer> numInv = new ArrayList<Integer>();
-		ArrayList<String> stringRoom = new ArrayList<String>();
-		ArrayList<String> numRoom = new ArrayList<String>();
-		String[] inventory, userInputSplitter;
-		int invNum = 0;
-		int dropNum = 1; //The number of items to drop (-1 represents all items by that name in inv)
-		String dropName = ""; //The name of the item to drop
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/charProfile/"+user+"/inventory");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));	
-
-			while ((strLine = br.readLine()) != null){
-				inventory = strLine.split(":");
-				numInv.add(Integer.parseInt(inventory[0]));
-				stringInv.add(inventory[1]);
-			}
-			br.close();
-		} catch (Exception e){
-			System.out.println("<ERROR> " + user + " cannot access their inventory file");
-			logging("<ERROR> " + user + " cannot access their inventory file");
-			//A blank line in the users inv file can also cause this error
-		}
-
-		userInpt = userInpt.replace("drop ", "");
-		userInputSplitter = userInpt.split(" ");
-		if (userInputSplitter[0] == "all"){
-			dropNum = -1;
-		} else {
-			try {
-				dropNum = Integer.parseInt(userInputSplitter[0]);
-			} catch (NumberFormatException e) {
-				dropNum = 1;
-			}
-		}
-		int i=0;
-		try {
-			while (true){
-				System.out.println(dropName + ":" + stringInv.get(i));
-				if (dropName.equals(stringInv.get(i))){
-					break;
-				}
-
-				i++;
-			}
-		} catch (Exception e) {
-			out.println("You can't drop an item that you don't have!");
-			interpretUsr();
-		}
-		if (dropNum > 0){
-			int tempInv = numInv.get(i);
-			tempInv=tempInv-dropNum;
-			numInv.set(i, tempInv);
-		} else if (dropNum == -1){
-			dropNum = numInv.get(i);
-		} else {
-			out.println("Sorry, I can't drop that many items!");
-			interpretUsr();
-		}
-
-		File file = new File(database + "/charProfile/"+user+"/inventory");
-		file.delete();
-		try{
-			// Create file 
-			FileWriter fstream = new FileWriter(database + "/charProfile/"+user+"/inventory",true);
-			BufferedWriter fileOut = new BufferedWriter(fstream);
-			int invCounter = 0;
-			while(true){
-				if (numInv.get(invCounter) > 0){
-					fileOut.write(numInv.get(invCounter) +":" + stringInv.get(invCounter));
-					fileOut.newLine();
-				}
-				invCounter++;
-
-				if (numInv.size() == invCounter){
-					break;
-				}
-			}
-
-			//Close the output stream
-			fileOut.close();
-		}catch (Exception e){//Catch exception if any
-			System.err.println("Error: " + e.getMessage());
-			logging("Error: " + e.getMessage());
-		}
-		try {
-			FileInputStream fstream2 = new FileInputStream(database + "/rooms/" + location + "/obj");
-			DataInputStream in = new DataInputStream(fstream2);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			out.println(dropNum+":"+dropName);
-			br.close();
-		} catch (Exception e) {
-		}
-		interpretUsr();
-
-
-	}
 	public void logging(String logPhrase){//Logs errors to the users log file
 		try{
 			String fileloc = database + "/logs/"+user+".log";
@@ -1422,90 +1256,5 @@ public class interpretationServer extends Thread{
 	public void time(){// Will allow the retrieval of the system time in seconds.
 	}
 	public void commands(){
-	}
-
-	//---wizard functions---//
-	public void wizardCheck(){
-		//TODO add security check to make sure that user has wiz file &
-	}
-	public void wizardMenu(){//TODO make dialogue draw at 0,0 instead of halfway down
-		setColor setColor = new setColor();
-		out.println ((char)27 + "[2J");
-		out.println ((char)27 + "[0m");
-		out.println(setColor.color("#####################[red]Wizard[white]######################"));
-		out.println(setColor.color("# Room ([blue]C[white])reation - Make new stuff              #"));
-		out.println(setColor.color("# ([blue]O[white])nline Users  - See a list of online users  #"));
-		out.println(setColor.color("# ([blue]C[white])hat Logs - - - Archive of conversations    #"));
-		out.println(setColor.color("# ([blue]W[white])atch User  - - Eagle eye on a user         #"));
-		out.println(setColor.color("# ([blue]M[white])ove  - - - - - Move a user to a room       #"));
-		out.println(setColor.color("# ([blue]B[white])ump a user - - Bump a user off the server  #"));
-		out.println(setColor.color("# ([blue]S[white])top  - - - - - Stop the server             #"));
-		out.println(setColor.color("# ([blue]R[white])estart - - - - Restart the server          #"));
-		out.println(setColor.color("# ([blue]L[white])ogout  - - - - Logout of Wizard            #"));
-		out.println(setColor.color("# ([blue]P[white])rint - - - - - Reprint this dialogue       #"));
-		out.println(setColor.color("#################################################"));
-		UserInterface UI = new UserInterface(database, user);
-		String str = UI.getInput(in);
-
-		if (str.equals("c")){
-			roomCreation();
-		} else if (str.equals("p")){
-			wizardMenu();
-		} else {
-			wizardMenu();
-		}
-	}
-	public void roomCreation(){//TODO Not very practical...
-		out.println ((char)27 + "[2J");
-		out.println ((char)27 + "[0m");
-		setColor setColor = new setColor();
-		out.println(setColor.color("##################################[red]Room Creation[white]###################################"));
-		out.println(setColor.color("# ([blue]R[white])oom Description (70 Characters/Line)                                        #"));
-		out.println(setColor.color("#                                                                                #"));
-		out.println(setColor.color("##################################################################################"));
-		out.println(setColor.color("# ([blue]E[white])xits & Exit Descriptions                                                    #"));
-		out.println(setColor.color("#  Direction  Name                            Room Description                   #"));
-		out.println(setColor.color("#   [North] - none                                                               #"));
-		out.println(setColor.color("#   [South] - none                                                               #"));
-		out.println(setColor.color("#   [East]  - none                                                               #"));
-		out.println(setColor.color("#   [West]  - none                                                               #"));
-		out.println(setColor.color("#   [Up]    - none                                                               #"));
-		out.println(setColor.color("#   [Down]  - none                                                               #"));
-		out.println(setColor.color("##################################################################################"));
-		out.println(setColor.color("# ([blue]N[white])on-Playable-Characters                                                      #"));
-		out.println(setColor.color("#                                                                                #"));
-		out.println(setColor.color("##################################################################################"));
-		out.println(setColor.color("# ([blue]O[white])bjects                                                                      #"));
-		out.println(setColor.color("#                                                                                #"));
-		out.println(setColor.color("##################################################################################"));
-		out.println(setColor.color("# ([blue]D[white])etailed Descriptions (Examine Command)                                      #"));
-		out.println(setColor.color("#                                                                                #"));
-		out.println(setColor.color("##################################################################################"));
-
-		UserInterface UI = new UserInterface(database, user);
-		String str = UI.getInput(in);
-
-		if (str.equals("e")){
-
-		}
-	}
-	public void onlineUsers(){//TODO
-
-	}
-	public void chatLogs(){//TODO
-
-	}
-	public void watchUser(){//TODO
-
-	}
-	public void moveUser(){//TODO
-
-	}
-	public void bumpUser(){//TODO
-
-	}
-	public void stopServer(){//TODO
-	}
-	public void restartServer(){//TODO
 	}
 }
