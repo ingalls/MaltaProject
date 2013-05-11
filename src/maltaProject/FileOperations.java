@@ -32,24 +32,28 @@ public class FileOperations {
 	}
 
 	public void createDirectory(String folder){
+		error = false;
 		File f = new File(loc + folder);
 		try {
 			f.mkdir();
 		} catch (Exception e){
-			e.printStackTrace();
+			if (errorReport == true){
+				System.out.println("<Control> -  cannot create directory " + loc + folder);
+			}
+			error = true;
 		}
 	}
 
-	public void deleteDirectory(String folder){
-
-	}
-
 	public void deleteFile(String file){
+		error = false;
 		try{
 			File F = new File(loc + file);
 			F.delete();
 		}catch(Exception e){
-			e.printStackTrace();
+			if (errorReport == true){
+				System.out.println("<Control> -  cannot delte file " + loc + file);
+			}
+			error = true;
 		}
 	}
 
@@ -81,21 +85,45 @@ public class FileOperations {
 	}
 
 	public void setLine(String strLine){
+		error = false;
 		try{
 			FileWriter fstream = new FileWriter(loc);
 			BufferedWriter out = new BufferedWriter(fstream);
 			out.write(strLine);
 			out.close();
 		}catch (Exception e){
-			System.out.println("Cannot write to the file " + loc);
+			if (errorReport == true){
+				System.out.println("Cannot write to the file " + loc);
+			}
+			error = true;
+
 		}
 	}
+
+	public void appendLine(String strLine){
+		error = false;
+		try{
+			FileWriter fstream = new FileWriter(loc,true);
+			BufferedWriter out = new BufferedWriter(fstream);
+			out.write(strLine);
+			out.newLine();
+			out.close();
+		}catch (Exception e){
+			if (errorReport == true){
+				System.out.println("Cannot write to the file " + loc);
+			}
+			error = true;
+
+		}
+	}
+
 
 	/**
 	 * Used to obtain data from a file
 	 * @return A string containing the first line of the text file
 	 */
 	public String getLine(){ //TODO Need to incorporate the logging file
+		error = false;
 		try{
 			FileInputStream fstream = new FileInputStream(loc);
 			DataInputStream in = new DataInputStream(fstream);
@@ -103,8 +131,11 @@ public class FileOperations {
 			line = br.readLine();
 			in.close();
 		} catch (Exception e){
+			if (errorReport == true){
+				System.out.println("Cannot access the file " + loc);
+			}
+			error = true;
 
-			System.out.println("Cannot access the file " + loc);
 		}
 
 		return line;
@@ -116,8 +147,8 @@ public class FileOperations {
 	 * 
 	 * @param error a boolean containing whether to report errors or not.
 	 */
-	public void setErrorReport(boolean error){
-		errorReport = error;
+	public void setErrorReport(boolean errorRun){
+		errorReport = errorRun;
 	}
 
 	/**

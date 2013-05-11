@@ -19,7 +19,6 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.Random;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
@@ -65,15 +64,15 @@ import chatService.startChat;
 
 public class interpretationServer extends Thread{
 	//---Called Classes---//
-	setColor setColor = new setColor();
+	setColor setColor = new setColor(); //Used to change color tags to ascii colors
 
 	//---Database Location---//
 	String database = null; //Database address is passed to interpretationServer() from TelnetServer(). To modify path edit TelnetServer()
 
 	//---Telnet Socket---//
-	public Socket socket;
-	public BufferedReader in;
-	public PrintWriter out;
+	public Socket socket; //Stores socket
+	public BufferedReader in; //Input through soocket from user
+	public PrintWriter out; //Output through socket to user
 
 	//---Character Variables---//
 	static String user = "";
@@ -111,88 +110,6 @@ public class interpretationServer extends Thread{
 	@Override
 	public void run() {
 		login();
-	}
-	public void userCreator(){//Allows for new users to create an account
-		String str = null;
-		Scanner usrTxt = new Scanner(in);
-		String strLine = "";
-		out.println("Welcome to the User Creator");
-		out.println("First you must pick a username. This username will be the name of your character so it must be appropriate to a role playing game.");
-		boolean createUser = true;
-		boolean matchPass = true;
-		boolean error = false;
-		String strPass="";
-		while (createUser==true){
-			error = false;
-			out.println("");
-			out.println("Username:");
-			str = usrTxt.nextLine();
-			str = str.trim();
-			str = str.toLowerCase();
-			str=str.replace("\n", "");
-			user = str;
-			try{
-				FileInputStream fstream = new FileInputStream(database + "/login/"+user);
-				DataInputStream in = new DataInputStream(fstream);
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				strLine = br.readLine();
-				in.close();
-			} catch (Exception e){
-				createUser = false;
-			}
-			if (createUser == true){
-				out.println("");
-				out.println("I'm afraid that username has already been taken.");
-			}
-		}
-
-		while (matchPass == true){
-			out.println("");
-			out.println("Password:");
-
-			strPass = usrTxt.nextLine();
-			str = str.trim();
-			str = str.toLowerCase();
-			str=str.replace("\n", "");
-			user = str;
-
-			out.println("");
-			out.println("");
-			out.println("Re-Type Password:");
-			String strPassChk = usrTxt.nextLine();
-			str = str.trim();
-			str = str.toLowerCase();
-			str=str.replace("\n", "");
-
-			if (strPass.equals(strPassChk)){
-				matchPass = false;
-			} else {
-				out.println("I'm afraid those passwords don't match! Please try it again.");
-			}
-		}
-		out.println("");
-		out.println("");
-		out.println("Adding an email acount will allow the administrators to contact you in the event of a problem or future updates. Although this is optional it is recommended.");
-		out.println("If you do not want to provide an email address please just press enter.");
-		out.println("");
-		out.println("Email:");
-		str = usrTxt.nextLine();
-		str = str.trim();
-		str = str.toLowerCase();
-		str=str.replace("\n", "");
-
-		try {
-			FileWriter fstream = new FileWriter(database + "/login/"+user);
-			BufferedWriter out = new BufferedWriter(fstream);
-			out.write(strPass+"\n");
-			out.write(str);
-			out.close();
-		}catch (Exception e){
-		}
-
-		out.println("");
-		out.println("Your Profile has been sucessfully created. Please login to continue.");
-		out.println("");
 	}
 	public void login(){//Account Login Page
 
@@ -244,7 +161,9 @@ public class interpretationServer extends Thread{
 					logging("<ERROR> - Could not close connection with user");
 				}
 			} else if (str.equals("r")){
-				userCreator();
+				Account Account = new Account(socket, in, out, database);
+				Account.create();
+
 			} else if (str.equals("p")){
 				show = true;
 				login();
@@ -330,11 +249,8 @@ public class interpretationServer extends Thread{
 			in.close();
 		} catch (Exception e){
 			if (error==true){
-				out.println("");
-				out.println("You account looks like it is suffering against data lose! An admin has been notified and we will endeavor to fix it as quickly as possible. Please also drop me a line at nicholas.ingalls@gmail.com");
-				out.println("");
-				System.out.println("<ERROR> - "+user+" was unable to load any of his character profiles.");
-				logging("<ERROR> - "+user+" was unable to load any of his character profiles.");
+				out.println("' You Haven't Created a Character Yet!        '");
+
 			}
 		}
 
@@ -670,12 +586,9 @@ public class interpretationServer extends Thread{
 						BufferedWriter writeout = new BufferedWriter(fstream);
 						writeout.write(westRoom);
 						try {
-							FileInputStream fstream2 = new FileInputStream(database
-									+ "/rooms/" + location + "/" + location
-									+ ".w");
+							FileInputStream fstream2 = new FileInputStream(database + "/rooms/" + location + "/" + location + ".w");
 							DataInputStream in = new DataInputStream(fstream2);
-							BufferedReader br = new BufferedReader(
-									new InputStreamReader(in));
+							BufferedReader br = new BufferedReader(new InputStreamReader(in));
 							out.println();
 							out.println(br.readLine());
 							out.println();
@@ -767,7 +680,6 @@ public class interpretationServer extends Thread{
 				}
 			} else if (str.contains("help")) {
 				str.replace("help ", "");
-				help(str);
 				interpretUsr();
 			} else if (str.contains("jump")) {
 				out.println("You jump up and down on the spot.");
@@ -780,7 +692,6 @@ public class interpretationServer extends Thread{
 			} else if (str.contains("fight ")) {
 				String character = str;
 				character = character.replace("fight ", "");
-				fight(character);
 			} else if (str.contains("quit")) {
 				quit();
 			} else if (str.equals("inventory") | str.equals("i") | str.equals("inv")) {
@@ -886,8 +797,6 @@ public class interpretationServer extends Thread{
 					System.out.println("Match:"+invContainer + "|User:" + userContainer);
 
 					//TODO get multiple lines working
-					//TODO finish setting up error reporting/errorReport in fileOperations
-
 				}
 
 				if (item.equals("")){
@@ -1029,160 +938,6 @@ public class interpretationServer extends Thread{
 
 		interpretUsr();
 	}
-	public void fight(String character){ //TODO Needs to be completely redone as /object directory was changed
-		boolean continueOn = false;
-		String characterActual = "", hurtDesc = "", killDesc = "", userWeapon = "", NPCweapon = "", userHurtdesc = "", userKilldesc = "";
-		int NPCaccuracy = 0, userAccuracy = 0, userMindamage = 0, userMaxdamage = 0, maxDamage = 0, minDamage = 0;
-		String[] characterSplit;
-
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/rooms/"+location+"/npc");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-			while (true){
-				strLine = br.readLine();
-				characterSplit = strLine.split(":");
-				characterActual = characterSplit[0];
-				strLine = characterSplit[0];
-				strLine = strLine.toLowerCase();
-				strLine = strLine.replace("-", " ");
-				character = character.toLowerCase();
-				character = character.replace("-", " ");
-
-				if (strLine.contains(character)){
-					continueOn = true;
-					break;
-				}
-			}
-			in.close();
-		} catch (Exception e){
-			out.println("You can't fight someone if they aren't in the room with you!");
-		}
-		if (continueOn==true){
-			try{
-				FileInputStream fstream = new FileInputStream(database + "/charProfile/" + user + "/wield");
-				DataInputStream in = new DataInputStream(fstream);
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				while(true){
-					strLine = br.readLine();
-					if (strLine.contains("[right-hand:")){
-						strLine = strLine.replace("[right-hand:", "");
-						strLine = strLine.replace("]", "");
-						userWeapon = strLine;
-						break;
-					}
-				}
-				in.close();
-			} catch (Exception e){
-				System.out.println("<ERROR> " + user + " was unable to access  their wield file");
-				logging("<ERROR> " + user + " was unable to access  their wield file");
-			}
-			try{
-				FileInputStream fstream = new FileInputStream(database + "/npc/" + characterActual + "/" + characterActual + ".inv");
-				DataInputStream in = new DataInputStream(fstream);
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				while(true){
-					strLine = br.readLine();
-					if (strLine.contains("[right-hand:")){
-						strLine = strLine.replace("[right-hand:", "");
-						strLine = strLine.replace("]", "");
-						NPCweapon = strLine;
-						break;
-					}
-				}
-				in.close();
-			} catch (Exception e){
-				System.out.println("<ERROR> " + user + " was unable to access NPC " + characterActual + " inv file");
-				logging("<ERROR> " + user + " was unable to access NPC " + characterActual + " inv file");
-			}
-			try{
-				FileInputStream fstream = new FileInputStream(database + "/objects/weapons/"+NPCweapon);
-				DataInputStream in = new DataInputStream(fstream);
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				while(true){
-					strLine = br.readLine();
-					if (strLine.contains("minDamage:")){
-						strLine = strLine.replace("minDamage:", "");
-						minDamage = Integer.parseInt(strLine);
-					} else if (strLine.contains("maxDamage:")){
-						strLine = strLine.replace("maxDamage:", "");
-						maxDamage = Integer.parseInt(strLine);
-					} else if (strLine.contains("hurtDesc:")){
-						strLine = strLine.replace("hurtDesc:", "");
-						hurtDesc = strLine;
-					} else if (strLine.contains("killDesc:")){
-						strLine = strLine.replace("killDesc:", "");
-						killDesc = strLine;
-						break;
-					} else if (strLine.contains("accuracy:")){
-						strLine = strLine.replace("accuracy:", "");
-						NPCaccuracy = Integer.parseInt(strLine);
-					}
-				}
-				in.close();
-			} catch (Exception e){
-				System.out.println("<ERROR> " + user + " was unable to access obj " + characterActual + " file");
-				logging("<ERROR> " + user + " was unable to access obj " + characterActual + " file");
-			}
-
-			try{
-				FileInputStream fstream = new FileInputStream(database + "/objects/weapons/"+userWeapon);
-				DataInputStream in = new DataInputStream(fstream);
-				BufferedReader br = new BufferedReader(new InputStreamReader(in));
-				while(true){
-					strLine = br.readLine();
-					if (strLine.contains("minDamage:")){
-						strLine = strLine.replace("minDamage:", "");
-						userMindamage = Integer.parseInt(strLine);
-					} else if (strLine.contains("maxDamage:")){
-						strLine = strLine.replace("maxDamage:", "");
-						userMaxdamage = Integer.parseInt(strLine);
-					} else if (strLine.contains("hurtDesc:")){
-						strLine = strLine.replace("hurtDesc:", "");
-						userHurtdesc = strLine;
-					} else if (strLine.contains("killDesc:")){
-						strLine = strLine.replace("killDesc:", "");
-						userKilldesc = strLine;
-						break;
-					} else if (strLine.contains("accuracy:")){
-						strLine = strLine.replace("accuracy:", "");
-						userAccuracy = Integer.parseInt(strLine);
-					}
-				}
-				in.close();
-			} catch (Exception e){
-				System.out.println("<ERROR> " + user + " was unable to access obj " + characterActual + " file");
-				logging("<ERROR> " + user + " was unable to access obj " + characterActual + " file");
-			}
-
-			Random r = new Random();
-			int gunDamage = r.nextInt(maxDamage-minDamage) + minDamage;
-			int userGundamage = r.nextInt(userMaxdamage-userMindamage) + userMindamage;
-			//TODO Generate number between 1 and 100 and see if it is within accuracy check...
-			int accuracyCheck = r.nextInt(100);
-			int userAccuracyCheck = r.nextInt(100);
-
-			System.out.println(accuracyCheck + " accuracy:" + NPCaccuracy);
-			logging(accuracyCheck + " accuracy:" + NPCaccuracy);
-
-			if(accuracyCheck>NPCaccuracy){
-				out.println(characterActual + " attempts to kill you but misses!");
-			} else {
-				out.println(characterActual + " attacks! " + hurtDesc + " [Damage:" +gunDamage+"]");
-			}
-			if(accuracyCheck>userAccuracy){
-				out.println(user + " attempts to kill " + characterActual + " but misses!");
-			} else {
-				out.println(user + " attacks! " + userHurtdesc + " [Damage:" +userGundamage+"]");
-			}
-
-
-
-		}
-		interpretUsr();
-	}
-	public void help(String input){
-	}
 	public void quit(){ //Exits the game and closes the thread
 		out.println("We only part to meet again.");
 		System.out.println("<Control> - " + user + " has left the game.");
@@ -1252,9 +1007,5 @@ public class interpretationServer extends Thread{
 		}catch(IOException e){
 			e.printStackTrace();
 		}
-	}
-	public void time(){// Will allow the retrieval of the system time in seconds.
-	}
-	public void commands(){
 	}
 }
