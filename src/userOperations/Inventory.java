@@ -93,8 +93,83 @@ public class Inventory {
 		return error;
 	}
 
+	/**
+	 * Takes an item from a room and adds to inventory
+	 * @param item A string containing a part or the entire name of the item to drop
+	 * @param num Number of items to take
+	 * @param room The name of the room to take the item from
+	 */
 	public void take (String item, int num, String room){
+		RoomValue RoomValue = new RoomValue(loc, room);
 
+		boolean error = false;
+		String[] inv = RoomValue.getObjects();
+		String[] itemSearch = item.split(" ");
+		int objectLength = inv.length - 1; //Number of items in room
+		int itemSearchLength = itemSearch.length - 1; //Number of words object to take
+		int currentObject = 0; //Current item being searched in room
+		int currentSearch = 0; //Current word being checked against room object
+		boolean matchesSearch = true;
+		String currentObjectItem = "";
+		String itemSearchString;
+
+		//Searches for match of inv item to drop
+		while(currentObject <= objectLength){
+			currentObjectItem = inv[currentObject];
+			while (currentSearch <= itemSearchLength){
+				currentObjectItem = currentObjectItem.toLowerCase();
+				itemSearchString = itemSearch[currentSearch].toLowerCase();
+				System.out.println(currentObjectItem + "|" + itemSearch[currentSearch]);
+				if (currentObjectItem.contains(itemSearchString)){
+					matchesSearch = true;
+				} else {
+					matchesSearch = false;
+				}
+				currentSearch++;
+			}
+			if (matchesSearch == true){
+				break;
+			}
+			currentObjectItem = "";
+			currentObject++;
+		}
+
+		if (currentObjectItem.equals("")){
+			error = true;
+		} else {
+
+			currentObjectItem = inv[currentObject]; //Restores uppercase chars.
+
+			//Gets the max number of items in the user's inventory
+			String invNum = UserValue.getInventoryItem(currentObjectItem);
+			int hasNum = Integer.parseInt(invNum);
+
+			//Stops the user from dropping more than in inventory
+			//Also handles drop all
+			if (hasNum < dropNum | dropNum == -1){
+				dropNum = hasNum;
+			}
+
+			if (hasNum - dropNum==0){
+				//Deletes the item from inventory if the value is
+				UserValue.deleteInv(currentInvItem);
+			} else {
+				//Sets the new number in the user's inventory
+				UserValue.setNewInv(currentInvItem, (hasNum - dropNum) + "");
+			}
+
+			RoomValue RoomValue = new RoomValue(loc, room);
+			String currentNum = RoomValue.getObjectNumber(currentInvItem);
+
+			if (currentNum.equals("")){
+				RoomValue.setNewObject(currentInvItem, dropNum+"");
+			} else {
+				int currentNumber = Integer.parseInt(currentNum);
+				dropNum = dropNum + currentNumber;
+				RoomValue.setNewObject(currentInvItem, dropNum+"");
+			}
+		}
+		return error;
 	}
 
 	public void give (String item, int num, String user){
