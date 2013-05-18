@@ -757,7 +757,7 @@ public class interpretationServer extends Thread{
 				} else if (format == 1){
 					itemName = workingItem;
 					while (dropToken.hasMoreTokens()){
-						itemName = itemName +  dropToken.nextToken();
+						itemName = itemName + " " + dropToken.nextToken();
 					}
 				} else if (format>1){
 					if (dropToken.hasMoreTokens()){
@@ -767,7 +767,7 @@ public class interpretationServer extends Thread{
 						interpretUsr();
 					}
 					while (dropToken.hasMoreTokens()){
-						itemName = itemName + dropToken.nextToken();
+						itemName = itemName + " " + dropToken.nextToken();
 					}
 				}
 

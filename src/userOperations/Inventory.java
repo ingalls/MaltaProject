@@ -1,5 +1,7 @@
 package userOperations;
 
+import getValue.UserValue;
+
 
 public class Inventory {
 
@@ -18,6 +20,26 @@ public class Inventory {
 	 * @param room Name of the room to drop the items into
 	 */
 	public void drop (String item, int dropNum, String room){
+		UserValue UserValue = new UserValue(loc, userName);
+
+		String[] inv = UserValue.getInventory();
+		String[] itemSearch = item.split(" ");
+		int invLength = inv.length; //Number of items in user inventory
+		int itemSearchLength = itemSearch.length; //Number of words in item to drop
+		int currentInv = 0; //Current item being searched in inventory
+		int currentSearch = 0; //Current word being checked against inventory item
+		boolean matchesSearch = true;
+
+		while(currentInv <= invLength){
+			while (currentSearch <= itemSearchLength){
+				if (item){
+					matchesSearch = true;
+				}
+			}
+		}
+
+
+
 
 	}
 
