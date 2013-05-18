@@ -720,6 +720,65 @@ public class interpretationServer extends Thread{
 
 				interpretUsr();
 			} else if (str.contains("take ")) {
+				//Commands must be formatted in one of the following:
+				//take <item> (Format 1)
+				//take all <item> (Format 2)
+				//take ## <item> (Format 3)
+
+				int takeNum; //-1 for all
+				String itemName = "";
+				String itemLastName = "";
+				String workingItem;
+				int format;
+
+				StringTokenizer takeToken = new StringTokenizer(orig);
+				takeToken.nextToken(); //Skips the drop token;
+
+				workingItem = takeToken.nextToken();
+
+				if (workingItem.equals("all")){
+					takeNum = -1; //Handles format 1
+					format = 2;
+				} else {
+					try{
+						takeNum = Integer.parseInt(workingItem); //Handles format 3
+						format = 3;
+					} catch (NumberFormatException e) {
+						takeNum = 1; //Handles format 2
+						format = 1;
+					}
+				}
+
+				if (takeNum == 0){ //Handles dropping 0
+					out.println("Try taking more than 0 items!");
+					interpretUsr();
+				} else if (format == 1){
+					itemName = workingItem;
+					while (takeToken.hasMoreTokens()){
+						itemName = itemName + " " + takeToken.nextToken();
+					}
+				} else if (format>1){
+					if (takeToken.hasMoreTokens()){
+						itemName = takeToken.nextToken();
+					} else {
+						out.println("You must specify an item to drop!");
+						interpretUsr();
+					}
+					while (takeToken.hasMoreTokens()){
+						itemName = itemName + " " + takeToken.nextToken();
+					}
+				}
+
+
+				Inventory Inventory = new Inventory(database, user);
+				UserValue UserValue = new UserValue(database, user);
+
+				if (Inventory.drop(itemName, takeNum, UserValue.getLoc())==false){
+					out.println("You add " + itemName + " to inventory.");
+				} else {
+					out.println("You can't take an item not in the room!");
+				}
+
 				interpretUsr();
 			} else if (str.contains("drop ")) {
 				//Commands must be formatted in one of the following:
