@@ -20,13 +20,14 @@ public class Inventory {
 	 * @param dropNum Number of the specified item to drop
 	 * @param room Name of the room to drop the items into
 	 */
-	public void drop (String item, int dropNum, String room){
+	public boolean drop (String item, int dropNum, String room){
 		UserValue UserValue = new UserValue(loc, userName);
 
+		boolean error = false;
 		String[] inv = UserValue.getInventory();
 		String[] itemSearch = item.split(" ");
-		int invLength = inv.length; //Number of items in user inventory
-		int itemSearchLength = itemSearch.length; //Number of words in item to drop
+		int invLength = inv.length - 1; //Number of items in user inventory
+		int itemSearchLength = itemSearch.length - 1; //Number of words in item to drop
 		int currentInv = 0; //Current item being searched in inventory
 		int currentSearch = 0; //Current word being checked against inventory item
 		boolean matchesSearch = true;
@@ -50,7 +51,8 @@ public class Inventory {
 
 		String invNum = UserValue.getInventoryItem(currentInvItem);
 		int hasNum = Integer.parseInt(invNum);
-		if (hasNum < dropNum){
+
+		if (hasNum < dropNum | dropNum == -1){
 			dropNum = hasNum;
 		}
 
@@ -65,8 +67,8 @@ public class Inventory {
 			dropNum = dropNum + currentNumber;
 			RoomValue.setNewObject(currentInvItem, dropNum+"");
 		}
-
-
+		System.out.println(userName + " dropped " + dropNum + " into " + room );
+		return error;
 	}
 
 	public void take (String item, int num, String room){
