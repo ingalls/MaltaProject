@@ -1,5 +1,6 @@
 package userOperations;
 
+import getValue.RoomValue;
 import getValue.UserValue;
 
 
@@ -29,16 +30,41 @@ public class Inventory {
 		int currentInv = 0; //Current item being searched in inventory
 		int currentSearch = 0; //Current word being checked against inventory item
 		boolean matchesSearch = true;
+		String currentInvItem = "";
 
 		while(currentInv <= invLength){
+			currentInvItem = inv[currentInv];
 			while (currentSearch <= itemSearchLength){
-				if (item){
+				if (currentInvItem.contains(itemSearch[currentSearch])){
 					matchesSearch = true;
+				} else {
+					matchesSearch = false;
 				}
+				currentSearch++;
 			}
+			if (matchesSearch == true){
+				break;
+			}
+			currentInv++;
 		}
 
+		String invNum = UserValue.getInventoryItem(currentInvItem);
+		int hasNum = Integer.parseInt(invNum);
+		if (hasNum < dropNum){
+			dropNum = hasNum;
+		}
 
+		UserValue.setNewInv(currentInvItem, (hasNum - dropNum) + "");
+
+		RoomValue RoomValue = new RoomValue(loc, room);
+		String currentNum = RoomValue.getObjectNumber(currentInvItem);
+		if (currentNum.equals("")){
+			RoomValue.setNewObject(currentInvItem, dropNum+"");
+		} else {
+			int currentNumber = Integer.parseInt(currentNum);
+			dropNum = dropNum + currentNumber;
+			RoomValue.setNewObject(currentInvItem, dropNum+"");
+		}
 
 
 	}
