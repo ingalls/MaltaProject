@@ -33,6 +33,7 @@ public class Inventory {
 		boolean matchesSearch = true;
 		String currentInvItem = "";
 
+		//Searches for match of inv item to drop
 		while(currentInv <= invLength){
 			currentInvItem = inv[currentInv];
 			while (currentSearch <= itemSearchLength){
@@ -49,17 +50,27 @@ public class Inventory {
 			currentInv++;
 		}
 
+		//Gets the max number of items in the user's inventory
 		String invNum = UserValue.getInventoryItem(currentInvItem);
 		int hasNum = Integer.parseInt(invNum);
 
+		//Stops the user from dropping more than in inventory
+		//Also handles drop all
 		if (hasNum < dropNum | dropNum == -1){
 			dropNum = hasNum;
 		}
 
-		UserValue.setNewInv(currentInvItem, (hasNum - dropNum) + "");
+		if (hasNum - dropNum==0){
+			//Deletes the item from inventory if the value is
+			UserValue.deleteInv(currentInvItem);
+		} else {
+			//Sets the new number in the user's inventory
+			UserValue.setNewInv(currentInvItem, (hasNum - dropNum) + "");
+		}
 
 		RoomValue RoomValue = new RoomValue(loc, room);
 		String currentNum = RoomValue.getObjectNumber(currentInvItem);
+
 		if (currentNum.equals("")){
 			RoomValue.setNewObject(currentInvItem, dropNum+"");
 		} else {
