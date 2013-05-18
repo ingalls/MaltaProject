@@ -34,34 +34,6 @@ import chatService.startChat;
  * @author  Nicholas Ingalls
  */
 
-
-//--- TODO Section ---
-//TODO SkillsValue
-//TODO DropValue
-//TODO HelpRetrieval
-
-//TODO ClassValue --used for stat gen on usr creation
-//TODO religionValue --used for stat gen on usr creation
-//TODO raceValue --used for stat gen on usr creation
-
-//TODO Delete instanceObjects, InstanceNPCs, Objects, NPC's, Rooms (Need to import apache FileUtils)
-//TODO ***KILL CHAT THREAD WHEN USER LOGS OUT***
-//TODO Redo Fight Code
-//TODO Add some sort of examine code for inv items
-//TODO Finish drop()
-//TODO start take()
-//TODO Make skills() command. This command would print the skills a character currently has
-//TODO make learn() command. This command would print the skills that a character can gain. This information is stored in the profession folder under skills
-//TODO make some exits require an object.
-//TODO Create chat
-//finish Yell (To Room and rooms surrounding), Tell, Say? (To room)
-//OOC Green, IC purple, Yell red, tell blue, Add OPRAY. Add mute support except for opray
-//TODO Give() command
-//TODO Make health/hp bar color depending on percentage. (50+ green)(25+ white)(15+ yellow)(0+ red)
-//TODO when user exits it currently wipes who file instead of removing single entry.
-//TODO *** Timer needs to work in a new thread or else it screws up the users location within the program. This is evident from the inability to utilize the wizard dialogue and also from the healthbar menu.
-//TODO Drop & Take
-
 public class interpretationServer extends Thread{
 	//---Called Classes---//
 	setColor setColor = new setColor(); //Used to change color tags to ascii colors
