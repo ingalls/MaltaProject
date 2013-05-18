@@ -773,7 +773,7 @@ public class interpretationServer extends Thread{
 				Inventory Inventory = new Inventory(database, user);
 				UserValue UserValue = new UserValue(database, user);
 
-				if (Inventory.drop(itemName, takeNum, UserValue.getLoc())==false){
+				if (Inventory.take(itemName, takeNum, UserValue.getLoc())==false){
 					out.println("You add " + itemName + " to inventory.");
 				} else {
 					out.println("You can't take an item not in the room!");

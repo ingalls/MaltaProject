@@ -99,7 +99,7 @@ public class Inventory {
 	 * @param num Number of items to take
 	 * @param room The name of the room to take the item from
 	 */
-	public void take (String item, int num, String room){
+	public boolean take (String item, int takeNum, String room){
 		RoomValue RoomValue = new RoomValue(loc, room);
 
 		boolean error = false;
@@ -140,33 +140,33 @@ public class Inventory {
 
 			currentObjectItem = inv[currentObject]; //Restores uppercase chars.
 
-			//Gets the max number of items in the user's inventory
-			String invNum = UserValue.getInventoryItem(currentObjectItem);
-			int hasNum = Integer.parseInt(invNum);
+			//Gets the max number of objects in the room
+			String invNum = RoomValue.getObjectNumber(currentObjectItem);
+			int roomNum = Integer.parseInt(invNum);
 
-			//Stops the user from dropping more than in inventory
-			//Also handles drop all
-			if (hasNum < dropNum | dropNum == -1){
-				dropNum = hasNum;
+			//Stops the user from taking more than the room has
+			//Also handles take all <item>
+			if (roomNum < takeNum | takeNum == -1){
+				takeNum = roomNum;
 			}
 
-			if (hasNum - dropNum==0){
-				//Deletes the item from inventory if the value is
-				UserValue.deleteInv(currentInvItem);
+			if (roomNum - takeNum==0){
+				//Deletes the item from the room's inventory if the value is 0
+				RoomValue.deleteObject(currentObjectItem);
 			} else {
-				//Sets the new number in the user's inventory
-				UserValue.setNewInv(currentInvItem, (hasNum - dropNum) + "");
+				//Sets the new number of objects in the room
+				RoomValue.setNewObject(currentObjectItem, (roomNum - takeNum) + "");
 			}
 
-			RoomValue RoomValue = new RoomValue(loc, room);
-			String currentNum = RoomValue.getObjectNumber(currentInvItem);
+			UserValue UserValue = new UserValue(loc, userName);
+			String currentNum = UserValue.getInventoryItem(currentObjectItem);
 
 			if (currentNum.equals("")){
-				RoomValue.setNewObject(currentInvItem, dropNum+"");
+				UserValue.setNewInv(currentObjectItem, takeNum+"");
 			} else {
 				int currentNumber = Integer.parseInt(currentNum);
-				dropNum = dropNum + currentNumber;
-				RoomValue.setNewObject(currentInvItem, dropNum+"");
+				takeNum = takeNum + currentNumber;
+				UserValue.setNewInv(currentObjectItem, takeNum+"");
 			}
 		}
 		return error;
