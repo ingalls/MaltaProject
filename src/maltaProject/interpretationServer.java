@@ -27,7 +27,6 @@ import userOperations.Inventory;
 import chatService.sendChat;
 import chatService.startChat;
 
-
 /**
  * This class obtains user input. It then analyzes the input and chooses the appropriate action.
  *
@@ -43,19 +42,12 @@ public class interpretationServer extends Thread{
 
 	//---Telnet Socket---//
 	public Socket socket; //Stores socket
-	public BufferedReader in; //Input through soocket from user
+	public BufferedReader in; //Input through socket from user
 	public PrintWriter out; //Output through socket to user
 
 	//---Character Variables---//
 	static String user = "";
-	String age = "<none>";
-	String race = "<none>";
 	String location = "<none>";
-	String name = "<none>";
-	int hp = 0;
-	int maxHp = 0;
-	int xp = 0;
-	int maxXp = 0;
 
 	String list = "";
 	String[] result;
@@ -243,9 +235,9 @@ public class interpretationServer extends Thread{
 
 		if (str.equals("c")){
 			out.println("Character Creation:");
-			out.println("Name: " + name);
-			out.println("Race: " + race);
-			out.println("Age: " + age);
+			out.println("Name: ");
+			out.println("Race: ");
+			out.println("Age: ");
 			out.println("");
 			out.println("Pick a (n)ame");
 			out.println("Pick a (r)ace");
@@ -659,8 +651,12 @@ public class interpretationServer extends Thread{
 			} else if (str.contains("kiss")) {
 				out.println("Your advances would not be appreciated!");
 				interpretUsr();
-			} else if (str.equals("l") | str.contains("look") | str.equals("")) {
+			} else if (str.equals("l") | str.contains("look")) {
 				room();
+			} else if (str.equals("")){
+				NPC();
+				objects();
+				interpretUsr();
 			} else if (str.contains("fight ")) {
 				String character = str;
 				character = character.replace("fight ", "");
