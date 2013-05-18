@@ -67,7 +67,7 @@ public class Inventory {
 			dropNum = dropNum + currentNumber;
 			RoomValue.setNewObject(currentInvItem, dropNum+"");
 		}
-		System.out.println(userName + " dropped " + dropNum + " into " + room );
+
 		return error;
 	}
 

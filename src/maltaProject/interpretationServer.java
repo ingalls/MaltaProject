@@ -727,9 +727,6 @@ public class interpretationServer extends Thread{
 				//drop all <item> (Format 2)
 				//drop ## <item> (Format 3)
 
-				//TODO
-				System.out.println("Got to drop");
-
 				int dropNum; //-1 for all
 				String itemName = "";
 				String itemLastName = "";
@@ -737,10 +734,7 @@ public class interpretationServer extends Thread{
 				int format;
 
 				StringTokenizer dropToken = new StringTokenizer(orig);
-				dropToken.nextToken(); //Skips the drop token
-
-				//TODO
-				System.out.println("Tokenized string");
+				dropToken.nextToken(); //Skips the drop token;
 
 				workingItem = dropToken.nextToken();
 
@@ -756,9 +750,6 @@ public class interpretationServer extends Thread{
 						format = 1;
 					}
 				}
-
-				//TODO
-				System.out.println("Figured out the format: " + format);
 
 				if (dropNum == 0){ //Handles dropping 0
 					out.println("Try dropping more than 0 items!");
@@ -783,9 +774,6 @@ public class interpretationServer extends Thread{
 
 				Inventory Inventory = new Inventory(database, user);
 				UserValue UserValue = new UserValue(database, user);
-
-				//TODO
-				System.out.println("$$" + itemName + "##" + dropNum);
 
 				if (Inventory.drop(itemName, dropNum, UserValue.getLoc())==false){
 					out.println("You drop the " + itemName + " to the ground");
