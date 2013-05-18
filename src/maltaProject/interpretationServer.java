@@ -722,13 +722,60 @@ public class interpretationServer extends Thread{
 			} else if (str.contains("take ")) {
 				interpretUsr();
 			} else if (str.contains("drop ")) {
-				//Commands should be formatted as follows
-				//drop all <item>
-				//drop <item>
-				//drop ## <item>
-				
-				 
-				
+				//Commands must be formatted in one of the following:
+				//drop all <item> (Format 1)
+				//drop <item> (Format 2)
+				//drop ## <item> (Format 3)
+
+				int dropNum; //-1 for all
+				String itemName = "";
+				String itemLastName = "";
+				String workingItem;
+				int format;
+
+				StringTokenizer dropToken = new StringTokenizer(orig);
+				dropToken.nextToken(); //Skips the drop token
+
+				workingItem = dropToken.nextToken();
+
+				if (workingItem.equals("all")){
+					dropNum = -1; //Handles format 1
+					format = 1;
+				} else {
+					try{
+						dropNum = Integer.parseInt(workingItem); //Handles format 3
+						format = 3;
+					} catch (NumberFormatException e) {
+						dropNum = 1; //Handles format 2
+						format = 2;
+					}
+				}
+
+				if (dropNum == 0){ //Handles dropping 0
+					out.println("Try dropping more than 0 items!");
+					interpretUsr();
+				} else if (format == 1){
+					itemName = workingItem;
+					while (dropToken.hasMoreTokens()){
+						itemName = itemName +  dropToken.nextToken();
+					}
+				} else if (format>1){
+					if (dropToken.hasMoreTokens()){
+						itemName = dropToken.nextToken();
+					} else {
+						out.println("You must specify an item to drop!");
+						interpretUsr();
+					}
+					while (dropToken.hasMoreTokens()){
+						itemName = itemName + dropToken.nextToken();
+					}
+				}
+
+
+				Inventory Inventory = new Inventory(database, user);
+				UserValue UserValue = new UserValue(database, user);
+				Inventory.drop(itemName, dropNum, UserValue.getLoc());
+
 				interpretUsr();
 			} else if (token.equals("ooc")){
 				sendChat SC = new sendChat(database, user);

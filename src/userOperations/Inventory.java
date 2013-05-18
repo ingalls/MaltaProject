@@ -1,7 +1,5 @@
 package userOperations;
 
-import getValue.RoomValue;
-import getValue.UserValue;
 
 public class Inventory {
 
@@ -13,36 +11,13 @@ public class Inventory {
 		userName = user;
 	}
 
+	/**
+	 * Drops items from the user's inventory
+	 * @param item A string containing a part or the entire name of the item to drop
+	 * @param dropNum Number of the specified item to drop
+	 * @param room Name of the room to drop the items into
+	 */
 	public void drop (String item, int dropNum, String room){
-		int haveNum; //Number of specified item in user's inventory
-
-		UserValue value = new UserValue(loc, userName);
-		haveNum = Integer.parseInt(value.getInventoryItem(item));
-
-		if (dropNum == -1){
-			dropNum = haveNum;
-			haveNum = 0;
-			value.deleteInv(item);
-		}
-		else if (haveNum>dropNum){
-			haveNum = haveNum - dropNum;
-			value.setNewInv(item, haveNum+"");
-		} else {
-			dropNum = haveNum;
-			haveNum = 0;
-			value.deleteInv(item);
-		}
-
-		RoomValue RV = new RoomValue(loc, room);
-
-		String preDrop = RV.getObjectNumber(item);
-
-		if (!preDrop.equals("")){
-			int preDropInt = Integer.parseInt(preDrop);
-			dropNum = dropNum + preDropInt;
-		}
-
-		RV.setNewObject(item, dropNum+"");
 
 	}
 
