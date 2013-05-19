@@ -23,9 +23,17 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import chatServices.sendChat;
+
+import tickService.StartUserTick;
+import userInterface.UserInterface;
+import userInterface.setColor;
+import userOperations.CreateAccount;
+import userOperations.CreateUser;
 import userOperations.Inventory;
-import chatService.sendChat;
-import chatService.startChat;
+
+//TODO
+//Stop room desc from lowercasing letters
 
 /**
  * This class obtains user input. It then analyzes the input and chooses the appropriate action.
@@ -125,7 +133,7 @@ public class interpretationServer extends Thread{
 					logging("<ERROR> - Could not close connection with user");
 				}
 			} else if (str.equals("r")){
-				Account Account = new Account(socket, in, out, database);
+				CreateAccount Account = new CreateAccount(socket, in, out, database);
 				Account.create();
 
 			} else if (str.equals("p")){
@@ -234,19 +242,8 @@ public class interpretationServer extends Thread{
 		str = str.toLowerCase();
 
 		if (str.equals("c")){
-			out.println("Character Creation:");
-			out.println("Name: ");
-			out.println("Race: ");
-			out.println("Age: ");
-			out.println("");
-			out.println("Pick a (n)ame");
-			out.println("Pick a (r)ace");
-			out.println("Choose an (a)ge");
-			out.println("(D)one - create my character");
-			out.println("(A)bort character creation");
-			out.println("");
-			out.println("NOT CURRENTLY OPERATIONAL");
-			characterLogin();
+			CreateUser CreateUser = new CreateUser(socket,in, out, database, user);
+			CreateUser.start();
 		} else if (str.equals("p")){
 			try{
 				BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/who", true));
@@ -258,7 +255,7 @@ public class interpretationServer extends Thread{
 			}
 
 			//---Starts Chat Server--//
-			startChat SC = new startChat(socket, database, user);
+			StartUserTick SC = new StartUserTick(socket, database, user);
 
 			room();
 			/**
