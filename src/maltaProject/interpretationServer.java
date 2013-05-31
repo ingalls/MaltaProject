@@ -5,6 +5,7 @@ import getValue.NPCValue;
 import getValue.ObjectValue;
 import getValue.RoomValue;
 import getValue.UserValue;
+import getValue.WhoValue;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -23,14 +24,13 @@ import java.util.Scanner;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import chatServices.sendChat;
-
 import tickService.StartUserTick;
 import userInterface.UserInterface;
 import userInterface.setColor;
 import userOperations.CreateAccount;
 import userOperations.CreateUser;
 import userOperations.Inventory;
+import chatServices.sendChat;
 
 //TODO
 //Stop room desc from lowercasing letters
@@ -245,14 +245,8 @@ public class interpretationServer extends Thread{
 			CreateUser CreateUser = new CreateUser(socket,in, out, database, user);
 			CreateUser.start();
 		} else if (str.equals("p")){
-			try{
-				BufferedWriter bW = new BufferedWriter(new FileWriter(database + "/who", true));
-				bW.write(user);
-				bW.newLine();
-				bW.close();
-			}catch(IOException e){
-				e.printStackTrace();
-			}
+			WhoValue WhoValue = new WhoValue(database);
+			WhoValue.createWho(user);
 
 			//---Starts Chat Server--//
 			StartUserTick SC = new StartUserTick(socket, database, user);
@@ -923,47 +917,12 @@ public class interpretationServer extends Thread{
 		out.println("We only part to meet again.");
 		System.out.println("<Control> - " + user + " has left the game.");
 		logging("<Control> - " + user + " has left the game.");
+
 		//TODO send close to chatServer thread
 
 		//Removes entry from the who file
-		ArrayList<String> whoList = new ArrayList<String>();
-		try{
-			FileInputStream fstream = new FileInputStream(database + "/whp");
-			DataInputStream in = new DataInputStream(fstream);
-			BufferedReader br = new BufferedReader(new InputStreamReader(in));
-
-			while ((strLine = br.readLine()) != null){
-				whoList.add(strLine);
-			}
-			br.close();
-		} catch (Exception e){
-			System.out.println("<ERROR> " + user + " cannot access who file");
-			logging("<ERROR> " + user + " cannot access access who file");
-		}
-
-
-
-		File file = new File(database + "/who");
-		file.delete();
-		try{
-			FileWriter fstream = new FileWriter(database + "/who",true);
-			BufferedWriter fileOut = new BufferedWriter(fstream);
-			int i = whoList.size();
-
-			while(i>-1){
-				if (whoList.get(i)!=user){
-					fileOut.write(whoList.get(i));
-				}
-				i--;
-				break;
-			}
-
-			//Close the output stream
-			fileOut.close();
-		} catch (Exception e){//Catch exception if any
-			System.err.println("Error: " + e.getMessage());
-			logging("Error: " + e.getMessage());
-		}
+		WhoValue WhoValue = new WhoValue(database);
+		WhoValue.deleteWho(user);
 
 		try {
 			socket.close();

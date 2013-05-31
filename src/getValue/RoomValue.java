@@ -61,7 +61,6 @@ public class RoomValue {
 		String fileLoc = database + "/rooms/"+roomName+"/desc";
 		FileOperations open = new FileOperations(fileLoc);
 		String desc = open.getLine();
-		desc = desc.toLowerCase();
 		if (desc.contains("<dynamic:")){
 			desc.replace("<dynamic:>", "");
 			desc.replace(">", "");
@@ -443,5 +442,34 @@ public class RoomValue {
 	public void deleteNPC(String instanceNum){
 		FileOperations OP = new FileOperations(database);
 		OP.deleteFile("/rooms/"+roomName+"/npc/"+instanceNum);
+	}
+
+	/**
+	 * Returns a list of visible user's in a room
+	 * @return A String[] containing a list of visible user's in a room
+	 */
+	public String[] getUsers(){
+		FileOperations FO = new FileOperations(database);
+		String[] users = FO.getDirectory("/rooms/" + roomName + "/users/");
+
+		return users;
+	}
+
+	/**
+	 * Used to add a visible user to a room
+	 * @param user A String containing the name of the user
+	 */
+	public void addUser(String user){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/users/" + user);
+		FO.setLine("");
+	}
+
+	/**
+	 * Used to remove a visible user to a room
+	 * @param user A String containing the name of the user
+	 */
+	public void removeUser(String user){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/users/" + user);
+		FO.deleteFile("");
 	}
 }

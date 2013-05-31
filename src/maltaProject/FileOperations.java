@@ -44,6 +44,15 @@ public class FileOperations {
 		}
 	}
 
+	public boolean checkFile(){
+		boolean fileExists = false;
+
+		File file = new File(loc);
+		fileExists = file.exists();
+
+		return fileExists;
+	}
+
 	public void deleteFile(String file){
 		error = false;
 		try{
@@ -51,7 +60,7 @@ public class FileOperations {
 			F.delete();
 		}catch(Exception e){
 			if (errorReport == true){
-				System.out.println("<Control> -  cannot delte file " + loc + file);
+				System.out.println("<Control> -  cannot delete file " + loc + file);
 			}
 			error = true;
 		}
