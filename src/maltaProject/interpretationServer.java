@@ -288,6 +288,11 @@ public class interpretationServer extends Thread{
 	public void room(){//Prints Description and exits of a room - called by interpretUsr()
 		UserValue getValue = new UserValue(database,user);
 		location = getValue.getLoc();
+
+		//TODO
+		//Log user into room's user file
+		//Then remove user on exit
+
 		System.out.println("<Control> - " + user + " has entered " + location);
 		logging("<Control> - " + user + " has entered " + location);
 

@@ -8,6 +8,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 /**
  * This class is used to obtain a string from a given file.
  * When constructed, the file location is passed to the program.
@@ -27,8 +28,8 @@ public class FileOperations {
 	boolean errorReport = true;
 	String loc = ""; //Database location
 
-	public FileOperations(String location) {
-		loc = location;
+	public FileOperations(String data) {
+		loc = data;
 	}
 
 	public void createDirectory(String folder){
@@ -41,6 +42,64 @@ public class FileOperations {
 				System.out.println("<Control> -  cannot create directory " + loc + folder);
 			}
 			error = true;
+		}
+	}
+
+	/**
+	 * Returns the contents of a file in a String array.
+	 * 
+	 * @return A String Array where each element is a line from the file
+	 */
+	public String[] getFile(){
+
+		ArrayList<String> fileList = new ArrayList<String>();
+
+		try{
+			FileInputStream fstream = new FileInputStream(loc);
+			DataInputStream in = new DataInputStream(fstream);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+
+			while (br.readLine() != null) {
+				fileList.add(br.readLine());
+			}
+
+			String[] fileOut = (String[]) fileList.toArray();
+
+			line = br.readLine();
+			in.close();
+		} catch (Exception e){
+			error = true;
+			System.out.println("Error in getFile");
+		}
+
+		return (String[]) fileList.toArray();
+	}
+
+	/**
+	 * Rewrites a file with a given String[]
+	 * @param lineList A String[] containing one line per element
+	 */
+	public void setFile(String[] lineList){
+		try{
+			FileWriter fstream = new FileWriter(loc,true);
+			BufferedWriter out = new BufferedWriter(fstream);
+
+			int i = lineList.length - 1;
+
+			while (i >= 0){
+				out.write(lineList[i]);
+				out.newLine();
+				i--;
+			}
+
+
+			out.close();
+		}catch (Exception e){
+			if (errorReport == true){
+				System.out.println("Cannot write to the file " + loc);
+			}
+			error = true;
+
 		}
 	}
 

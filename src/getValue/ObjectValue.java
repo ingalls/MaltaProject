@@ -622,6 +622,9 @@ public class ObjectValue {
 	 * 
 	 * @return A String containing the requirement
 	 */
+
+	//TODO should be a String[] as there can be more than one
+
 	public String getSkillRequirement() {
 		String fileLoc = database + "/objects/" + obj + "/requirements/requiredSkill";
 		FileOperations open = new FileOperations(fileLoc);
@@ -634,10 +637,14 @@ public class ObjectValue {
 	 * 
 	 * @param wis A String containing the requirement
 	 */
-	public void setSkillRequirement(String skill) {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredSkill";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(skill);
+	public void setSkillRequirement(String[] skills) {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requiredSkill");
+		FO.deleteFile("");
+		int currentPos = 0;
+		while (currentPos <= skills.length-1) {
+			FO.appendLine(skills[currentPos]);
+			currentPos++;
+		}
 	}
 
 	/**
