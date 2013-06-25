@@ -2,6 +2,11 @@ package getValue;
 
 import maltaProject.FileOperations;
 
+//TODO
+//If user is in a non-existent room, warn them
+//Get rid of move:none. If there is not a room in that direction, do not require a file.
+//Get rid of moveDesc:none. If there is no movement description, do not require a file.
+
 /**
  * This class is used to return information on a given room. Given the room
  * name and the location of the database, a string with the requested stat
@@ -87,7 +92,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getNorth(){
-		String fileLoc = database + "/rooms/"+roomName+"/north";
+		String fileLoc = database + "/rooms/"+roomName+"/move/north";
 		FileOperations open = new FileOperations(fileLoc);
 		String north = open.getLine();
 		return north;
@@ -99,7 +104,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setNorth(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/north";
+		String fileLoc = database + "/rooms/"+roomName+"/move/north";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(strLine);
 	}
@@ -110,7 +115,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getSouth(){
-		String fileLoc = database + "/rooms/"+roomName+"/south";
+		String fileLoc = database + "/rooms/"+roomName+"/move/south";
 		FileOperations open = new FileOperations(fileLoc);
 		String south = open.getLine();
 		return south;
@@ -122,7 +127,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setSouth(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/south";
+		String fileLoc = database + "/rooms/"+roomName+"/move/south";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(strLine);
 	}
@@ -133,7 +138,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getEast(){
-		String fileLoc = database + "/rooms/"+roomName+"/east";
+		String fileLoc = database + "/rooms/"+roomName+"/move/east";
 		FileOperations open = new FileOperations(fileLoc);
 		String east = open.getLine();
 		return east;
@@ -145,7 +150,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setEast(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/east";
+		String fileLoc = database + "/rooms/"+roomName+"/move/east";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(strLine);
 	}
@@ -156,7 +161,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getWest(){
-		String fileLoc = database + "/rooms/"+roomName+"/west";
+		String fileLoc = database + "/rooms/"+roomName+"/move/west";
 		FileOperations open = new FileOperations(fileLoc);
 		String west = open.getLine();
 		return west;
@@ -168,7 +173,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setWest(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/west";
+		String fileLoc = database + "/rooms/"+roomName+"/move/west";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(strLine);
 	}
@@ -179,7 +184,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getUp(){
-		String fileLoc = database + "/rooms/"+roomName+"/up";
+		String fileLoc = database + "/rooms/"+roomName+"/move/up";
 		FileOperations open = new FileOperations(fileLoc);
 		String up = open.getLine();
 		return up;
@@ -191,7 +196,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setUp(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/up";
+		String fileLoc = database + "/rooms/"+roomName+"/move/up";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(strLine);
 	}
@@ -202,7 +207,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getDown(){
-		String fileLoc = database + "/rooms/"+roomName+"/down";
+		String fileLoc = database + "/rooms/"+roomName+"/move/down";
 		FileOperations open = new FileOperations(fileLoc);
 		String down = open.getLine();
 		return down;
@@ -214,7 +219,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setDown(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/down";
+		String fileLoc = database + "/rooms/"+roomName+"/move/down";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(strLine);
 	}
@@ -226,7 +231,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getMoveNorth(){
-		String fileLoc = database + "/rooms/"+roomName+"/moveNorth";
+		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveNorth";
 		FileOperations open = new FileOperations(fileLoc);
 		String moveDesc = open.getLine();
 		return moveDesc;
@@ -238,7 +243,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setMoveNorth(String moveDesc){
-		String fileLoc = database + "/rooms/"+roomName+"/moveNorth";
+		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveNorth";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(moveDesc);
 	}
@@ -250,7 +255,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getMoveEast(){
-		String fileLoc = database + "/rooms/"+roomName+"/moveEast";
+		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveEast";
 		FileOperations open = new FileOperations(fileLoc);
 		String moveDesc = open.getLine();
 		return moveDesc;
@@ -262,7 +267,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setMoveEast(String moveDesc){
-		String fileLoc = database + "/rooms/"+roomName+"/moveEast";
+		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveEast";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(moveDesc);
 	}
@@ -274,7 +279,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getMoveSouth(){
-		String fileLoc = database + "/rooms/"+roomName+"/moveSouth";
+		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveSouth";
 		FileOperations open = new FileOperations(fileLoc);
 		String moveDesc = open.getLine();
 		return moveDesc;
@@ -286,7 +291,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setMoveSouth(String moveDesc){
-		String fileLoc = database + "/rooms/"+roomName+"/moveSouth";
+		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveSouth";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(moveDesc);
 	}
@@ -298,7 +303,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getMoveWest(){
-		String fileLoc = database + "/rooms/"+roomName+"/moveWest";
+		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveWest";
 		FileOperations open = new FileOperations(fileLoc);
 		String moveDesc = open.getLine();
 		return moveDesc;
@@ -310,7 +315,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setMoveWest(String moveDesc){
-		String fileLoc = database + "/rooms/"+roomName+"/moveWest";
+		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveWest";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(moveDesc);
 	}
@@ -322,7 +327,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getMoveUp(){
-		String fileLoc = database + "/rooms/"+roomName+"/moveUp";
+		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveUp";
 		FileOperations open = new FileOperations(fileLoc);
 		String moveDesc = open.getLine();
 		return moveDesc;
@@ -334,7 +339,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setMoveUp(String moveDesc){
-		String fileLoc = database + "/rooms/"+roomName+"/Up";
+		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveUp";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(moveDesc);
 	}
@@ -346,7 +351,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getMoveDown(){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDown";
+		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveDown";
 		FileOperations open = new FileOperations(fileLoc);
 		String moveDesc = open.getLine();
 		return moveDesc;
@@ -358,7 +363,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setMoveDown(String moveDesc){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDown";
+		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveDown";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(moveDesc);
 	}

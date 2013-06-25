@@ -26,23 +26,23 @@ public class UserValue {
 
 	/**
 	 * Used to obtain the age of a user.
-	 * @return A String containing the age of a user
+	 * @return An integer containing the age of a user
 	 */
-	public String getAge(){
+	public int getAge(){
 		String fileLoc = database + "/charProfile/"+user+"/age";
 		FileOperations open = new FileOperations(fileLoc);
 		String userAge = open.getLine();
-		return userAge;
+		return Integer.parseInt(userAge);
 	}
 
 	/**
 	 * Sets the age of a user
-	 * @param age A String containing the age of a user
+	 * @param age An integer containing the age of a user
 	 */
-	public void setAge(String age){
+	public void setAge(int age){
 		String fileLoc = database + "/charProfile/"+user+"/age";
 		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(age);
+		open.setLine(Integer.toString(age));
 	}
 
 	/**
@@ -67,128 +67,128 @@ public class UserValue {
 	}
 	/**
 	 * Used to obtain the dexterity of a user.
-	 * @return A String containing the dexterity of a user
+	 * @return An integer containing the dexterity of a user
 	 */
-	public String getDex(){
+	public int getDex(){
 		String fileLoc = database + "/charProfile/"+user+"/dexterity";
 		FileOperations open = new FileOperations(fileLoc);
 		String userDex = open.getLine();
-		return userDex;
+		return Integer.parseInt(userDex);
 	}
 
 	/**
 	 * Sets the Dex of a user
-	 * @param dex A String containing the dex of a user
+	 * @param dex An integer containing the dex of a user
 	 */
-	public void setDex(String dex){
+	public void setDex(int dex){
 		String fileLoc = database + "/charProfile/"+user+"/dexterity";
 		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(dex);
+		open.setLine(Integer.toString(dex));
 	}
 
 	/**
 	 * used to obtain the experience of a user.
-	 * @return A String containing the experience of a user
+	 * @return An integer containing the experience of a user
 	 */
-	public String getXP(){
+	public int getXP(){
 		String fileLoc = database + "/charProfile/"+user+"/experience";
 		FileOperations open = new FileOperations(fileLoc);
 		String userXP = open.getLine();
-		return userXP;
+		return Integer.parseInt(userXP);
 	}
 
 	/**
 	 * Used to set the experience of a user
-	 * @param age A String containing the experience
+	 * @param age An integer containing the experience
 	 */
-	public void setXP(String XP){
+	public void setXP(int XP){
 		String fileLoc = database + "/charProfile/"+user+"/experience";
 		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(XP);
+		open.setLine(Integer.toString(XP));
 	}
 
 	/**
 	 * used to return the amount of gold that a user has.
-	 * @return A String containing the amount of gold
+	 * @return An integer containing the amount of gold
 	 */
-	public String getGold(){
+	public int getGold(){
 		String fileLoc = database + "/charProfile/"+user+"/gold";
 		FileOperations open = new FileOperations(fileLoc);
 		String userGold = open.getLine();
-		return userGold;
+		return Integer.parseInt(userGold);
 	}
 
 	/**
 	 * Used to set the amount of gold a user has
-	 * @param Gold A String containing the amount of gold
+	 * @param Gold An integer containing the amount of gold
 	 */
-	public void setGold(String Gold){
+	public void setGold(int Gold){
 		String fileLoc = database + "/charProfile/"+user+"/gold";
 		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(Gold);
+		open.setLine(Integer.toString(Gold));
 	}
 
 	/**
 	 * Used to obtain the health of a user. This is the current health, as opposed to @see getMaxHealth
-	 * @return A String containing the health of a user
+	 * @return An integer containing the health of a user
 	 */
-	public String getHP(){
+	public int getHP(){
 		String fileLoc = database + "/charProfile/"+user+"/health";
 		FileOperations open = new FileOperations(fileLoc);
 		String userHP = open.getLine();
-		return userHP;
+		return Integer.parseInt(userHP);
 	}
 
 	/**
 	 * Used to set the amount of Health Points a user has
-	 * @param HP A String containing the number of health points
+	 * @param HP An integer containing the number of health points
 	 */
-	public void setHP(String HP){
+	public void setHP(int HP){
 		String fileLoc = database + "/charProfile/"+user+"/health";
 		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(HP);
+		open.setLine(Integer.toString(HP));
 	}
 
 	/**
 	 * Used to obtain the intelligence of a user.
-	 * @return A String containing the intelligence of a user
+	 * @return An integer containing the intelligence of a user
 	 */
-	public String getInt(){
+	public int getInt(){
 		String fileLoc = database + "/charProfile/"+user+"/intelligence";
 		FileOperations open = new FileOperations(fileLoc);
 		String userInt = open.getLine();
-		return userInt;
+		return Integer.parseInt(userInt);
 	}
 
 	/**
 	 * Used to set the amount of intelligence a user has
-	 * @param Int A String containing the amount of intelligence
+	 * @param Int An integer containing the amount of intelligence
 	 */
-	public void setInt(String Int){
+	public void setInt(int Int){
 		String fileLoc = database + "/charProfile/"+user+"/intelligence";
 		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(Int);
+		open.setLine(Integer.toString(Int));
 	}
 
 	/**
 	 * Used to obtain the level of a user.
-	 * @return A String containing the level of a user
+	 * @return An integer containing the level of a user
 	 */
-	public String getLvl(){
+	public int getLvl(){
 		String fileLoc = database + "/charProfile/"+user+"/level";
 		FileOperations open = new FileOperations(fileLoc);
 		String userLvl = open.getLine();
-		return userLvl;
+		return Integer.parseInt(userLvl);
 	}
 
 	/**
 	 * Used to set the user's level
-	 * @param level A String containing the level to set
+	 * @param level An integer containing the level to set
 	 */
-	public void setLvl(String level){
+	public void setLvl(int level){
 		String fileLoc = database + "/charProfile/"+user+"/level";
 		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(level);
+		open.setLine(Integer.toString(level));
 	}
 
 	/**
@@ -278,86 +278,86 @@ public class UserValue {
 
 	/**
 	 * Used to obtain the strength of a user.
-	 * @return A String containing the strength of a user
+	 * @return An integer containing the strength of a user
 	 */
-	public String getStr(){
+	public int getStr(){
 		String fileLoc = database + "/charProfile/"+user+"/strength";
 		FileOperations open = new FileOperations(fileLoc);
 		String userStr = open.getLine();
-		return userStr;
+		return Integer.parseInt(userStr);
 	}
 
 	/**
 	 * Used to set the strength of a user
-	 * @param str A String containing the strength to set
+	 * @param str An integer containing the strength to set
 	 */
-	public void setStr(String str){
+	public void setStr(int str){
 		String fileLoc = database + "/charProfile/"+user+"/strength";
 		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(str);
+		open.setLine(Integer.toString(str));
 	}
 
 	/**
 	 * Used to obtain the weight of a user.
-	 * @return A String containing the weight of a user
+	 * @return An integer containing the weight of a user
 	 */
-	public String getWeight(){
+	public int getWeight(){
 		String fileLoc = database + "/charProfile/"+user+"/weight";
 		FileOperations open = new FileOperations(fileLoc);
 		String userWeight = open.getLine();
-		return userWeight;
+		return Integer.parseInt(userWeight);
 	}
 
 	/**
 	 * Used to set the weight of the user
-	 * @param weight A String containing the weight to set
+	 * @param weight An integer containing the weight to set
 	 */
-	public void setWeight(String weight){
+	public void setWeight(int weight){
 		String fileLoc = database + "/charProfile/"+user+"/weight";
 		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(weight);
+		open.setLine(Integer.toString(weight));
 	}
 
 	/**
 	 * Used to obtain the maximum health of a user.
-	 * @return A String containing the maximum health of a user
+	 * @return An integer containing the maximum health of a user
 	 */
-	public String getMaxHealth(){
+	public int getMaxHealth(){
 		String fileLoc = database + "/charProfile/"+user+"/maxhealth";
 		FileOperations open = new FileOperations(fileLoc);
 		String maxHealth = open.getLine();
-		return maxHealth;
+		return Integer.parseInt(maxHealth);
 	}
 
 	/**
 	 * Used to set the max health of a user
-	 * @param health A String containing the max health to set
+	 * @param health An integer containing the max health to set
 	 */
-	public void setMaxHealth(String health){
+	public void setMaxHealth(int health){
 		String fileLoc = database + "/charProfile/"+user+"/maxhealth";
 		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(health);
+		open.setLine(Integer.toString(health));
 	}
 
 	/**
 	 * Used to obtain the wisdom of a user.
-	 * @return A String containing the wisdom of a user
+	 * @return An integer containing the wisdom of a user
 	 */
-	public String getWis(){
+	public int getWis(){
 		String fileLoc = database + "/charProfile/"+user+"/wisdom";
 		FileOperations open = new FileOperations(fileLoc);
 		String userWis = open.getLine();
-		return userWis;
+		return Integer.parseInt(userWis);
 	}
 
 	/**
 	 * Used to set the wisdom of a user
-	 * @param wis A String containing the wisdom to set
+	 * @param wis An integer containing the wisdom to set
 	 */
-	public void setWis(String wis){
+	public void setWis(int wis){
 		String fileLoc = database + "/charProfile/"+user+"/wisdom";
 		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(wis);
+		open.setLine(Integer.toString(wis));
 	}
 
 	/**
@@ -624,7 +624,26 @@ public class UserValue {
 		open.setLine(waist);
 	}
 
+	/**
+	 * Used to return the amount of knowledge that a user has
+	 * @return An integer containing the amount of knowledge
+	 */
+	public int getKnowledge(){
+		String fileLoc = database + "/charProfile/"+user+"/knowledge";
+		FileOperations open = new FileOperations(fileLoc);
+		String knowledge = open.getLine();
+		return Integer.parseInt(knowledge);
+	}
 
+	/**
+	 * Used to set the amount of knowledge that a user has
+	 * @param waist An integer containing the amount of knowledge
+	 */
+	public void setKnowledge(int knowledge){
+		String fileLoc = database + "/charProfile/"+user+"/knowledge";
+		FileOperations open = new FileOperations(fileLoc);
+		open.setLine(Integer.toString(knowledge));
+	}
 
 	/**
 	 * Returns a String array containing the skills that a user possesses.
@@ -672,10 +691,10 @@ public class UserValue {
 	 * @param inv The name of the item
 	 * @param quantity The quantity of the item
 	 */
-	public void setNewInv(String inv, String quantity){
+	public void setNewInv(String inv, int quantity){
 		String fileLoc = database + "/charProfile/"+user+"/inventory/" + inv;
 		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(quantity);
+		open.setLine(Integer.toString(quantity));
 	}
 
 	/**
@@ -683,10 +702,10 @@ public class UserValue {
 	 * @param inv The name of the item
 	 * @return The number of instances of that item that the user is carrying.
 	 */
-	public String getInventoryItem(String inv){
+	public int getInventoryItem(String inv){
 		String fileLoc = database + "/charProfile/" + user + "/inventory/" + inv;
 		FileOperations fileOp = new FileOperations(fileLoc);
-		return fileOp.getLine();
+		return Integer.parseInt(fileOp.getLine());
 	}
 
 	/**

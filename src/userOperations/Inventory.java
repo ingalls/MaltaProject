@@ -62,8 +62,7 @@ public class Inventory {
 			currentInvItem = inv[currentInv]; //Restores uppercase chars.
 
 			//Gets the max number of items in the user's inventory
-			String invNum = UserValue.getInventoryItem(currentInvItem);
-			int hasNum = Integer.parseInt(invNum);
+			int hasNum = UserValue.getInventoryItem(currentInvItem);
 
 			//Stops the user from dropping more than in inventory
 			//Also handles drop all
@@ -76,7 +75,7 @@ public class Inventory {
 				UserValue.deleteInv(currentInvItem);
 			} else {
 				//Sets the new number in the user's inventory
-				UserValue.setNewInv(currentInvItem, (hasNum - dropNum) + "");
+				UserValue.setNewInv(currentInvItem, (hasNum - dropNum));
 			}
 
 			RoomValue RoomValue = new RoomValue(loc, room);
@@ -159,14 +158,14 @@ public class Inventory {
 			}
 
 			UserValue UserValue = new UserValue(loc, userName);
-			String currentNum = UserValue.getInventoryItem(currentObjectItem);
+			String currentNum = Integer.toString(UserValue.getInventoryItem(currentObjectItem));
 
-			if (currentNum.equals("")){
-				UserValue.setNewInv(currentObjectItem, takeNum+"");
+			if (currentNum.equals("") | currentNum.equals(null)){
+				UserValue.setNewInv(currentObjectItem, takeNum);
 			} else {
 				int currentNumber = Integer.parseInt(currentNum);
 				takeNum = takeNum + currentNumber;
-				UserValue.setNewInv(currentObjectItem, takeNum+"");
+				UserValue.setNewInv(currentObjectItem, takeNum);
 			}
 		}
 		return error;

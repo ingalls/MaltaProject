@@ -1,5 +1,12 @@
 package maltaProject;
 
+//TODO
+//Examine Command Code
+//Go through all APIS and remove the need for a file to exist
+//If a file diesn't exist the value can be assumed to be 0
+//This will lessen the size of the database and also
+//Make it more user friendly to manually create rooms
+
 import getValue.InstanceNPCValue;
 import getValue.NPCValue;
 import getValue.ObjectValue;
@@ -31,9 +38,6 @@ import userOperations.CreateAccount;
 import userOperations.CreateUser;
 import userOperations.Inventory;
 import chatServices.sendChat;
-
-//TODO
-//Stop room desc from lowercasing letters
 
 /**
  * This class obtains user input. It then analyzes the input and chooses the appropriate action.
@@ -569,8 +573,7 @@ public class interpretationServer extends Thread{
 					out.println("You can't go that way!");
 					interpretUsr();
 				} else {
-					File bkup = new File(database + "/charProfile/" + user
-							+ "/location");
+					File bkup = new File(database + "/charProfile/" + user + "/location");
 					bkup.delete();
 					try {
 						FileWriter fstream = new FileWriter(database
@@ -579,9 +582,7 @@ public class interpretationServer extends Thread{
 						writeout.write(downRoom);
 
 						try {
-							FileInputStream fstream2 = new FileInputStream(database
-									+ "/rooms/" + location + "/" + location
-									+ ".d");
+							FileInputStream fstream2 = new FileInputStream(database + "/rooms/" + location + "/" + location + ".d");
 							DataInputStream in = new DataInputStream(fstream2);
 							BufferedReader br = new BufferedReader(
 									new InputStreamReader(in));
@@ -606,22 +607,17 @@ public class interpretationServer extends Thread{
 					out.println("You can't go that way!");
 					interpretUsr();
 				} else {
-					File bkup = new File(database + "/charProfile/" + user
-							+ "/location");
+					File bkup = new File(database + "/charProfile/" + user + "/location");
 					bkup.delete();
 					try {
-						FileWriter fstream = new FileWriter(database
-								+ "/charProfile/" + user + "/location");
+						FileWriter fstream = new FileWriter(database + "/charProfile/" + user + "/location");
 						BufferedWriter writeout = new BufferedWriter(fstream);
 						writeout.write(upRoom);
 
 						try {
-							FileInputStream fstream2 = new FileInputStream(database
-									+ "/rooms/" + location + "/" + location
-									+ ".u");
+							FileInputStream fstream2 = new FileInputStream(database + "/rooms/" + location + "/" + location + ".u");
 							DataInputStream in = new DataInputStream(fstream2);
-							BufferedReader br = new BufferedReader(
-									new InputStreamReader(in));
+							BufferedReader br = new BufferedReader(new InputStreamReader(in));
 							out.println();
 							out.println(br.readLine());
 							out.println();
@@ -670,7 +666,7 @@ public class interpretationServer extends Thread{
 				} else {
 					out.println("\n # | Description");
 					while (objGet < OBJlist.length){
-						int number = Integer.parseInt(UV.getInventoryItem((OBJlist[objGet])));
+						int number = UV.getInventoryItem((OBJlist[objGet]));
 						ObjectValue OV = new ObjectValue(database, OBJlist[objGet]);
 						String title = OV.getTitle();
 						String objDesc = OV.getDesc();
@@ -884,7 +880,7 @@ public class interpretationServer extends Thread{
 	}
 	public void gold(){//Prints the amount of gold that a user has in their possession
 		UserValue getValue = new UserValue(database, user);
-		String gold = getValue.getGold();
+		String gold = Integer.toString(getValue.getGold());
 		out.println("You currently have: " + gold);
 		interpretUsr();
 	}
@@ -900,7 +896,7 @@ public class interpretationServer extends Thread{
 	public void score(){ //prints out a formatted table of stats
 		//TODO Have a nicely formated table that prints out lvl, hp, etc.
 		UserValue getValue = new UserValue(database, user);
-		String level = getValue.getLvl();
+		String level = Integer.toString(getValue.getLvl());
 
 		System.out.println("|-----------------------User-----------------------|");
 		System.out.println("| Name: " + user);
