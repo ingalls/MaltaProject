@@ -52,27 +52,36 @@ public class FileOperations {
 	 */
 	public String[] getFile(){
 
-		ArrayList<String> fileList = new ArrayList<String>();
+		ArrayList<String> fileContents = new ArrayList<String>();
+		String[] fileOut = null;
 
 		try{
 			FileInputStream fstream = new FileInputStream(loc);
 			DataInputStream in = new DataInputStream(fstream);
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
-			while (br.readLine() != null) {
-				fileList.add(br.readLine());
+			String fileLine = br.readLine();
+			while (fileLine != null) {
+				fileContents.add(fileLine);
+				fileLine = br.readLine();
 			}
 
-			String[] fileOut = (String[]) fileList.toArray();
+			int elementCount = 0;
+			fileOut = new String[fileContents.size()];
+			while (elementCount <= fileContents.size() - 1){
+				fileOut[elementCount] = fileContents.get(elementCount);
+				elementCount++;
+			}
 
 			line = br.readLine();
 			in.close();
 		} catch (Exception e){
 			error = true;
 			System.out.println("Error in getFile");
+			System.out.println(e.getStackTrace());
 		}
 
-		return (String[]) fileList.toArray();
+		return fileOut;
 	}
 
 	/**

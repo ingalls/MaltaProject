@@ -4,16 +4,17 @@ import getValue.UserValue;
 import java.io.BufferedReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 
-public class UserInterface {
+public class InputBar {
 	public Socket socket;
 	public PrintWriter out;
 	public String database;
 	public String user;
 
-	public UserInterface(String data, String name){
+	public InputBar(String data, String name){
 		database = data;
 		user = name;
 	}
@@ -36,13 +37,21 @@ public class UserInterface {
 			color = "[red]";
 		}
 		setColor setColor = new setColor();
-		String healthBar = setColor.color("("+color + hp + "HP[white]/" + xp + " XP):");
+		String healthBar = setColor.color("[white]("+color + hp + "HP[white]/" + xp + " XP):");
 		return healthBar;
 	}
 	public String getInput(BufferedReader in){
 		Scanner usrTxt = new Scanner(in);
-		String str;
-		str = usrTxt.nextLine();
+		String str = "";
+		try {
+			str = usrTxt.nextLine();
+
+		} catch (NoSuchElementException e){
+			//TODO this error will throw if and when the user disconnects.
+			//Close the user tick service
+			//Remove who file for user
+		}
+
 		str = str.trim();
 		return str;
 	}

@@ -22,7 +22,7 @@ public class setColor{
 		line = line.replace("[blue]", (char)27+"[34m");
 		line = line.replace("[purple]", (char)27+"[35m");
 		line = line.replace("[cyan]", (char)27+"[36m");
-		line = line.replace("[white]", (char)27+"[39m");
+		line = line.replace("[white]", (char)27+"[0m");
 		line = line.replace("[highwhite]", (char)27+"[1m");
 		line = line.replace("[backBlack]", (char)27+"[40m");
 		line = line.replace("[backRed]", (char)27+"[41m");
@@ -32,6 +32,7 @@ public class setColor{
 		line = line.replace("[backPurple]", (char)27+"[45m");
 		line = line.replace("[backCyan]", (char)27+"[46m");
 		line = line.replace("[backWhite]", (char)27+"[47m");
+		line = line.replace("[testwhite]", (char)27 + "[39m"); //Old white - same as high white
 		return line;
 	}
 }

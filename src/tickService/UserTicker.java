@@ -67,6 +67,10 @@ public class UserTicker{
 			}
 		}
 
+		//Health Regen
+		HealthTick HT = new HealthTick(database, user);
+
+
 
 		//Start Timer Again
 		int milliseconds = 500;

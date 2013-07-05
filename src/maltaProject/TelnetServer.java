@@ -36,6 +36,7 @@ public class TelnetServer {
 				IS.ZaosClient(socket, database);
 			}
 		} finally {
+			//Closes all server connections
 			s.close();
 		}
 	}

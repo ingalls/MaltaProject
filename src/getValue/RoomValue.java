@@ -39,10 +39,8 @@ public class RoomValue {
 	 * @return A String containing the title of the room
 	 */
 	public String getTitle(){
-		String fileLoc = database + "/rooms/"+roomName+"/title";
-		FileOperations open = new FileOperations(fileLoc);
-		String title = open.getLine();
-		return title;
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/title");
+		return FO.getLine();
 	}
 
 	/**
@@ -51,9 +49,27 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite room title
 	 */
 	public void setTitle(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/title";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(strLine);
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/title");
+		FO.setLine(strLine);
+	}
+
+	/**
+	 * Returns a String containing the name of the store. Returns "none" if none.
+	 * 
+	 * @return A String containing the name of the store.
+	 */
+	public String getStore(){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/store");
+		return FO.getLine();
+	}
+
+	/**
+	 * Sets the name of the store. Should be "none" for none.
+	 * @param store A String containing the name of the store.
+	 */
+	public void setStore(String store){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/store");
+		FO.setLine(store);
 	}
 
 	/**
@@ -80,10 +96,9 @@ public class RoomValue {
 	 * 
 	 * @param strLine A string that will overwrite the room description.
 	 */
-	public void setDesc(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/desc";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(strLine);
+	public void setDesc(String desc){
+		FileOperations FO = new FileOperations(database + "/rooms/"+roomName+"/desc");
+		FO.setLine(desc);
 	}
 
 	/**
@@ -92,10 +107,8 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getNorth(){
-		String fileLoc = database + "/rooms/"+roomName+"/move/north";
-		FileOperations open = new FileOperations(fileLoc);
-		String north = open.getLine();
-		return north;
+		FileOperations FO = new FileOperations(database + "/rooms/"+roomName+"/move/north");
+		return FO.getLine();
 	}
 
 	/**
@@ -104,8 +117,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setNorth(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/move/north";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/move/north");
 		open.setLine(strLine);
 	}
 
@@ -115,8 +127,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getSouth(){
-		String fileLoc = database + "/rooms/"+roomName+"/move/south";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/move/south");
 		String south = open.getLine();
 		return south;
 	}
@@ -127,8 +138,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setSouth(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/move/south";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/move/south");
 		open.setLine(strLine);
 	}
 
@@ -138,8 +148,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getEast(){
-		String fileLoc = database + "/rooms/"+roomName+"/move/east";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/move/east");
 		String east = open.getLine();
 		return east;
 	}
@@ -150,8 +159,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setEast(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/move/east";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/move/east");
 		open.setLine(strLine);
 	}
 
@@ -161,8 +169,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getWest(){
-		String fileLoc = database + "/rooms/"+roomName+"/move/west";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/move/west");
 		String west = open.getLine();
 		return west;
 	}
@@ -173,8 +180,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setWest(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/move/west";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/move/west");
 		open.setLine(strLine);
 	}
 
@@ -184,8 +190,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getUp(){
-		String fileLoc = database + "/rooms/"+roomName+"/move/up";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/move/up");
 		String up = open.getLine();
 		return up;
 	}
@@ -196,8 +201,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setUp(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/move/up";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/move/up");
 		open.setLine(strLine);
 	}
 
@@ -207,8 +211,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getDown(){
-		String fileLoc = database + "/rooms/"+roomName+"/move/down";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/move/down");
 		String down = open.getLine();
 		return down;
 	}
@@ -219,8 +222,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setDown(String strLine){
-		String fileLoc = database + "/rooms/"+roomName+"/move/down";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/move/down");
 		open.setLine(strLine);
 	}
 
@@ -231,8 +233,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getMoveNorth(){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveNorth";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveNorth");
 		String moveDesc = open.getLine();
 		return moveDesc;
 	}
@@ -243,8 +244,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setMoveNorth(String moveDesc){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveNorth";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveNorth");
 		open.setLine(moveDesc);
 	}
 
@@ -255,8 +255,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getMoveEast(){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveEast";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveEast");
 		String moveDesc = open.getLine();
 		return moveDesc;
 	}
@@ -267,8 +266,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setMoveEast(String moveDesc){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveEast";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveEast");
 		open.setLine(moveDesc);
 	}
 
@@ -279,8 +277,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getMoveSouth(){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveSouth";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveSouth");
 		String moveDesc = open.getLine();
 		return moveDesc;
 	}
@@ -291,8 +288,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setMoveSouth(String moveDesc){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveSouth";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveSouth");
 		open.setLine(moveDesc);
 	}
 
@@ -303,8 +299,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getMoveWest(){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveWest";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveWest");
 		String moveDesc = open.getLine();
 		return moveDesc;
 	}
@@ -315,8 +310,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setMoveWest(String moveDesc){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveWest";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveWest");
 		open.setLine(moveDesc);
 	}
 
@@ -327,8 +321,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getMoveUp(){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveUp";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveUp");
 		String moveDesc = open.getLine();
 		return moveDesc;
 	}
@@ -339,8 +332,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setMoveUp(String moveDesc){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveUp";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveUp");
 		open.setLine(moveDesc);
 	}
 
@@ -351,8 +343,7 @@ public class RoomValue {
 	 * @return name of the room
 	 */
 	public String getMoveDown(){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveDown";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveDown");
 		String moveDesc = open.getLine();
 		return moveDesc;
 	}
@@ -363,8 +354,7 @@ public class RoomValue {
 	 * @param strLine A string that will overwrite the current room
 	 */
 	public void setMoveDown(String moveDesc){
-		String fileLoc = database + "/rooms/"+roomName+"/moveDesc/moveDown";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveDown");
 		open.setLine(moveDesc);
 	}
 
@@ -385,8 +375,7 @@ public class RoomValue {
 	 * @param instanceNum A String containing the instance number of the object
 	 */
 	public void setNewObject(String name, String number){
-		String fileLoc = database + "/rooms/"+roomName+"/object/"+name;
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/object/"+name);
 		open.setLine(number);
 	}
 
@@ -397,8 +386,7 @@ public class RoomValue {
 	 * @return number of objects of that type
 	 */
 	public String getObjectNumber(String name){
-		String fileLoc = database + "/rooms/"+roomName+"/object/"+name;
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/object/"+name);
 		String returnString = "";
 		returnString = open.getLine();
 		if (open.hasError()==true){
@@ -434,8 +422,7 @@ public class RoomValue {
 	 * @param instanceNum A String containing the instance number of the npc
 	 */
 	public void setNewNPC(String instanceNum){
-		String fileLoc = database + "/rooms/"+roomName+"/npc/"+instanceNum;
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/npc/"+instanceNum);
 		open.setLine(" ");
 	}
 

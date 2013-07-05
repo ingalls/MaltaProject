@@ -25,6 +25,31 @@ public class UserValue {
 	}
 
 	/**
+	 * Is the user sleeping?
+	 * @return A boolean as to whther the user is sleeping
+	 */
+	public boolean isSleeping(){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/sleep");
+		return FO.checkFile();
+	}
+
+	/**
+	 * Sets whether the user is sleeping or not
+	 * @param sleep true for the user sleeping, false for not.
+	 */
+	public void setSleep(boolean sleep){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/sleep");
+		if (sleep == true){
+			FO.setLine("true");
+		} else {
+			if (FO.checkFile()){
+				FO.deleteFile("");
+			}
+		}
+
+	}
+
+	/**
 	 * Used to obtain the age of a user.
 	 * @return An integer containing the age of a user
 	 */
@@ -703,9 +728,25 @@ public class UserValue {
 	 * @return The number of instances of that item that the user is carrying.
 	 */
 	public int getInventoryItem(String inv){
-		String fileLoc = database + "/charProfile/" + user + "/inventory/" + inv;
-		FileOperations fileOp = new FileOperations(fileLoc);
-		return Integer.parseInt(fileOp.getLine());
+
+		FileOperations fileOp;
+		boolean exceptionCatcher = false;
+		int numHolder = 0;
+
+		try {
+			fileOp = new FileOperations(database + "/charProfile/" + user + "/inventory/" + inv);
+			numHolder = Integer.parseInt(fileOp.getLine());
+		} catch (Exception e) {
+			exceptionCatcher = true;
+		}
+		if (exceptionCatcher == false){
+			return numHolder;
+		} else {
+			return 0;
+		}
+
+
+
 	}
 
 	/**

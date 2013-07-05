@@ -24,7 +24,9 @@ public class ObjectValue {
 
 	/**
 	 * Constructs a new object with a string containing the database location
-	 * and a string containing the username.
+	 * * and a string containing the user name.
+	 * @param data A String containing the database location
+	 * @param objectName A String containing the name of the object being accessed
 	 */
 	public ObjectValue(String data, String objectName) {
 		database = data;
@@ -252,6 +254,26 @@ public class ObjectValue {
 		String fileLoc = database + "/objects/" + obj + "/desc";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(desc);
+	}
+
+	/**
+	 * Returns the worth of an object
+	 * 
+	 * @return A String containing the worth
+	 */
+	public int getWorth() {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/worth");
+		return Integer.parseInt(FO.getLine());
+	}
+
+	/**
+	 * Sets the worth of an object
+	 * 
+	 * @param price A String containing the worth
+	 */
+	public void setWorth(String price) {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/worth");
+		FO.setLine(price);
 	}
 
 	/**
