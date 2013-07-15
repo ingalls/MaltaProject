@@ -5,13 +5,12 @@ import getValue.RoomValue;
 import getValue.StoreValue;
 import getValue.UserValue;
 
-
-public class Inventory {
+public class InventoryOperations {
 
 	String loc;
 	String userName;
 
-	public Inventory (String database, String user){
+	public InventoryOperations (String database, String user){
 		loc = database;
 		userName = user;
 	}
@@ -153,8 +152,6 @@ public class Inventory {
 		}
 		return output;
 	}
-
-
 
 	/**
 	 * Drops items from the user's inventory

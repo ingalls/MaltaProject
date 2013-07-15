@@ -25,8 +25,33 @@ public class UserValue {
 	}
 
 	/**
+	 * Is the user a wizard
+	 * @return A boolean as to whether the user is a wizard
+	 */
+	public boolean isWizard(){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/wizard");
+		return FO.checkFile();
+	}
+
+	/**
+	 * Sets whether the user is a wizard or not
+	 * @param wizard true for the user being a wizard, false for not.
+	 */
+	public void setWizard(boolean wizard){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/wizard");
+		if (wizard == true){
+			FO.setLine("");
+		} else {
+			if (FO.checkFile()){
+				FO.deleteFile("");
+			}
+		}
+
+	}
+
+	/**
 	 * Is the user sleeping?
-	 * @return A boolean as to whther the user is sleeping
+	 * @return A boolean as to whether the user is sleeping
 	 */
 	public boolean isSleeping(){
 		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/sleep");
@@ -47,6 +72,42 @@ public class UserValue {
 			}
 		}
 
+	}
+
+	/**
+	 * Used to obtain the max mana of a user
+	 * @return An integer containing the max mana of a user
+	 */
+	public int getMaxMana(){
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/maxmana");
+		return Integer.parseInt(open.getLine());
+	}
+
+	/**
+	 * Sets the max mana of a user
+	 * @param age An integer containing the max mana of a user
+	 */
+	public void setMaxMana(int maxMana){
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/maxmana");
+		open.setLine(Integer.toString(maxMana));
+	}
+
+	/**
+	 * Used to obtain the mana of a user
+	 * @return An integer containing the mana of a user
+	 */
+	public int getMana(){
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/mana");
+		return Integer.parseInt(open.getLine());
+	}
+
+	/**
+	 * Sets the mana of a user
+	 * @param age An integer containing the mana of a user
+	 */
+	public void setMana(int mana){
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/mana");
+		open.setLine(Integer.toString(mana));
 	}
 
 	/**
@@ -137,10 +198,8 @@ public class UserValue {
 	 * @return An integer containing the amount of gold
 	 */
 	public int getGold(){
-		String fileLoc = database + "/charProfile/"+user+"/gold";
-		FileOperations open = new FileOperations(fileLoc);
-		String userGold = open.getLine();
-		return Integer.parseInt(userGold);
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/gold");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**

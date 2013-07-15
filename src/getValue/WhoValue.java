@@ -47,10 +47,7 @@ public class WhoValue {
 	 * @return Returns a boolean value for whether the user exists.
 	 */
 	public boolean checkWho(String user){
-		boolean userExists = true;
 		FileOperations FO = new FileOperations(database + "/who/" + user);
-		userExists = FO.checkFile();
-
-		return userExists;
+		return FO.checkFile();
 	}
 }

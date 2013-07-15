@@ -1,5 +1,7 @@
 package tickService;
 
+import getValue.WhoValue;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.DataInputStream;
@@ -67,10 +69,21 @@ public class UserTicker{
 			}
 		}
 
+		System.out.println("tick tock");
+
 		//Health Regen
 		HealthTick HT = new HealthTick(database, user);
 
-
+		//Kill Thread if user leaves
+		WhoValue WV = new WhoValue(database);
+		if (!WV.checkWho(user)){
+			try {
+				Thread.currentThread().destroy();
+			} catch (Exception e) {
+				//The timer process will be ticked (Pardon the pun)
+				//When it is stopped unexpectedly
+			}
+		}
 
 		//Start Timer Again
 		int milliseconds = 500;

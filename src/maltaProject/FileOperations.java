@@ -113,12 +113,8 @@ public class FileOperations {
 	}
 
 	public boolean checkFile(){
-		boolean fileExists = false;
-
 		File file = new File(loc);
-		fileExists = file.exists();
-
-		return fileExists;
+		return file.exists();
 	}
 
 	public void deleteFile(String file){
@@ -208,11 +204,7 @@ public class FileOperations {
 			line = br.readLine();
 			in.close();
 		} catch (Exception e){
-			if (errorReport == true){
-				System.out.println("Cannot access the file " + loc);
-			}
-			error = true;
-
+			return null;
 		}
 
 		return line;

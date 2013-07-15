@@ -40,10 +40,8 @@ public class ObjectValue {
 	 * @return A String containing the modifier
 	 */
 	public String getDexModifier() {
-		String fileLoc = database + "/objects/" + obj + "/modifiers/dexterityModifier";
-		FileOperations open = new FileOperations(fileLoc);
-		String dex = open.getLine();
-		return dex;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/dexterityModifier");
+		return FO.getLine();
 	}
 
 	/**
@@ -53,9 +51,8 @@ public class ObjectValue {
 	 * @return A String containing the modifier
 	 */
 	public void setDexModifier(String dex) {
-		String fileLoc = database + "/objects/" + obj + "/modifiers/dexterityModifier";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(dex);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/dexterityModifier");
+		FO.setLine(dex);
 	}
 
 	/**
@@ -65,10 +62,8 @@ public class ObjectValue {
 	 * @return A String containing the modifier
 	 */
 	public String getXPModifier() {
-		String fileLoc = database + "/objects/" + obj + "/modifiers/expereienceModifier";
-		FileOperations open = new FileOperations(fileLoc);
-		String XP = open.getLine();
-		return XP;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/expereienceModifier");
+		return FO.getLine();
 	}
 
 	/**
@@ -78,9 +73,8 @@ public class ObjectValue {
 	 * @return A String containing the modifier
 	 */
 	public void setXPModifier(String XP) {
-		String fileLoc = database + "/objects/" + obj + "/modifiers/experienceModifier";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(XP);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/experienceModifier");
+		FO.setLine(XP);
 	}
 
 	/**
@@ -90,10 +84,8 @@ public class ObjectValue {
 	 * @return A String containing the modifier
 	 */
 	public String getIntelligenceModifier() {
-		String fileLoc = database + "/objects/" + obj + "/modifiers/intelligenceModifier";
-		FileOperations open = new FileOperations(fileLoc);
-		String intel = open.getLine();
-		return intel;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/intelligenceModifier");
+		return FO.getLine();
 	}
 
 	/**
@@ -104,9 +96,8 @@ public class ObjectValue {
 	 */
 
 	public void setIntelligenceModifier(String intel) {
-		String fileLoc = database + "/objects/" + obj + "/modifiers/intelligenceModifier";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(intel);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/intelligenceModifier");
+		FO.setLine(intel);
 	}
 
 	/**
@@ -116,10 +107,8 @@ public class ObjectValue {
 	 * @return A String containing the modifier
 	 */
 	public String getStrengthModifier() {
-		String fileLoc = database + "/objects/" + obj + "/modifiers/strengthModifier";
-		FileOperations open = new FileOperations(fileLoc);
-		String str = open.getLine();
-		return str;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/strengthModifier");
+		return FO.getLine();
 	}
 
 	/**
@@ -129,9 +118,8 @@ public class ObjectValue {
 	 * @return A String containing the modifier
 	 */
 	public void setStrengthModifier(String str) {
-		String fileLoc = database + "/objects/" + obj + "/modifiers/strengthModifier";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(str);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/strengthModifier");
+		FO.setLine(str);
 	}
 
 	/**
@@ -141,10 +129,8 @@ public class ObjectValue {
 	 * @return A String containing the modifier
 	 */
 	public String getWisdomModifier() {
-		String fileLoc = database + "/objects/" + obj + "/modifiers/wisdomModifier";
-		FileOperations open = new FileOperations(fileLoc);
-		String wis = open.getLine();
-		return wis;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/wisdomModifier");
+		return FO.getLine();
 	}
 
 	/**
@@ -154,9 +140,8 @@ public class ObjectValue {
 	 * @return A String containing the modifier
 	 */
 	public void setWisdomModifier(String wis) {
-		String fileLoc = database + "/objects/" + obj + "/modifiers/wisdomModifier";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(wis);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/wisdomModifier");
+		FO.setLine(wis);
 	}
 
 	/**
@@ -167,10 +152,8 @@ public class ObjectValue {
 	 *         "false"
 	 */
 	public String isWearable() {
-		String fileLoc = database + "/objects/" + obj + "/settings/wearable";
-		FileOperations open = new FileOperations(fileLoc);
-		String wearable = open.getLine();
-		return wearable;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/settings/wearable");
+		return FO.getLine();
 	}
 
 	/**
@@ -180,9 +163,8 @@ public class ObjectValue {
 	 * "false"
 	 */
 	public void setWearable(String wearable) {
-		String fileLoc = database + "/objects/" + obj + "/settings/wearable";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(wearable);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/settings/wearable");
+		FO.setLine(wearable);
 	}
 
 	/**
@@ -193,10 +175,8 @@ public class ObjectValue {
 	 * @return A String containing the setting
 	 */
 	public String isWieldable() {
-		String fileLoc = database + "/objects/" + obj + "/settings/wieldable";
-		FileOperations open = new FileOperations(fileLoc);
-		String wield = open.getLine();
-		return wield;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/settings/wieldable");
+		return FO.getLine();
 	}
 
 	/**
@@ -205,9 +185,8 @@ public class ObjectValue {
 	 * @param wield A String containing the setting
 	 */
 	public void setWieldable(String wield) {
-		String fileLoc = database + "/objects/" + obj + "/settings/wieldable";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(wield);
+		FileOperations FO = new FileOperations("/objects/" + obj + "/settings/wieldable");
+		FO.setLine(wield);
 	}
 
 	/**
@@ -216,10 +195,8 @@ public class ObjectValue {
 	 * @return A String containing the description
 	 */
 	public String getExamine() {
-		String fileLoc = database + "/objects/" + obj + "/examine";
-		FileOperations open = new FileOperations(fileLoc);
-		String desc = open.getLine();
-		return desc;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/examine");
+		return FO.getLine();
 	}
 
 	/**
@@ -228,9 +205,8 @@ public class ObjectValue {
 	 * @param desc A String containing the description
 	 */
 	public void setExamine(String desc) {
-		String fileLoc = database + "/objects/" + obj + "/examine";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(desc);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/examine");
+		FO.setLine(desc);
 	}
 
 	/**
@@ -239,10 +215,8 @@ public class ObjectValue {
 	 * @return A String containing the description
 	 */
 	public String getDesc() {
-		String fileLoc = database + "/objects/" + obj + "/desc";
-		FileOperations open = new FileOperations(fileLoc);
-		String desc = open.getLine();
-		return desc;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/desc");
+		return FO.getLine();
 	}
 
 	/**
@@ -251,9 +225,8 @@ public class ObjectValue {
 	 * @param desc A String containing the description
 	 */
 	public void setDesc(String desc) {
-		String fileLoc = database + "/objects/" + obj + "/desc";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(desc);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/desc");
+		FO.setLine(desc);
 	}
 
 	/**
@@ -283,8 +256,8 @@ public class ObjectValue {
 	 */
 	public String getTitle() {
 		String fileLoc = database + "/objects/" + obj + "/title";
-		FileOperations open = new FileOperations(fileLoc);
-		String title = open.getLine();
+		FileOperations FO = new FileOperations(fileLoc);
+		String title = FO.getLine();
 		return title;
 	}
 
@@ -295,8 +268,8 @@ public class ObjectValue {
 	 */
 	public void setTitle(String title) {
 		String fileLoc = database + "/objects/" + obj + "/title";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(title);
+		FileOperations FO = new FileOperations(fileLoc);
+		FO.setLine(title);
 	}
 
 	/**
@@ -309,8 +282,8 @@ public class ObjectValue {
 	 */
 	public String getAcidProtection() {
 		String fileLoc = database + "/objects/" + obj + "/protection/acidProtection";
-		FileOperations open = new FileOperations(fileLoc);
-		String acid = open.getLine();
+		FileOperations FO = new FileOperations(fileLoc);
+		String acid = FO.getLine();
 		return acid;
 	}
 
@@ -321,8 +294,8 @@ public class ObjectValue {
 	 */
 	public void setAcidProtection(String acid) {
 		String fileLoc = database + "/objects/" + obj + "/protection/acidProtection";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(acid);
+		FileOperations FO = new FileOperations(fileLoc);
+		FO.setLine(acid);
 	}
 
 	/**
@@ -335,8 +308,8 @@ public class ObjectValue {
 	 */
 	public String getFireProtection() {
 		String fileLoc = database + "/objects/" + obj + "/protection/fireProtection";
-		FileOperations open = new FileOperations(fileLoc);
-		String fire = open.getLine();
+		FileOperations FO = new FileOperations(fileLoc);
+		String fire = FO.getLine();
 		return fire;
 	}
 
@@ -347,8 +320,8 @@ public class ObjectValue {
 	 */
 	public void setFireProtection(String fire) {
 		String fileLoc = database + "/objects/" + obj + "/protection/fireProtection";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(fire);
+		FileOperations FO = new FileOperations(fileLoc);
+		FO.setLine(fire);
 	}
 
 	/**
@@ -361,8 +334,8 @@ public class ObjectValue {
 	 */
 	public String getHitProtection() {
 		String fileLoc = database + "/objects/" + obj + "/protection/hitProtection";
-		FileOperations open = new FileOperations(fileLoc);
-		String hit = open.getLine();
+		FileOperations FO = new FileOperations(fileLoc);
+		String hit = FO.getLine();
 		return hit;
 	}
 
@@ -373,8 +346,8 @@ public class ObjectValue {
 	 */
 	public void setHitProtection(String hit) {
 		String fileLoc = database + "/objects/" + obj + "/protection/hitProtection";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(hit);
+		FileOperations FO = new FileOperations(fileLoc);
+		FO.setLine(hit);
 	}
 
 	/**
@@ -387,8 +360,8 @@ public class ObjectValue {
 	 */
 	public String getMagicProtection() {
 		String fileLoc = database + "/objects/" + obj + "/protection/acidProtection";
-		FileOperations open = new FileOperations(fileLoc);
-		String acid = open.getLine();
+		FileOperations FO = new FileOperations(fileLoc);
+		String acid = FO.getLine();
 		return acid;
 	}
 
@@ -399,8 +372,8 @@ public class ObjectValue {
 	 */
 	public void setMagicProtection(String magic) {
 		String fileLoc = database + "/objects/" + obj + "/protection/magicProtection";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(magic);
+		FileOperations FO = new FileOperations(fileLoc);
+		FO.setLine(magic);
 	}
 
 	/**
@@ -413,8 +386,8 @@ public class ObjectValue {
 	 */
 	public String getPierceProtection() {
 		String fileLoc = database + "/objects/" + obj + "/protection/pierceProtection";
-		FileOperations open = new FileOperations(fileLoc);
-		String pierce = open.getLine();
+		FileOperations FO = new FileOperations(fileLoc);
+		String pierce = FO.getLine();
 		return pierce;
 	}
 
@@ -425,8 +398,8 @@ public class ObjectValue {
 	 */
 	public void setPiercedProtection(String pierce) {
 		String fileLoc = database + "/objects/" + obj + "/protection/pierceProtection";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(pierce);
+		FileOperations FO = new FileOperations(fileLoc);
+		FO.setLine(pierce);
 	}
 
 	/**
@@ -438,10 +411,8 @@ public class ObjectValue {
 	 * @return A String containing an integer percent
 	 */
 	public String getRangedProtection() {
-		String fileLoc = database + "/objects/" + obj + "/protection/rangedProtection";
-		FileOperations open = new FileOperations(fileLoc);
-		String ranged = open.getLine();
-		return ranged;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/protection/rangedProtection");
+		return FO.getLine();
 	}
 
 	/**
@@ -450,9 +421,8 @@ public class ObjectValue {
 	 * @param ranged A String containing an integer percent
 	 */
 	public void setRangedProtection(String ranged) {
-		String fileLoc = database + "/objects/" + obj + "/protection/rangedProtection";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(ranged);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/protection/rangedProtection");
+		FO.setLine(ranged);
 	}
 
 	/**
@@ -461,10 +431,8 @@ public class ObjectValue {
 	 * @return A String containing the requirement
 	 */
 	public String getAgeRequirement() {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredAge";
-		FileOperations open = new FileOperations(fileLoc);
-		String age = open.getLine();
-		return age;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredAge");
+		return FO.getLine();
 	}
 
 	/**
@@ -473,9 +441,8 @@ public class ObjectValue {
 	 * @param wis A String containing the requirement
 	 */
 	public void setAgeRequirement(String age) {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredAge";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(age);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredAge");
+		FO.setLine(age);
 	}
 
 	/**
@@ -484,10 +451,8 @@ public class ObjectValue {
 	 * @return A String containing the requirement
 	 */
 	public String getClassRequirement() {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredClass";
-		FileOperations open = new FileOperations(fileLoc);
-		String classRequire = open.getLine();
-		return classRequire;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredClass");
+		return FO.getLine();
 	}
 
 	/**
@@ -496,9 +461,8 @@ public class ObjectValue {
 	 * @param wis A String containing the requirement
 	 */
 	public void setClassRequirement(String classRequire) {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredClass";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(classRequire);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredClass");
+		FO.setLine(classRequire);
 	}
 
 	/**
@@ -507,10 +471,8 @@ public class ObjectValue {
 	 * @return A String containing the requirement
 	 */
 	public String getDexterityRequirement() {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredDexterity";
-		FileOperations open = new FileOperations(fileLoc);
-		String dex = open.getLine();
-		return dex;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredDexterity");
+		return FO.getLine();
 	}
 
 	/**
@@ -519,9 +481,8 @@ public class ObjectValue {
 	 * @param wis A String containing the requirement
 	 */
 	public void setDexterityRequirement(String dex) {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredDexterity";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(dex);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredDexterity");
+		FO.setLine(dex);
 	}
 
 	/**
@@ -530,10 +491,8 @@ public class ObjectValue {
 	 * @return A String containing the requirement
 	 */
 	public String getHealthRequirement() {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredHealth";
-		FileOperations open = new FileOperations(fileLoc);
-		String hp = open.getLine();
-		return hp;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredHealth");
+		return FO.getLine();
 	}
 
 	/**
@@ -542,9 +501,8 @@ public class ObjectValue {
 	 * @param wis A String containing the requirement
 	 */
 	public void setHealthRequirement(String hp) {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredHealth";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(hp);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredHealth");
+		FO.setLine(hp);
 	}
 
 	/**
@@ -553,10 +511,8 @@ public class ObjectValue {
 	 * @return A String containing the requirement
 	 */
 	public String getIntelligenceRequirement() {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredIntelligence";
-		FileOperations open = new FileOperations(fileLoc);
-		String intel = open.getLine();
-		return intel;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredIntelligence");
+		return FO.getLine();
 	}
 
 	/**
@@ -565,9 +521,8 @@ public class ObjectValue {
 	 * @param wis A String containing the requirement
 	 */
 	public void setIntelligenceRequirement(String intel) {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredIntelligence";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(intel);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredIntelligence");
+		FO.setLine(intel);
 	}
 
 	/**
@@ -576,10 +531,8 @@ public class ObjectValue {
 	 * @return A String containing the requirement
 	 */
 	public String getLevelRequirement() {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredLevel";
-		FileOperations open = new FileOperations(fileLoc);
-		String lvl = open.getLine();
-		return lvl;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredLevel");
+		return FO.getLine();
 	}
 
 	/**
@@ -588,9 +541,8 @@ public class ObjectValue {
 	 * @param wis A String containing the requirement
 	 */
 	public void setLevelRequirement(String lvl) {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredLevel";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(lvl);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredLevel");
+		FO.setLine(lvl);
 	}
 
 	/**
@@ -599,10 +551,8 @@ public class ObjectValue {
 	 * @return A String containing the requirement
 	 */
 	public String getRaceRequirement() {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredRace";
-		FileOperations open = new FileOperations(fileLoc);
-		String race = open.getLine();
-		return race;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredRace");
+		return FO.getLine();
 	}
 
 	/**
@@ -611,9 +561,8 @@ public class ObjectValue {
 	 * @param wis A String containing the requirement
 	 */
 	public void setRaceRequirement(String race) {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredRace";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(race);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredRace");
+		FO.setLine(race);
 	}
 
 	/**
@@ -622,10 +571,8 @@ public class ObjectValue {
 	 * @return A String containing the requirement
 	 */
 	public String getReligionRequirement() {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredReligion";
-		FileOperations open = new FileOperations(fileLoc);
-		String religion = open.getLine();
-		return religion;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredReligion");
+		return FO.getLine();
 	}
 
 	/**
@@ -634,9 +581,8 @@ public class ObjectValue {
 	 * @param wis A String containing the requirement
 	 */
 	public void setReligionRequirement(String religion) {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredReligion";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(religion);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredReligion");
+		FO.setLine(religion);
 	}
 
 	/**
@@ -644,14 +590,9 @@ public class ObjectValue {
 	 * 
 	 * @return A String containing the requirement
 	 */
-
-	//TODO should be a String[] as there can be more than one
-
-	public String getSkillRequirement() {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredSkill";
-		FileOperations open = new FileOperations(fileLoc);
-		String skill = open.getLine();
-		return skill;
+	public String[] getSkillRequirement() {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredSkill");
+		return FO.getFile();
 	}
 
 	/**
@@ -662,11 +603,7 @@ public class ObjectValue {
 	public void setSkillRequirement(String[] skills) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requiredSkill");
 		FO.deleteFile("");
-		int currentPos = 0;
-		while (currentPos <= skills.length-1) {
-			FO.appendLine(skills[currentPos]);
-			currentPos++;
-		}
+		FO.setFile(skills);
 	}
 
 	/**
@@ -675,10 +612,8 @@ public class ObjectValue {
 	 * @return A String containing the requirement
 	 */
 	public String getStrengthRequirement() {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredStrenth";
-		FileOperations open = new FileOperations(fileLoc);
-		String strength = open.getLine();
-		return strength;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredStrenth");
+		return FO.getLine();
 	}
 
 	/**
@@ -687,9 +622,8 @@ public class ObjectValue {
 	 * @param wis A String containing the requirement
 	 */
 	public void setStrengthRequirement(String strength) {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredStrength";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(strength);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredStrength");
+		FO.setLine(strength);
 	}
 
 	/**
@@ -698,10 +632,8 @@ public class ObjectValue {
 	 * @return A String containing the requirement
 	 */
 	public String getWeightRequirement() {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredWeight";
-		FileOperations open = new FileOperations(fileLoc);
-		String weight = open.getLine();
-		return weight;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredWeight");
+		return FO.getLine();
 	}
 
 	/**
@@ -710,9 +642,8 @@ public class ObjectValue {
 	 * @param wis A String containing the requirement
 	 */
 	public void setWeightRequirement(String weight) {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredWeight";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(weight);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredWeight");
+		FO.setLine(weight);
 	}
 
 	/**
@@ -721,10 +652,8 @@ public class ObjectValue {
 	 * @return A String containing the requirement
 	 */
 	public String getWisdomRequirement() {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredSkill";
-		FileOperations open = new FileOperations(fileLoc);
-		String wis = open.getLine();
-		return wis;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredSkill");
+		return FO.getLine();
 	}
 
 	/**
@@ -733,9 +662,8 @@ public class ObjectValue {
 	 * @param wis A String containing the requirement
 	 */
 	public void setWisdomRequirement(String wis) {
-		String fileLoc = database + "/objects/" + obj + "/requirements/requiredWisdom";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(wis);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredWisdom");
+		FO.setLine(wis);
 	}
 
 	/**
@@ -746,10 +674,8 @@ public class ObjectValue {
 	 * @return A String contaning the type of damage
 	 */
 	public String getWeaponType() {
-		String fileLoc = database + "/objects/" + obj + "/fighting/weaponType";
-		FileOperations open = new FileOperations(fileLoc);
-		String type = open.getLine();
-		return type;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/weaponType");
+		return FO.getLine();
 	}
 
 	/**
@@ -758,9 +684,8 @@ public class ObjectValue {
 	 * @param type A String containing either "acid", "fire", "hit", "magic", "pierce", "ranged", or "none"
 	 */
 	public void setWeaponType(String type) {
-		String fileLoc = database + "/objects/" + obj + "/fighting/weaponType";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(type);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/weaponType");
+		FO.setLine(type);
 	}
 
 	/**
@@ -770,10 +695,8 @@ public class ObjectValue {
 	 * @return A String containing the description
 	 */
 	public String getMinDamageDesc() {
-		String fileLoc = database + "/objects/" + obj + "/fighting/minDamageDesc";
-		FileOperations open = new FileOperations(fileLoc);
-		String desc = open.getLine();
-		return desc;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/minDamageDesc");
+		return FO.getLine();
 	}
 
 	/**
@@ -783,9 +706,8 @@ public class ObjectValue {
 	 * @param desc A String containing the description
 	 */
 	public void setMinDamageDesc(String desc) {
-		String fileLoc = database + "/objects/" + obj + "/fighting/minDamageDesc";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(desc);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/minDamageDesc");
+		FO.setLine(desc);
 	}
 
 	/**
@@ -795,10 +717,8 @@ public class ObjectValue {
 	 * @return A String containing the description
 	 */
 	public String getMedDamageDesc() {
-		String fileLoc = database + "/objects/" + obj + "/fighting/medDamageDesc";
-		FileOperations open = new FileOperations(fileLoc);
-		String desc = open.getLine();
-		return desc;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/medDamageDesc");
+		return FO.getLine();
 	}
 
 	/**
@@ -808,9 +728,8 @@ public class ObjectValue {
 	 * @param desc A String containing the description
 	 */
 	public void setMedDamageDesc(String desc) {
-		String fileLoc = database + "/objects/" + obj + "/fighting/medDamageDesc";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(desc);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/medDamageDesc");
+		FO.setLine(desc);
 	}
 
 	/**
@@ -820,10 +739,8 @@ public class ObjectValue {
 	 * @return A String containing the description
 	 */
 	public String getMaxDamageDesc() {
-		String fileLoc = database + "/objects/" + obj + "/fighting/maxDamageDesc";
-		FileOperations open = new FileOperations(fileLoc);
-		String desc = open.getLine();
-		return desc;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/maxDamageDesc");
+		return FO.getLine();
 	}
 
 	/**
@@ -833,9 +750,8 @@ public class ObjectValue {
 	 * @param desc A String containing the description
 	 */
 	public void setMaxDamageDesc(String desc) {
-		String fileLoc = database + "/objects/" + obj + "/fighting/maxDamageDesc";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(desc);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/maxDamageDesc");
+		FO.setLine(desc);
 	}
 
 	/**
@@ -844,10 +760,8 @@ public class ObjectValue {
 	 * @return A String containing the damage
 	 */
 	public String getMinDamage() {
-		String fileLoc = database + "/objects/" + obj + "/fighting/minDamageDesc";
-		FileOperations open = new FileOperations(fileLoc);
-		String damage = open.getLine();
-		return damage;
+		FileOperations FO = new FileOperations("/objects/" + obj + "/fighting/minDamageDesc");
+		return FO.getLine();
 	}
 
 	/**
@@ -856,9 +770,8 @@ public class ObjectValue {
 	 * @param damage A String containing the min damage
 	 */
 	public void setMinDamage(String damage) {
-		String fileLoc = database + "/objects/" + obj + "/fighting/minDamageDesc";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(damage);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/minDamageDesc");
+		FO.setLine(damage);
 	}
 
 	/**
@@ -867,10 +780,8 @@ public class ObjectValue {
 	 * @return A String containing the max damage
 	 */
 	public String getMaxDamage() {
-		String fileLoc = database + "/objects/" + obj + "/fighting/minDamageDesc";
-		FileOperations open = new FileOperations(fileLoc);
-		String damage = open.getLine();
-		return damage;
+		FileOperations FO = new FileOperations( database + "/objects/" + obj + "/fighting/minDamageDesc");
+		return FO.getLine();
 	}
 
 	/**
@@ -879,8 +790,7 @@ public class ObjectValue {
 	 * @param damage A String containing the max damage that a weapon can cause
 	 */
 	public void setMaxDamage(String damage) {
-		String fileLoc = database + "/objects/" + obj + "/fighting/minDamageDesc";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(damage);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/minDamageDesc");
+		FO.setLine(damage);
 	}
 }
