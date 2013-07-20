@@ -49,6 +49,31 @@ public class NPCValue {
 	}
 
 	/**
+	 * Returns the type of NPC.
+	 * Possible Values are: neutral
+	 * 
+	 * @return A String containing the desc
+	 */
+	public String getType(){
+		String fileLoc = database + "/npc/"+npc+"/desc";
+		FileOperations open = new FileOperations(fileLoc);
+		String desc = open.getLine();
+		return desc;
+	}
+
+	/**
+	 * Sets the type of NPC
+	 * Possible Values are: neutral
+	 * 
+	 * @param age A String containing the desc
+	 */
+	public void setType(String desc){
+		String fileLoc = database + "/npc/"+npc+"/desc";
+		FileOperations open = new FileOperations(fileLoc);
+		open.setLine(desc);
+	}
+
+	/**
 	 * Used to obtain the minimum age that an NPC can be
 	 * 
 	 * @return A String containing the minimum age
@@ -169,7 +194,7 @@ public class NPCValue {
 	 * @return A String containing the max dexterity
 	 */
 	public String getMaxDexterity(){
-		String fileLoc = database + "/npc/"+npc+"/maxDexterity";
+		String fileLoc = database + "/npc/"+npc+"/stats/maxDexterity";
 		FileOperations open = new FileOperations(fileLoc);
 		String dex = open.getLine();
 		return dex;
@@ -181,7 +206,7 @@ public class NPCValue {
 	 * @param age A String containing the max dexterity
 	 */
 	public void setMaxDexterity(String dex){
-		String fileLoc = database + "/npc/"+npc+"/maxDexterity";
+		String fileLoc = database + "/npc/"+npc+"/stats/maxDexterity";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(dex);
 	}
@@ -192,7 +217,7 @@ public class NPCValue {
 	 * @return A String containing the min dexterity
 	 */
 	public String getMinDexterity(){
-		String fileLoc = database + "/npc/"+npc+"/minDexterity";
+		String fileLoc = database + "/npc/"+npc+"/stats/minDexterity";
 		FileOperations open = new FileOperations(fileLoc);
 		String dex = open.getLine();
 		return dex;
@@ -204,7 +229,7 @@ public class NPCValue {
 	 * @param age A String containing the min dexterity
 	 */
 	public void setMinDexterity(String dex){
-		String fileLoc = database + "/npc/"+npc+"/minDexterity";
+		String fileLoc = database + "/npc/"+npc+"/stats/minDexterity";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(dex);
 	}
@@ -238,7 +263,7 @@ public class NPCValue {
 	 * @return A String containing the experience
 	 */
 	public String getXP(){
-		String fileLoc = database + "/npc/"+npc+"/experience";
+		String fileLoc = database + "/npc/"+npc+"/stats/experience";
 		FileOperations open = new FileOperations(fileLoc);
 		String xp = open.getLine();
 		return xp;
@@ -250,7 +275,7 @@ public class NPCValue {
 	 * @param age A String containing the experience
 	 */
 	public void setXP(String xp){
-		String fileLoc = database + "/npc/"+npc+"/experience";
+		String fileLoc = database + "/npc/"+npc+"/stats/experience";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(xp);
 	}
@@ -307,7 +332,7 @@ public class NPCValue {
 	 * @return A String containing the max intelligence
 	 */
 	public String getMaxIntelligence(){
-		String fileLoc = database + "/npc/"+npc+"/maxIntelligence";
+		String fileLoc = database + "/npc/"+npc+"/stats/maxIntelligence";
 		FileOperations open = new FileOperations(fileLoc);
 		String intel = open.getLine();
 		return intel;
@@ -319,7 +344,7 @@ public class NPCValue {
 	 * @param age A String containing the max intelligence
 	 */
 	public void setMaxIntelligence(String intel){
-		String fileLoc = database + "/npc/"+npc+"/maxIntelligence";
+		String fileLoc = database + "/npc/"+npc+"/stats/maxIntelligence";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(intel);
 	}
@@ -330,7 +355,7 @@ public class NPCValue {
 	 * @return A String containing the max intelligence
 	 */
 	public String getMinIntelligence(){
-		String fileLoc = database + "/npc/"+npc+"/maxIntelligence";
+		String fileLoc = database + "/npc/"+npc+"/stats/maxIntelligence";
 		FileOperations open = new FileOperations(fileLoc);
 		String intel = open.getLine();
 		return intel;
@@ -342,7 +367,7 @@ public class NPCValue {
 	 * @param age A String containing the max intelligence
 	 */
 	public void setMinIntelligence(String intel){
-		String fileLoc = database + "/npc/"+npc+"/maxIntelligence";
+		String fileLoc = database + "/npc/"+npc+"/stats/maxIntelligence";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(intel);
 	}
@@ -353,7 +378,7 @@ public class NPCValue {
 	 * @return A String containing the max strength
 	 */
 	public String getMaxStrength(){
-		String fileLoc = database + "/npc/"+npc+"/maxStrength";
+		String fileLoc = database + "/npc/"+npc+"/stats/maxStrength";
 		FileOperations open = new FileOperations(fileLoc);
 		String str = open.getLine();
 		return str;
@@ -365,7 +390,7 @@ public class NPCValue {
 	 * @param age A String containing the max strength
 	 */
 	public void setMaxStrength(String str){
-		String fileLoc = database + "/npc/"+npc+"/maxStrength";
+		String fileLoc = database + "/npc/"+npc+"/stats/maxStrength";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(str);
 	}
@@ -376,7 +401,7 @@ public class NPCValue {
 	 * @return A String containing the min strenth
 	 */
 	public String getMinStrength(){
-		String fileLoc = database + "/npc/"+npc+"/minStrength";
+		String fileLoc = database + "/npc/"+npc+"/stats/minStrength";
 		FileOperations open = new FileOperations(fileLoc);
 		String str = open.getLine();
 		return str;
@@ -388,7 +413,7 @@ public class NPCValue {
 	 * @param age A String containing the min strength
 	 */
 	public void setMinStrength(String str){
-		String fileLoc = database + "/npc/"+npc+"/minStrength";
+		String fileLoc = database + "/npc/"+npc+"/stats/minStrength";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(str);
 	}
@@ -491,7 +516,7 @@ public class NPCValue {
 	 * @return A String containing the min wisdom
 	 */
 	public String getMinWisom(){
-		String fileLoc = database + "/npc/"+npc+"/minWisdom";
+		String fileLoc = database + "/npc/"+npc+"/stats/minWisdom";
 		FileOperations open = new FileOperations(fileLoc);
 		String wis = open.getLine();
 		return wis;
@@ -503,7 +528,7 @@ public class NPCValue {
 	 * @param age A String containing the min wisdom
 	 */
 	public void setMinWisdom(String wis){
-		String fileLoc = database + "/npc/"+npc+"/minWisdom";
+		String fileLoc = database + "/npc/"+npc+"/stats/minWisdom";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(wis);
 	}

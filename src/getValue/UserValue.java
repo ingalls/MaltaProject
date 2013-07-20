@@ -156,7 +156,7 @@ public class UserValue {
 	 * @return An integer containing the dexterity of a user
 	 */
 	public int getDex(){
-		String fileLoc = database + "/charProfile/"+user+"/dexterity";
+		String fileLoc = database + "/charProfile/"+user+"/stats/dexterity";
 		FileOperations open = new FileOperations(fileLoc);
 		String userDex = open.getLine();
 		return Integer.parseInt(userDex);
@@ -167,7 +167,7 @@ public class UserValue {
 	 * @param dex An integer containing the dex of a user
 	 */
 	public void setDex(int dex){
-		String fileLoc = database + "/charProfile/"+user+"/dexterity";
+		String fileLoc = database + "/charProfile/"+user+"/stats/dexterity";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(Integer.toString(dex));
 	}
@@ -177,7 +177,7 @@ public class UserValue {
 	 * @return An integer containing the experience of a user
 	 */
 	public int getXP(){
-		String fileLoc = database + "/charProfile/"+user+"/experience";
+		String fileLoc = database + "/charProfile/"+user+"/stats/experience";
 		FileOperations open = new FileOperations(fileLoc);
 		String userXP = open.getLine();
 		return Integer.parseInt(userXP);
@@ -188,7 +188,7 @@ public class UserValue {
 	 * @param age An integer containing the experience
 	 */
 	public void setXP(int XP){
-		String fileLoc = database + "/charProfile/"+user+"/experience";
+		String fileLoc = database + "/charProfile/"+user+"/stats/experience";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(Integer.toString(XP));
 	}
@@ -238,7 +238,7 @@ public class UserValue {
 	 * @return An integer containing the intelligence of a user
 	 */
 	public int getInt(){
-		String fileLoc = database + "/charProfile/"+user+"/intelligence";
+		String fileLoc = database + "/charProfile/"+user+"/stats/intelligence";
 		FileOperations open = new FileOperations(fileLoc);
 		String userInt = open.getLine();
 		return Integer.parseInt(userInt);
@@ -249,7 +249,7 @@ public class UserValue {
 	 * @param Int An integer containing the amount of intelligence
 	 */
 	public void setInt(int Int){
-		String fileLoc = database + "/charProfile/"+user+"/intelligence";
+		String fileLoc = database + "/charProfile/"+user+"/stats/intelligence";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(Integer.toString(Int));
 	}
@@ -365,7 +365,7 @@ public class UserValue {
 	 * @return An integer containing the strength of a user
 	 */
 	public int getStr(){
-		String fileLoc = database + "/charProfile/"+user+"/strength";
+		String fileLoc = database + "/charProfile/"+user+"/stats/strength";
 		FileOperations open = new FileOperations(fileLoc);
 		String userStr = open.getLine();
 		return Integer.parseInt(userStr);
@@ -376,7 +376,7 @@ public class UserValue {
 	 * @param str An integer containing the strength to set
 	 */
 	public void setStr(int str){
-		String fileLoc = database + "/charProfile/"+user+"/strength";
+		String fileLoc = database + "/charProfile/"+user+"/stats/strength";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(Integer.toString(str));
 	}
@@ -428,7 +428,7 @@ public class UserValue {
 	 * @return An integer containing the wisdom of a user
 	 */
 	public int getWis(){
-		String fileLoc = database + "/charProfile/"+user+"/wisdom";
+		String fileLoc = database + "/charProfile/"+user+"/stats/wisdom";
 		FileOperations open = new FileOperations(fileLoc);
 		String userWis = open.getLine();
 		return Integer.parseInt(userWis);
@@ -439,7 +439,7 @@ public class UserValue {
 	 * @param wis An integer containing the wisdom to set
 	 */
 	public void setWis(int wis){
-		String fileLoc = database + "/charProfile/"+user+"/wisdom";
+		String fileLoc = database + "/charProfile/"+user+"/stats/wisdom";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(Integer.toString(wis));
 	}
