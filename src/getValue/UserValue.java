@@ -25,6 +25,31 @@ public class UserValue {
 	}
 
 	/**
+	 * Is the user currently sitting down
+	 * @return A boolean as to whether the user is sitting down
+	 */
+	public boolean isSitting(){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/isSitting");
+		return FO.checkFile();
+	}
+
+	/**
+	 * Sets whether the user is sitting down or not
+	 * @param sitting A boolean to whether the user is sitting down or not
+	 */
+	public void setSitting(boolean sitting){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/isSitting");
+		if (sitting == true){
+			FO.setLine("");
+		} else {
+			if (FO.checkFile()){
+				FO.deleteFile();
+			}
+		}
+
+	}
+
+	/**
 	 * Is the user a wizard
 	 * @return A boolean as to whether the user is a wizard
 	 */
@@ -43,10 +68,9 @@ public class UserValue {
 			FO.setLine("");
 		} else {
 			if (FO.checkFile()){
-				FO.deleteFile("");
+				FO.deleteFile();
 			}
 		}
-
 	}
 
 	/**
@@ -68,7 +92,7 @@ public class UserValue {
 			FO.setLine("true");
 		} else {
 			if (FO.checkFile()){
-				FO.deleteFile("");
+				FO.deleteFile();
 			}
 		}
 
@@ -85,7 +109,7 @@ public class UserValue {
 
 	/**
 	 * Sets the max mana of a user
-	 * @param age An integer containing the max mana of a user
+	 * @param maxMana An integer containing the max mana of a user
 	 */
 	public void setMaxMana(int maxMana){
 		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/maxmana");
@@ -103,7 +127,7 @@ public class UserValue {
 
 	/**
 	 * Sets the mana of a user
-	 * @param age An integer containing the mana of a user
+	 * @param mana An integer containing the mana of a user
 	 */
 	public void setMana(int mana){
 		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/mana");
@@ -126,9 +150,27 @@ public class UserValue {
 	 * @param age An integer containing the age of a user
 	 */
 	public void setAge(int age){
-		String fileLoc = database + "/charProfile/"+user+"/age";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/age");
 		open.setLine(Integer.toString(age));
+	}
+
+
+	/**
+	 * Used to obtain the class of a user.
+	 * @return A String containing the class of a user
+	 */
+	public String getUserSubClass(){
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/subClass");
+		return open.getLine();
+	}
+
+	/**
+	 * Sets the subclass of a user
+	 * @param userClass A String containing the subclass of a user
+	 */
+	public void setUserSubClass(String userClass){
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/subClass");
+		open.setLine(userClass);
 	}
 
 	/**
@@ -136,37 +178,37 @@ public class UserValue {
 	 * @return A String containing the class of a user
 	 */
 	public String getUserClass(){
-		String fileLoc = database + "/charProfile/"+user+"/class";
-		FileOperations open = new FileOperations(fileLoc);
-		String userClass = open.getLine();
-		return userClass;
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/class");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
-	 * Sets the class of a user
+	 * Sets the subclass of a user
 	 * @param userClass A String containing the class of a user
 	 */
 	public void setUserClass(String userClass){
-		String fileLoc = database + "/charProfile/"+user+"/class";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/class");
 		open.setLine(userClass);
 	}
+
 	/**
 	 * Used to obtain the dexterity of a user.
 	 * @return An integer containing the dexterity of a user
 	 */
-	public int getDex(){
-		String fileLoc = database + "/charProfile/"+user+"/stats/dexterity";
-		FileOperations open = new FileOperations(fileLoc);
-		String userDex = open.getLine();
-		return Integer.parseInt(userDex);
+	public int getBaseDexterity(){
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/stats/dexterity");
+		return Integer.parseInt(open.getLine());
 	}
 
 	/**
 	 * Sets the Dex of a user
 	 * @param dex An integer containing the dex of a user
 	 */
-	public void setDex(int dex){
+	public void setBaseDexterity(int dex){
 		String fileLoc = database + "/charProfile/"+user+"/stats/dexterity";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(Integer.toString(dex));
@@ -185,7 +227,7 @@ public class UserValue {
 
 	/**
 	 * Used to set the experience of a user
-	 * @param age An integer containing the experience
+	 * @param XP An integer containing the experience
 	 */
 	public void setXP(int XP){
 		String fileLoc = database + "/charProfile/"+user+"/stats/experience";
@@ -237,7 +279,7 @@ public class UserValue {
 	 * Used to obtain the intelligence of a user.
 	 * @return An integer containing the intelligence of a user
 	 */
-	public int getInt(){
+	public int getBaseIntelligence(){
 		String fileLoc = database + "/charProfile/"+user+"/stats/intelligence";
 		FileOperations open = new FileOperations(fileLoc);
 		String userInt = open.getLine();
@@ -248,7 +290,7 @@ public class UserValue {
 	 * Used to set the amount of intelligence a user has
 	 * @param Int An integer containing the amount of intelligence
 	 */
-	public void setInt(int Int){
+	public void setBaseIntelligence(int Int){
 		String fileLoc = database + "/charProfile/"+user+"/stats/intelligence";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(Integer.toString(Int));
@@ -258,18 +300,24 @@ public class UserValue {
 	 * Used to obtain the level of a user.
 	 * @return An integer containing the level of a user
 	 */
-	public int getLvl(){
-		String fileLoc = database + "/charProfile/"+user+"/level";
-		FileOperations open = new FileOperations(fileLoc);
-		String userLvl = open.getLine();
-		return Integer.parseInt(userLvl);
+	public int getLevel(){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/level");
+		if (FO.checkFile()){
+			if (Integer.parseInt(FO.getLine()) == 0){
+				return 1;
+			} else {
+				return Integer.parseInt(FO.getLine());
+			}
+		} else {
+			return 1;
+		}
 	}
 
 	/**
 	 * Used to set the user's level
 	 * @param level An integer containing the level to set
 	 */
-	public void setLvl(int level){
+	public void setLevel(int level){
 		String fileLoc = database + "/charProfile/"+user+"/level";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(Integer.toString(level));
@@ -318,14 +366,38 @@ public class UserValue {
 	}
 
 	/**
+	 * Used to obtain the religion level of a user.
+	 * @return A String containing the religion of a user
+	 */
+	public String getReligionLvl(){
+		String fileLoc = database + "/charProfile/"+user+"/religionLvl";
+		FileOperations open = new FileOperations(fileLoc);
+		String userReligion = open.getLine();
+		return userReligion;
+	}
+
+	/**
+	 * Used to set the Religion level of a user
+	 * @param religion A String containing the religion to set
+	 */
+	public void setReligionLvl(String religion){
+		String fileLoc = database + "/charProfile/"+user+"/religionLvl";
+		FileOperations open = new FileOperations(fileLoc);
+		open.setLine(religion);
+	}
+
+	/**
 	 * Used to obtain the religion of a user.
 	 * @return A String containing the age of a user
 	 */
 	public String getReligion(){
-		String fileLoc = database + "/charProfile/"+user+"/religion";
-		FileOperations open = new FileOperations(fileLoc);
-		String userReligion = open.getLine();
-		return userReligion;
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/religion");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
+
 	}
 
 	/**
@@ -364,7 +436,7 @@ public class UserValue {
 	 * Used to obtain the strength of a user.
 	 * @return An integer containing the strength of a user
 	 */
-	public int getStr(){
+	public int getBaseStrength(){
 		String fileLoc = database + "/charProfile/"+user+"/stats/strength";
 		FileOperations open = new FileOperations(fileLoc);
 		String userStr = open.getLine();
@@ -375,7 +447,7 @@ public class UserValue {
 	 * Used to set the strength of a user
 	 * @param str An integer containing the strength to set
 	 */
-	public void setStr(int str){
+	public void setBaseStrength(int str){
 		String fileLoc = database + "/charProfile/"+user+"/stats/strength";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(Integer.toString(str));
@@ -407,10 +479,8 @@ public class UserValue {
 	 * @return An integer containing the maximum health of a user
 	 */
 	public int getMaxHealth(){
-		String fileLoc = database + "/charProfile/"+user+"/maxhealth";
-		FileOperations open = new FileOperations(fileLoc);
-		String maxHealth = open.getLine();
-		return Integer.parseInt(maxHealth);
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/maxhealth");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
@@ -427,18 +497,16 @@ public class UserValue {
 	 * Used to obtain the wisdom of a user.
 	 * @return An integer containing the wisdom of a user
 	 */
-	public int getWis(){
-		String fileLoc = database + "/charProfile/"+user+"/stats/wisdom";
-		FileOperations open = new FileOperations(fileLoc);
-		String userWis = open.getLine();
-		return Integer.parseInt(userWis);
+	public int getBaseWisdom(){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/stats/wisdom");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Used to set the wisdom of a user
 	 * @param wis An integer containing the wisdom to set
 	 */
-	public void setWis(int wis){
+	public void setBaseWisdom(int wis){
 		String fileLoc = database + "/charProfile/"+user+"/stats/wisdom";
 		FileOperations open = new FileOperations(fileLoc);
 		open.setLine(Integer.toString(wis));
@@ -461,21 +529,106 @@ public class UserValue {
 	 * @param guild A String containing the guild to set
 	 */
 	public void setGuild(String guild){
-		String fileLoc = database + "/charProfile/"+user+"/guild";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/guild");
 		open.setLine(guild);
 	}
 
+	public int getBaseAcidProtection(){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/protection/acidProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+	}
+
+	public void setBaseAcidProtection(int protection){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/protection/acidProtection");
+		FO.setLine(protection + "");
+	}
+
+	public int getBaseFireProtection(){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/protection/fireProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+	}
+
+	public void setBaseFireProtection(int protection){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/protection/fireProtection");
+		FO.setLine(protection + "");
+	}
+
+	public int getBaseHitProtection(){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/protection/hitProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+	}
+
+	public void setBaseHitProtection(int protection){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/protection/hitProtection");
+		FO.setLine(protection + "");
+	}
+
+	public int getBaseMagicProtection(){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/protection/magicProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+	}
+
+	public void setBaseMagicProtection(int protection){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/protection/magicProtection");
+		FO.setLine(protection + "");
+	}
+
+	public int getBasePierceProtection(){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/protection/pierceProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+	}
+
+	public void setBasePierceProtection(int protection){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/protection/pierceProtection");
+		FO.setLine(protection + "");
+	}
+
+	public int getBaseRangedProtection(){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/protection/rangedProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+	}
+
+	public void setBaseRangedProtection(int protection){
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/protection/rangedProtection");
+		FO.setLine(protection + "");
+	}
 
 	/**
 	 * Used to obtain what the user is wearing on their chest
 	 * @return A String containing what the user is wearing on their chest
 	 */
 	public String getWearingChest(){
-		String fileLoc = database + "/charProfile/"+user+"/wield/chest";
-		FileOperations open = new FileOperations(fileLoc);
-		String chest = open.getLine();
-		return chest;
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/wield/chest");
+		if (open.checkFile()){
+			return open.getLine();
+		} else {
+			return "none";
+		}
+
 	}
 
 	/**
@@ -494,10 +647,12 @@ public class UserValue {
 	 * @return A String containing what the user is wearing on their feet
 	 */
 	public String getWearingFeet(){
-		String fileLoc = database + "/charProfile/"+user+"/wield/feet";
-		FileOperations open = new FileOperations(fileLoc);
-		String feet = open.getLine();
-		return feet;
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/wield/feet");
+		if (open.checkFile()){
+			return open.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -516,10 +671,12 @@ public class UserValue {
 	 * @return A String containing what the user is wearing on their head
 	 */
 	public String getWearingHead(){
-		String fileLoc = database + "/charProfile/"+user+"/wield/head";
-		FileOperations open = new FileOperations(fileLoc);
-		String head = open.getLine();
-		return head;
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/wield/head");
+		if (open.checkFile()){
+			return open.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -538,10 +695,12 @@ public class UserValue {
 	 * @return A String containing what the user is wearing on their left-arm
 	 */
 	public String getWearingLeftArm(){
-		String fileLoc = database + "/charProfile/"+user+"/wield/left-arm";
-		FileOperations open = new FileOperations(fileLoc);
-		String leftArm = open.getLine();
-		return leftArm;
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/wield/left-arm");
+		if (open.checkFile()){
+			return open.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -560,10 +719,12 @@ public class UserValue {
 	 * @return A String containing what the user is wearing on their hands
 	 */
 	public String getWearingHands(){
-		String fileLoc = database + "/charProfile/"+user+"/wield/hands";
-		FileOperations open = new FileOperations(fileLoc);
-		String hands = open.getLine();
-		return hands;
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/wield/hands");
+		if (open.checkFile()){
+			return open.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -582,10 +743,12 @@ public class UserValue {
 	 * @return A String containing what the user is holding in their left-hand
 	 */
 	public String getLeftHand(){
-		String fileLoc = database + "/charProfile/"+user+"/wield/left-hand";
-		FileOperations open = new FileOperations(fileLoc);
-		String leftHand = open.getLine();
-		return leftHand;
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/wield/left-hand");
+		if (open.checkFile()){
+			return open.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -604,10 +767,12 @@ public class UserValue {
 	 * @return A String containing what the user is wearing on their legs.
 	 */
 	public String getWearingLegs(){
-		String fileLoc = database + "/charProfile/"+user+"/wield/legs";
-		FileOperations open = new FileOperations(fileLoc);
-		String legs = open.getLine();
-		return legs;
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/wield/legs");
+		if (open.checkFile()){
+			return open.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -626,15 +791,17 @@ public class UserValue {
 	 * @return A String containing what the user is wearing around their neck. (Hopefully not a noose)
 	 */
 	public String getWearingNeck(){
-		String fileLoc = database + "/charProfile/"+user+"/wield/neck";
-		FileOperations open = new FileOperations(fileLoc);
-		String neck = open.getLine();
-		return neck;
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/wield/neck");
+		if (open.checkFile()){
+			return open.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
 	 * Used to set what the user is wearing on their neck
-	 * @param feet A String containing what the user is wearing on their neck
+	 * @param neck A String containing what the user is wearing on their neck
 	 */
 	public void setWearingNeck(String neck){
 		String fileLoc = database + "/charProfile/"+user+"/wield/neck";
@@ -648,10 +815,12 @@ public class UserValue {
 	 * @return A String containing what the user is wearing on their right arm
 	 */
 	public String getWearingRightArm(){
-		String fileLoc = database + "/charProfile/"+user+"/wield/right-arm";
-		FileOperations open = new FileOperations(fileLoc);
-		String rightArm = open.getLine();
-		return rightArm;
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/wield/right-arm");
+		if (open.checkFile()){
+			return open.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -669,10 +838,12 @@ public class UserValue {
 	 * @return A String containing what the user is holding in their right hand
 	 */
 	public String getRightHand(){
-		String fileLoc = database + "/charProfile/"+user+"/wield/right-hand";
-		FileOperations open = new FileOperations(fileLoc);
-		String rightHand = open.getLine();
-		return rightHand;
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/wield/right-hand");
+		if (open.checkFile()){
+			return open.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -692,10 +863,12 @@ public class UserValue {
 	 * @return A String containing what the user is wearing around their waist
 	 */
 	public String getWearingWaist(){
-		String fileLoc = database + "/charProfile/"+user+"/wield/waist";
-		FileOperations open = new FileOperations(fileLoc);
-		String waist = open.getLine();
-		return waist;
+		FileOperations open = new FileOperations(database + "/charProfile/"+user+"/wield/waist");
+		if (open.checkFile()){
+			return open.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -721,7 +894,7 @@ public class UserValue {
 
 	/**
 	 * Used to set the amount of knowledge that a user has
-	 * @param waist An integer containing the amount of knowledge
+	 * @param knowledge An integer containing the amount of knowledge
 	 */
 	public void setKnowledge(int knowledge){
 		String fileLoc = database + "/charProfile/"+user+"/knowledge";
@@ -734,8 +907,8 @@ public class UserValue {
 	 * @return A String array containing the skills that a user possesses.
 	 */
 	public String[] getSkills(){
-		FileOperations FO = new FileOperations(database);
-		String[] files = FO.getDirectory("/"+user+"/skills/");
+		FileOperations FO = new FileOperations(database + "/"+user+"/skills/");
+		String[] files = FO.getDirectory();
 		return files;
 	}
 
@@ -755,8 +928,8 @@ public class UserValue {
 	 * @param skill A String containing the skill to be deleted
 	 */
 	public void deleteSkill(String skill){
-		FileOperations OP = new FileOperations(database);
-		OP.deleteFile("/charProfile/"+user+"/skills/"+skill);
+		FileOperations OP = new FileOperations(database + "/charProfile/"+user+"/skills/"+skill);
+		OP.deleteFile();
 	}
 
 	/**
@@ -764,8 +937,8 @@ public class UserValue {
 	 * @return A String array containing the inventory of a user.
 	 */
 	public String[] getInventory(){
-		FileOperations FO = new FileOperations(database);
-		String[] files = FO.getDirectory("/charProfile/"+user+"/inventory/");
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/inventory/");
+		String[] files = FO.getDirectory();
 		return files;
 	}
 
@@ -776,9 +949,8 @@ public class UserValue {
 	 * @param quantity The quantity of the item
 	 */
 	public void setNewInv(String inv, int quantity){
-		String fileLoc = database + "/charProfile/"+user+"/inventory/" + inv;
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(Integer.toString(quantity));
+		FileOperations FO = new FileOperations(database + "/charProfile/"+user+"/inventory/" + inv);
+		FO.setLine(Integer.toString(quantity));
 	}
 
 	/**
@@ -803,9 +975,6 @@ public class UserValue {
 		} else {
 			return 0;
 		}
-
-
-
 	}
 
 	/**
@@ -813,8 +982,7 @@ public class UserValue {
 	 * @param inv A String containing the inventory item to delete
 	 */
 	public void deleteInv(String inv){
-		FileOperations OP = new FileOperations(database);
-		OP.deleteFile("/charProfile/"+user+"/inventory/"+inv);
+		FileOperations OP = new FileOperations(database + "/charProfile/"+user+"/inventory/"+inv);
+		OP.deleteFile();
 	}
-
 }

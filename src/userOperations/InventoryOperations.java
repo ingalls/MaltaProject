@@ -222,11 +222,11 @@ public class InventoryOperations {
 			String currentNum = RoomValue.getObjectNumber(objectName);
 
 			if (currentNum.equals("")){
-				RoomValue.setNewObject(objectName, dropNum+"");
+				RoomValue.setNewObject(objectName, dropNum);
 			} else {
 				int currentNumber = Integer.parseInt(currentNum);
 				dropNum = dropNum + currentNumber;
-				RoomValue.setNewObject(objectName, dropNum+"");
+				RoomValue.setNewObject(objectName, dropNum);
 			}
 		}
 		return error;
@@ -235,7 +235,7 @@ public class InventoryOperations {
 	/**
 	 * Takes an item from a room and adds to inventory
 	 * @param item A string containing a part or the entire name of the item to drop
-	 * @param num Number of items to take
+	 * @param takeNum Number of items to take
 	 * @param room The name of the room to take the item from
 	 */
 	public boolean take (String item, int takeNum, String room){
@@ -295,7 +295,7 @@ public class InventoryOperations {
 				RoomValue.deleteObject(objectName);
 			} else {
 				//Sets the new number of objects in the room
-				RoomValue.setNewObject(objectName, (roomNum - takeNum) + "");
+				RoomValue.setNewObject(objectName, (roomNum - takeNum));
 			}
 
 			UserValue UserValue = new UserValue(loc, userName);

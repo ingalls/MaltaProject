@@ -1,5 +1,7 @@
 package maltaProject;
 
+import gameTickService.StartGameTick;
+
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 
@@ -23,13 +25,22 @@ public class TelnetServer extends Thread{
 
 
 	public static void main(String[] args) {
+
+		Thread.currentThread().setName("Telnet-Server");
+
 		System.out.println("Server Started");
 		check();
+
+		//Regenerate Instances
+		Generator generator = new Generator(database);
+		generator.generateAllNPC();
+
+		//Start the Game Keeper
+		StartGameTick GM = new StartGameTick(database);
 
 		//Create Listener Threads
 		new Thread(new UserSocketManager(database, USER_PORT)).start();
 		new Thread(new WizardSocketManager(database, WIZARD_PORT)).start();
-
 	}
 
 	public static void check(){
@@ -47,7 +58,6 @@ public class TelnetServer extends Thread{
 		}
 		if (error==false){
 			System.out.println("[Control] Database OKAY");
-			GameKeeper GM = new GameKeeper(database);
 		}
 	}
 }

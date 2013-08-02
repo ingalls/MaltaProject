@@ -2,11 +2,6 @@ package getValue;
 
 import maltaProject.FileOperations;
 
-//TODO
-//If user is in a non-existent room, warn them
-//Get rid of move:none. If there is not a room in that direction, do not require a file.
-//Get rid of moveDesc:none. If there is no movement description, do not require a file.
-
 /**
  * This class is used to return information on a given room. Given the room
  * name and the location of the database, a string with the requested stat
@@ -53,8 +48,98 @@ public class RoomValue {
 		FO.setLine(strLine);
 	}
 
+	public String[] getDefaultNPCs(){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/defaultNPC");
+		return FO.getDirectory();
+	}
+
+	public int getDefaultNPC(String NPC){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/defaultNPC/" + NPC);
+		return Integer.parseInt(FO.getLine());
+	}
+
+	public void addDefaultNPC(String NPC, int num){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/defaultNPC/" + NPC);
+		FO.setLine(num + "");
+	}
+	public void removeDefaultNPC(String NPC){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/defaultNPC/" + NPC);
+		FO.deleteFile();
+	}
+
 	/**
-	 * Returns a String containing the name of the store. Returns "none" if none.
+	 * Sets whether the user can sit in the room
+	 * @param neutral A boolean of whether the user can sit in the room
+	 */
+	public void setSit(boolean neutral){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/canSit");
+		if (neutral == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	/**
+	 *  Rooms with seats of some kind allow a user to sit.
+	 * 
+	 * @param strSit A String containing the description when the user sits.
+	 */
+	public void setSitDesc(String strSit){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/canSit");
+		FO.setLine(strSit);
+	}
+
+	/**
+	 * Returns a String containing the description that is output when a user sits.
+	 * @return A String containing the sit description
+	 */
+	public String getSitDesc(){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/canSit");
+		return FO.getLine();
+	}
+
+	/**
+	 * Rooms with seats of some kind allow a user to sit.
+	 * 
+	 * @return A String containing the description when the user sits.
+	 */
+	public boolean canSit(){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/canSit");
+		return FO.checkFile();
+	}
+
+	/**
+	 * Returns a String containing the name of the bank. Returns null if none.
+	 * 
+	 * @return A String containing the name of the bank.
+	 */
+	public String getBank(){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/bank");
+		return FO.getLine();
+	}
+
+	/**
+	 * Sets the name of the bank. Should be "none" for none.
+	 * @param store A String containing the name of the bank.
+	 */
+	public void setBank(String store){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/bank");
+		FO.setLine(store);
+	}
+
+	public void removeBank(){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/bank");
+		FO.deleteFile();
+	}
+
+	public void removeStore(){
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/store");
+		FO.deleteFile();
+	}
+
+	/**
+	 * Returns a String containing the name of the store. Returns null if none.
 	 * 
 	 * @return A String containing the name of the store.
 	 */
@@ -94,7 +179,7 @@ public class RoomValue {
 	/**
 	 * Sets a new description
 	 * 
-	 * @param strLine A string that will overwrite the room description.
+	 * @param desc A string that will overwrite the room description.
 	 */
 	public void setDesc(String desc){
 		FileOperations FO = new FileOperations(database + "/rooms/"+roomName+"/desc");
@@ -241,7 +326,7 @@ public class RoomValue {
 	/**
 	 * Sets a new room to the down
 	 * 
-	 * @param strLine A string that will overwrite the current room
+	 * @param moveDesc A string that will overwrite the current room
 	 */
 	public void setMoveNorth(String moveDesc){
 		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveNorth");
@@ -263,7 +348,7 @@ public class RoomValue {
 	/**
 	 * Sets a new room to the down
 	 * 
-	 * @param strLine A string that will overwrite the current room
+	 * @param moveDesc A string that will overwrite the current room
 	 */
 	public void setMoveEast(String moveDesc){
 		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveEast");
@@ -285,7 +370,7 @@ public class RoomValue {
 	/**
 	 * Sets a new room to the down
 	 * 
-	 * @param strLine A string that will overwrite the current room
+	 * @param moveDesc A string that will overwrite the current room
 	 */
 	public void setMoveSouth(String moveDesc){
 		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveSouth");
@@ -307,7 +392,7 @@ public class RoomValue {
 	/**
 	 * Sets a new room to the down
 	 * 
-	 * @param strLine A string that will overwrite the current room
+	 * @param moveDesc A string that will overwrite the current room
 	 */
 	public void setMoveWest(String moveDesc){
 		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveWest");
@@ -329,7 +414,7 @@ public class RoomValue {
 	/**
 	 * Sets a new room to the down
 	 * 
-	 * @param strLine A string that will overwrite the current room
+	 * @param moveDesc A string that will overwrite the current room
 	 */
 	public void setMoveUp(String moveDesc){
 		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveUp");
@@ -351,7 +436,7 @@ public class RoomValue {
 	/**
 	 * Sets a new room to the down
 	 * 
-	 * @param strLine A string that will overwrite the current room
+	 * @param moveDesc A string that will overwrite the current room
 	 */
 	public void setMoveDown(String moveDesc){
 		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/moveDesc/moveDown");
@@ -364,19 +449,20 @@ public class RoomValue {
 	 * @return A String array containing the objects
 	 */
 	public String[] getObjects(){
-		FileOperations FO = new FileOperations(database);
-		String[] files = FO.getDirectory("/rooms/"+roomName+"/object");
+		FileOperations FO = new FileOperations(database + "/rooms/"+roomName+"/object");
+		String[] files = FO.getDirectory();
 		return files;
 	}
 
 	/**
 	 * Creates A new object in a room
 	 * 
-	 * @param instanceNum A String containing the instance number of the object
+	 * @param instanceName A String containing the instance number of the object
+	 * @param number An int containing the number of said object
 	 */
-	public void setNewObject(String name, String number){
-		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/object/"+name);
-		open.setLine(number);
+	public void setNewObject(String instanceName, int number){
+		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/object/"+instanceName);
+		open.setLine(number + "");
 	}
 
 	/**
@@ -398,11 +484,11 @@ public class RoomValue {
 	/**
 	 * Used to delete an object in a room
 	 * 
-	 * @param inv A String containing instance number of the object to delete
+	 * @param name A String containing instance number of the object to delete
 	 */
 	public void deleteObject(String name){
-		FileOperations OP = new FileOperations(database);
-		OP.deleteFile("/rooms/"+roomName+"/object/"+name);
+		FileOperations OP = new FileOperations(database + "/rooms/" + roomName + "/object/"+name);
+		OP.deleteFile();
 	}
 
 	/**
@@ -411,9 +497,8 @@ public class RoomValue {
 	 * @return A String array containing the npcs
 	 */
 	public String[] getNPC(){
-		FileOperations FO = new FileOperations(database);
-		String[] files = FO.getDirectory("/rooms/"+roomName+"/npc");
-		return files;
+		FileOperations FO = new FileOperations(database + "/rooms/"+roomName+"/npc/");
+		return FO.getDirectory();
 	}
 
 	/**
@@ -423,17 +508,17 @@ public class RoomValue {
 	 */
 	public void setNewNPC(String instanceNum){
 		FileOperations open = new FileOperations(database + "/rooms/"+roomName+"/npc/"+instanceNum);
-		open.setLine(" ");
+		open.setLine("");
 	}
 
 	/**
 	 * Used to delete an npc in a room
 	 * 
-	 * @param inv A String containing instance number of the npc to delete
+	 * @param instanceName A String containing instance name of the npc to delete
 	 */
-	public void deleteNPC(String instanceNum){
-		FileOperations OP = new FileOperations(database);
-		OP.deleteFile("/rooms/"+roomName+"/npc/"+instanceNum);
+	public void deleteNPC(String instanceName){
+		FileOperations OP = new FileOperations(database + "/rooms/"+roomName+"/npc/"+instanceName);
+		OP.deleteFile();
 	}
 
 	/**
@@ -441,8 +526,8 @@ public class RoomValue {
 	 * @return A String[] containing a list of visible user's in a room
 	 */
 	public String[] getUsers(){
-		FileOperations FO = new FileOperations(database);
-		String[] users = FO.getDirectory("/rooms/" + roomName + "/users/");
+		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/users/");
+		String[] users = FO.getDirectory();
 
 		return users;
 	}
@@ -462,6 +547,6 @@ public class RoomValue {
 	 */
 	public void removeUser(String user){
 		FileOperations FO = new FileOperations(database + "/rooms/" + roomName + "/users/" + user);
-		FO.deleteFile("");
+		FO.deleteFile();
 	}
 }

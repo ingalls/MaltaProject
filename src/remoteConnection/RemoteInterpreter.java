@@ -1,6 +1,7 @@
 package remoteConnection;
 
 import getValue.LoginValue;
+import getValue.RoomValue;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -9,6 +10,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
+
+import maltaProject.FileOperations;
 
 public class RemoteInterpreter {
 
@@ -32,17 +35,23 @@ public class RemoteInterpreter {
 		try {
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 			out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
+			interpreter();
 		} catch (IOException e) {
 			System.out.println("Error: cannot open printstream for RemoteConnection");
+			System.out.println("Destoying Thread");
+			Thread.currentThread().destroy();
 		}
-		interpreter();
+
 	}
 
 	public void interpreter(){
+		//Settable Variables
+		String area = "";
+		String room = "";
+
 		while (true){
 			System.out.println((!password.equals("")) && (!username.equals("")) && AUTH == false);
 			if ((!password.equals("")) && (!username.equals("")) && AUTH == false){
-				System.out.println("Checking Credentials:" + username + "|" + password);
 				checkLogin(username, password);
 			}
 
@@ -56,7 +65,56 @@ public class RemoteInterpreter {
 				}
 
 			} else {
+				if (input.contains("&area-list&")){
+					FileOperations FO = new FileOperations(database+"/rooms/");
+					String[] dirList = FO.getDirectory();
+					String areaList = "&area-list&:";
+					int parser = 0;
 
+					while (parser <= dirList.length - 1){
+						System.out.println(areaList);
+						areaList = areaList + dirList[parser] + ",";
+						parser++;
+					}
+
+					output(areaList);
+
+				} else if (input.contains("&room-title-list&")){
+					FileOperations FO = new FileOperations(database+"/rooms/" + area + "/");
+					System.out.println(database+"/rooms/" + area + "/");
+					String[] dirList = FO.getDirectoryFolders();
+					String roomList = "&room-title-list&:";
+					int parser = 0;
+
+					while (parser <= dirList.length - 1){
+						RoomValue RV = new RoomValue(database, dirList[parser]);
+						roomList = roomList +  RV.getTitle() + ",";
+						parser++;
+					}
+
+					output(roomList);
+
+				} else if (input.contains("&room-list&")){
+					FileOperations FO = new FileOperations(database+"/rooms/" + area + "/");
+					System.out.println(database+"/rooms/" + area + "/");
+					String[] dirList = FO.getDirectoryFolders();
+					String roomList = "&room-list&:";
+					int parser = 0;
+
+					while (parser <= dirList.length - 1){
+						System.out.println(roomList);
+						roomList = roomList + dirList[parser] + ",";
+						parser++;
+					}
+
+					output(roomList);
+				} else if (input.contains("&set-working-area&:")){
+					area = input.replace("&set-working-area&:", "");
+					System.out.println("Setting area:" + area);
+				} else if (input.contains("&set-working-room&:")){
+					System.out.println("Setting room:" + input);
+					room = input.replace("&set-working-room&:", "");
+				}
 			}
 		}
 	}
@@ -77,10 +135,7 @@ public class RemoteInterpreter {
 	public String input(){
 		try {
 			String input = "";
-			System.out.println("Waiting for input");
-			while (input.equals("")){
-				input = in.readLine();
-			}
+			input = in.readLine();
 			return input;
 		} catch (IOException e) {
 			System.out.println("Could not recieve input from connection");
@@ -89,6 +144,6 @@ public class RemoteInterpreter {
 	}
 
 	public void output(String outputText){
-		out.println(outputText);
+		out.println(outputText + "\r\n");
 	}
 }

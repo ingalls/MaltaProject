@@ -36,7 +36,7 @@ public class Wizard {
 	public void advance(String user, int level){
 
 		UserValue UV = new UserValue(database, user);
-		UV.setLvl(UV.getLvl() + level);
+		UV.setLevel(UV.getLevel() + level);
 	}
 
 	/**
@@ -158,7 +158,7 @@ public class Wizard {
 
 	/**
 	 * Shuts a player up. The player will still be able to OPRAY to immortals
-	 * @param username The name of the user
+	 * @param user The name of the user
 	 */
 	public void mute(String user){
 		//TODO
@@ -201,7 +201,7 @@ public class Wizard {
 	/**
 	 * Purge will delete NPCs and Objects from a room. Command 'purge room'
 	 * Purge can also remove players.
-	 * @param name Either 'room' or the name of a user
+	 * @param location Either 'room' or the name of a user
 	 */
 	public void purgeRoom(String location){
 

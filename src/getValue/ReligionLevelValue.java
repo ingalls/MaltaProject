@@ -68,198 +68,242 @@ public class ReligionLevelValue {
 
 	/**
 	 * Returns the dexterity modifier of the religion's level
-	 * @return A String containing the dexterity modifier
+	 * @return An int containing the dexterity modifier
 	 */
-	public String getDexterityModifier(){
+	public int getDexterityBonus(){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/modifiers/dexterityModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * Sets the dexterity modifier of the religion's level
 	 * @param dexterityModifier A String containing the dexterity modifier
 	 */
-	public void setDexterityModifier(String dexterityModifier){
+	public void setDexterityBonus(String dexterityModifier){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/modifiers/dexterityModifier");
 		FO.setLine(dexterityModifier);
 	}
 
 	/**
-	 * Returns a String containing the experience modifier of the religion's level
-	 * @return A String containing the dexterity modifier
+	 * Returns an int containing the experience modifier of the religion's level
+	 * @return An int containing the dexterity modifier
 	 */
-	public String getExperienceModifier(){
+	public int getExperienceModifier(){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/modifiers/experienceModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * Sets the experience modifier of the religion's level
-	 * @param experienceModifier A String containing the dexterity modifier
+	 * @param experienceBonus A String containing the dexterity modifier
 	 */
-	public void setExperienceModifier(String experienceModifier){
+	public void setExperienceModifier(String experienceBonus){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/modifiers/experienceModifier");
-		FO.setLine(experienceModifier);
+		FO.setLine(experienceBonus);
 	}
 
 	/**
-	 * Returns a String containing the intelligence modifier of the religion's level
-	 * @return A String containing the intelligence modifier
+	 * Returns an int containing the intelligence modifier of the religion's level
+	 * @return An int containing the intelligence modifier
 	 */
-	public String getIntelligenceModifier(){
+	public int getIntelligenceBonus(){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/modifiers/intelligenceModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * Sets the intelligence modifier of the religion's level
-	 * @param intelligenceModifier A String containing the intelligence modifier
+	 * @param intelligenceBonus A String containing the intelligence modifier
 	 */
-	public void setIntelligenceModifier(String intelligenceModifier){
+	public void setIntelligenceBonus(String intelligenceBonus){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/modifiers/intelligenceModifier");
-		FO.setLine(intelligenceModifier);
+		FO.setLine(intelligenceBonus);
 	}
 
 	/**
-	 * Returns a String containing the strength modifier of the religion's level
-	 * @return A String containing the strength modifier
+	 * Returns an int containing the strength modifier of the religion's level
+	 * @return An int containing the strength modifier
 	 */
-	public String getStrengthModifier(){
+	public int getStrengthBonus(){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/modifiers/strengthModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * Sets the strength modifier of the religion's level
-	 * @param strengthModifier A String containing the strength modifier
+	 * @param strengthBonus A String containing the strength modifier
 	 */
-	public void setStrengthModifier(String strengthModifier){
+	public void setStrengthBonus(String strengthBonus){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/modifiers/strengthModifier");
-		FO.setLine(strengthModifier);
+		FO.setLine(strengthBonus);
 	}
 
 	/**
-	 * Returns a String containing the wisdom modifier of the religion's level
-	 * @return A String containing the wisdom modifier
+	 * Returns an int containing the wisdom modifier of the religion's level
+	 * @return An int containing the wisdom modifier
 	 */
-	public String getWisdomModifier(){
+	public int getWisdomBonus(){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/modifiers/wisdomModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * Sets the wisdom modifier of the religion's level
-	 * @param wisdomModifier A String containing the wisdom modifier
+	 * @param wisdomBonus A String containing the wisdom modifier
 	 */
-	public void setWisdomModifier(String wisdomModifier){
+	public void setWisdomBonus(String wisdomBonus){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/modifiers/wisdomModifier");
-		FO.setLine(wisdomModifier);
+		FO.setLine(wisdomBonus);
 	}
 
 	/**
 	 * Returns the acid protection modifier of the religion's level
-	 * @return A String containing the acid protection
+	 * @return An int containing the acid protection
 	 */
-	public String getAcidProtection(){
+	public int getAcidProtectionModifier(){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/protection/acidProtection");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 100;
+		}
 	}
 
 	/**
 	 * Sets the acid protection modifier of the religion's level
 	 * @param acidProtection A String containing the acid protection modifier
 	 */
-	public void setAcidProtection(String acidProtection){
+	public void setAcidProtectionModifier(String acidProtection){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/protection/acidProtection");
 		FO.setLine(acidProtection);
 	}
 
 	/**
 	 * Returns the fire protection modifier of the religion's level
-	 * @return A String containing the fire protection
+	 * @return An int containing the fire protection
 	 */
-	public String getFireProtection(){
+	public int getFireProtectionModifier(){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/protection/fireProtection");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 100;
+		}
 	}
 
 	/**
 	 * Sets the fire protection modifier of the religion's level
 	 * @param fireProtection A String containing the fire protection modifier
 	 */
-	public void setFireProtection(String fireProtection){
+	public void setFireProtectionModifier(String fireProtection){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/protection/fireProtection");
 		FO.setLine(fireProtection);
 	}
 
 	/**
 	 * Returns the hit protection modifier of the religion's level
-	 * @return A String containing the fire protection
+	 * @return An int containing the fire protection
 	 */
-	public String getHitProtection(){
+	public int getHitProtectionModifier(){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/protection/hitProtection");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 100;
+		}
 	}
 
 	/**
 	 * Sets the hit protection modifier of the religion's level
 	 * @param hitProtection A String containing the hit protection modifier
 	 */
-	public void setHitProtection(String hitProtection){
+	public void setHitProtectionModifier(String hitProtection){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/protection/hitProtection");
 		FO.setLine(hitProtection);
 	}
 
 	/**
 	 * Returns the magic protection modifier of the religion's level
-	 * @return A String containing the magic protection
+	 * @return An int containing the magic protection
 	 */
-	public String getMagicProtection(){
+	public int getMagicProtectionModifier(){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/protection/magicProtection");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 100;
+		}
 	}
 
 	/**
 	 * Sets the magic protection modifier of the religion's level
 	 * @param magicProtection A String containing the magic protection modifier
 	 */
-	public void setMagicProtection(String magicProtection){
+	public void setMagicProtectionModifier(String magicProtection){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/protection/magicProtection");
 		FO.setLine(magicProtection);
 	}
 
 	/**
 	 * Returns the pierce protection modifier of the religion's level
-	 * @return A String containing the pierce protection
+	 * @return An int containing the pierce protection
 	 */
-	public String getPierceProtection(){
+	public int getPierceProtectionModifier(){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/protection/pierceProtection");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 100;
+		}
 	}
 
 	/**
 	 * Sets the pierce protection modifier of the religion's level
 	 * @param pierceProtection A String containing the pierce protection modifier
 	 */
-	public void setPierceProtection(String pierceProtection){
+	public void setPierceProtectionModifier(String pierceProtection){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/protection/pierceProtection");
 		FO.setLine(pierceProtection);
 	}
 
 	/**
 	 * Returns the ranged protection modifier of the religion's level
-	 * @return A String containing the ranged protection
+	 * @return An int containing the ranged protection
 	 */
-	public String getRangedProtection(){
+	public int getRangedProtectionModifier(){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/protection/rangedProtection");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 100;
+		}
 	}
 
 	/**
 	 * Sets the ranged protection modifier of the religion's level
 	 * @param rangedProtection A String containing the ranged protection modifier
 	 */
-	public void setRangedProtection(String rangedProtection){
+	public void setRangedProtectionModifier(String rangedProtection){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/levels/" + religionLevel + "/protection/rangedProtection");
 		FO.setLine(rangedProtection);
 	}

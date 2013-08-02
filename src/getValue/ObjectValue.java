@@ -37,20 +37,24 @@ public class ObjectValue {
 	 * Returns the dexterity modifier This value will be an integer percent. ie:
 	 * 50 will reduce the wielder's stat by half 200 will double the stat.
 	 * 
-	 * @return A String containing the modifier
+	 * @return An int containing the modifier
 	 */
-	public String getDexModifier() {
+	public int getDexterityBonus() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/dexterityModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * sets the dexterity modifier This value will be an integer percent. ie: 50
 	 * will reduce the wielder's stat by half 200 will double the stat.
 	 * 
-	 * @return A String containing the modifier
+	 * @param dex A String containing the dexterity
 	 */
-	public void setDexModifier(String dex) {
+	public void setDexBonus(String dex) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/dexterityModifier");
 		FO.setLine(dex);
 	}
@@ -59,18 +63,22 @@ public class ObjectValue {
 	 * Returns the experience modifier This value will be an integer percent.
 	 * ie: 50 will reduce the wielder's stat by half 200 will double the stat.
 	 * 
-	 * @return A String containing the modifier
+	 * @return An int containing the modifier
 	 */
-	public String getXPModifier() {
+	public int getXPModifier() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/expereienceModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * sets the experience modifier This value will be an integer percent. ie:
 	 * 50 will reduce the wielder's stat by half 200 will double the stat.
 	 * 
-	 * @return A String containing the modifier
+	 * @param XP A String containing the modifier
 	 */
 	public void setXPModifier(String XP) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/experienceModifier");
@@ -81,21 +89,24 @@ public class ObjectValue {
 	 * Returns the intelligence modifier This value will be an integer percent.
 	 * ie: 50 will reduce the wielder's stat by half 200 will double the stat.
 	 * 
-	 * @return A String containing the modifier
+	 * @return An int containing the modifier
 	 */
-	public String getIntelligenceModifier() {
+	public int getIntelligenceBonus() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/intelligenceModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * sets the intelligence modifier This value will be an integer percent. ie:
 	 * 50 will reduce the wielder's stat by half 200 will double the stat.
 	 * 
-	 * @return A String containing the modifier
+	 * @param intel A String containing the modifier
 	 */
-
-	public void setIntelligenceModifier(String intel) {
+	public void setIntelligenceBonus(String intel) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/intelligenceModifier");
 		FO.setLine(intel);
 	}
@@ -104,20 +115,24 @@ public class ObjectValue {
 	 * Returns the strength modifier This value will be an integer percent. ie:
 	 * 50 will reduce the wielder's stat by half 200 will double the stat.
 	 * 
-	 * @return A String containing the modifier
+	 * @return An int containing the modifier
 	 */
-	public String getStrengthModifier() {
+	public int getStrengthBonus() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/strengthModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * sets the strength modifier This value will be an integer percent. ie: 50
 	 * will reduce the wielder's stat by half 200 will double the stat.
 	 * 
-	 * @return A String containing the modifier
+	 * @param str A String containing the modifier
 	 */
-	public void setStrengthModifier(String str) {
+	public void setStrengthBonus(String str) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/strengthModifier");
 		FO.setLine(str);
 	}
@@ -126,20 +141,24 @@ public class ObjectValue {
 	 * Returns the wisdom modifier This value will be an integer percent. ie: 50
 	 * will reduce the wielder's stat by half 200 will double the stat.
 	 * 
-	 * @return A String containing the modifier
+	 * @return An int containing the modifier
 	 */
-	public String getWisdomModifier() {
+	public int getWisdomBonus() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/wisdomModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * sets the wisdom modifier This value will be an integer percent. ie: 50
 	 * will reduce the wielder's stat by half 200 will double the stat.
 	 * 
-	 * @return A String containing the modifier
+	 * @param wis A String containing the modifier
 	 */
-	public void setWisdomModifier(String wis) {
+	public void setWisdomBonus(String wis) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/modifiers/wisdomModifier");
 		FO.setLine(wis);
 	}
@@ -151,20 +170,23 @@ public class ObjectValue {
 	 * @return A string containing the body part that it can be worn on or
 	 *         "false"
 	 */
-	public String isWearable() {
+	public boolean isWearable() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/settings/wearable");
-		return FO.getLine();
+		return FO.checkFile();
 	}
 
 	/**
 	 * Sets whether an object can be worn
 	 * 
-	 * @param wearable A String containing the body part that it can be worn on or
-	 * "false"
+	 * @param wearable A boolean of whether the object can be worn
 	 */
-	public void setWearable(String wearable) {
+	public void setWearable(boolean wearable) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/settings/wearable");
-		FO.setLine(wearable);
+		if (wearable == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
 	}
 
 	/**
@@ -172,21 +194,25 @@ public class ObjectValue {
 	 * object cannot be held in left-hand or right-hand "weapon" - means the
 	 * object can be held and has weapon properties attached to it
 	 * 
-	 * @return A String containing the setting
+	 * @return A boolean containing the setting
 	 */
-	public String isWieldable() {
+	public boolean isWieldable() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/settings/wieldable");
-		return FO.getLine();
+		return FO.checkFile();
 	}
 
 	/**
 	 * Sets whether the object can be held
 	 * 
-	 * @param wield A String containing the setting
+	 * @param wield A boolean containing the setting
 	 */
-	public void setWieldable(String wield) {
+	public void setWieldable(boolean wield) {
 		FileOperations FO = new FileOperations("/objects/" + obj + "/settings/wieldable");
-		FO.setLine(wield);
+		if (wield == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
 	}
 
 	/**
@@ -196,7 +222,11 @@ public class ObjectValue {
 	 */
 	public String getExamine() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/examine");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "The item refuses further examination";
+		}
 	}
 
 	/**
@@ -216,7 +246,11 @@ public class ObjectValue {
 	 */
 	public String getDesc() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/desc");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "No Description";
+		}
 	}
 
 	/**
@@ -236,7 +270,11 @@ public class ObjectValue {
 	 */
 	public int getWorth() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/worth");
-		return Integer.parseInt(FO.getLine());
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -255,10 +293,8 @@ public class ObjectValue {
 	 * @return A String containing the title
 	 */
 	public String getTitle() {
-		String fileLoc = database + "/objects/" + obj + "/title";
-		FileOperations FO = new FileOperations(fileLoc);
-		String title = FO.getLine();
-		return title;
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/title");
+		return FO.getLine();
 	}
 
 	/**
@@ -267,8 +303,7 @@ public class ObjectValue {
 	 * @param title A String containing the title
 	 */
 	public void setTitle(String title) {
-		String fileLoc = database + "/objects/" + obj + "/title";
-		FileOperations FO = new FileOperations(fileLoc);
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/title");
 		FO.setLine(title);
 	}
 
@@ -278,13 +313,15 @@ public class ObjectValue {
 	 * Ie. A returned value of 50% would halve the users protection
 	 * A returned value of 200% would double it
 	 * 
-	 * @return A String containing an integer percent
+	 * @return An int containing an integer percent
 	 */
-	public String getAcidProtection() {
-		String fileLoc = database + "/objects/" + obj + "/protection/acidProtection";
-		FileOperations FO = new FileOperations(fileLoc);
-		String acid = FO.getLine();
-		return acid;
+	public int getAcidProtectionModifier() {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/protection/acidProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -292,9 +329,8 @@ public class ObjectValue {
 	 * 
 	 * @param acid A String containing an integer percent
 	 */
-	public void setAcidProtection(String acid) {
-		String fileLoc = database + "/objects/" + obj + "/protection/acidProtection";
-		FileOperations FO = new FileOperations(fileLoc);
+	public void setAcidProtectionModifier(String acid) {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/protection/acidProtection");
 		FO.setLine(acid);
 	}
 
@@ -304,13 +340,15 @@ public class ObjectValue {
 	 * Ie. A returned value of 50% would halve the users protection
 	 * A returned value of 200% would double it
 	 * 
-	 * @return A String containing an integer percent
+	 * @return An int containing an integer percent
 	 */
-	public String getFireProtection() {
-		String fileLoc = database + "/objects/" + obj + "/protection/fireProtection";
-		FileOperations FO = new FileOperations(fileLoc);
-		String fire = FO.getLine();
-		return fire;
+	public int getFireProtectionModifier() {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/protection/fireProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -318,9 +356,8 @@ public class ObjectValue {
 	 * 
 	 * @param fire A String containing an integer percent
 	 */
-	public void setFireProtection(String fire) {
-		String fileLoc = database + "/objects/" + obj + "/protection/fireProtection";
-		FileOperations FO = new FileOperations(fileLoc);
+	public void setFireProtectionModifier(String fire) {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/protection/fireProtection");
 		FO.setLine(fire);
 	}
 
@@ -330,13 +367,15 @@ public class ObjectValue {
 	 * Ie. A returned value of 50% would halve the users protection
 	 * A returned value of 200% would double it
 	 * 
-	 * @return A String containing an integer percent
+	 * @return An int containing an integer percent
 	 */
-	public String getHitProtection() {
-		String fileLoc = database + "/objects/" + obj + "/protection/hitProtection";
-		FileOperations FO = new FileOperations(fileLoc);
-		String hit = FO.getLine();
-		return hit;
+	public int getHitProtectionModifier() {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/protection/hitProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -344,9 +383,8 @@ public class ObjectValue {
 	 * 
 	 * @param hit A String containing an integer percent
 	 */
-	public void setHitProtection(String hit) {
-		String fileLoc = database + "/objects/" + obj + "/protection/hitProtection";
-		FileOperations FO = new FileOperations(fileLoc);
+	public void setHitProtectionModifier(String hit) {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/protection/hitProtection");
 		FO.setLine(hit);
 	}
 
@@ -356,13 +394,15 @@ public class ObjectValue {
 	 * Ie. A returned value of 50% would halve the users protection
 	 * A returned value of 200% would double it
 	 * 
-	 * @return A String containing an integer percent
+	 * @return An int containing an integer percent
 	 */
-	public String getMagicProtection() {
-		String fileLoc = database + "/objects/" + obj + "/protection/acidProtection";
-		FileOperations FO = new FileOperations(fileLoc);
-		String acid = FO.getLine();
-		return acid;
+	public int getMagicProtectionModifier() {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/protection/acidProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -370,9 +410,8 @@ public class ObjectValue {
 	 * 
 	 * @param magic A String containing an integer percent
 	 */
-	public void setMagicProtection(String magic) {
-		String fileLoc = database + "/objects/" + obj + "/protection/magicProtection";
-		FileOperations FO = new FileOperations(fileLoc);
+	public void setMagicProtectionModifier(String magic) {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/protection/magicProtection");
 		FO.setLine(magic);
 	}
 
@@ -382,13 +421,15 @@ public class ObjectValue {
 	 * Ie. A returned value of 50% would halve the users protection
 	 * A returned value of 200% would double it
 	 * 
-	 * @return A String containing an integer percent
+	 * @return An int containing an integer percent
 	 */
-	public String getPierceProtection() {
-		String fileLoc = database + "/objects/" + obj + "/protection/pierceProtection";
-		FileOperations FO = new FileOperations(fileLoc);
-		String pierce = FO.getLine();
-		return pierce;
+	public int getPierceProtectionModifier() {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/protection/pierceProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -396,9 +437,8 @@ public class ObjectValue {
 	 * 
 	 * @param pierce A String containing an integer percent
 	 */
-	public void setPiercedProtection(String pierce) {
-		String fileLoc = database + "/objects/" + obj + "/protection/pierceProtection";
-		FileOperations FO = new FileOperations(fileLoc);
+	public void setPiercedProtectionModifier(String pierce) {
+		FileOperations FO = new FileOperations("/objects/" + obj + "/protection/pierceProtection");
 		FO.setLine(pierce);
 	}
 
@@ -408,11 +448,15 @@ public class ObjectValue {
 	 * Ie. A returned value of 50% would halve the users protection
 	 * A returned value of 200% would double it
 	 * 
-	 * @return A String containing an integer percent
+	 * @return An int containing an integer percent
 	 */
-	public String getRangedProtection() {
+	public int getRangedProtectionModifier() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/protection/rangedProtection");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -420,7 +464,7 @@ public class ObjectValue {
 	 * 
 	 * @param ranged A String containing an integer percent
 	 */
-	public void setRangedProtection(String ranged) {
+	public void setRangedProtectionModifier(String ranged) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/protection/rangedProtection");
 		FO.setLine(ranged);
 	}
@@ -430,15 +474,19 @@ public class ObjectValue {
 	 * 
 	 * @return A String containing the requirement
 	 */
-	public String getAgeRequirement() {
+	public int getAgeRequirement() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredAge");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * Sets the age required to use the item
 	 * 
-	 * @param wis A String containing the requirement
+	 * @param age A String containing the requirement
 	 */
 	public void setAgeRequirement(String age) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredAge");
@@ -452,13 +500,17 @@ public class ObjectValue {
 	 */
 	public String getClassRequirement() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredClass");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
 	 * Sets the class required to use the item
 	 * 
-	 * @param wis A String containing the requirement
+	 * @param classRequire A String containing the requirement
 	 */
 	public void setClassRequirement(String classRequire) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredClass");
@@ -468,17 +520,21 @@ public class ObjectValue {
 	/**
 	 * Returns the dexterity required to use the item
 	 * 
-	 * @return A String containing the requirement
+	 * @return An int containing the requirement
 	 */
-	public String getDexterityRequirement() {
+	public int getDexterityRequirement() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredDexterity");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * Sets the dexterity required to use the item
 	 * 
-	 * @param wis A String containing the requirement
+	 * @param dex A String containing the requirement
 	 */
 	public void setDexterityRequirement(String dex) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredDexterity");
@@ -488,17 +544,21 @@ public class ObjectValue {
 	/**
 	 * Returns the health required to use the item
 	 * 
-	 * @return A String containing the requirement
+	 * @return An int containing the requirement
 	 */
-	public String getHealthRequirement() {
+	public int getHealthRequirement() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredHealth");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * Sets the health required to use the item
 	 * 
-	 * @param wis A String containing the requirement
+	 * @param hp A String containing the requirement
 	 */
 	public void setHealthRequirement(String hp) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredHealth");
@@ -508,17 +568,21 @@ public class ObjectValue {
 	/**
 	 * Returns the intelligence required to use the item
 	 * 
-	 * @return A String containing the requirement
+	 * @return An int containing the requirement
 	 */
-	public String getIntelligenceRequirement() {
+	public int getIntelligenceRequirement() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredIntelligence");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * Sets the intelligence required to use the item
 	 * 
-	 * @param wis A String containing the requirement
+	 * @param intel A String containing the requirement
 	 */
 	public void setIntelligenceRequirement(String intel) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredIntelligence");
@@ -528,17 +592,21 @@ public class ObjectValue {
 	/**
 	 * Returns the level required to use the item
 	 * 
-	 * @return A String containing the requirement
+	 * @return An int containing the requirement
 	 */
-	public String getLevelRequirement() {
+	public int getLevelRequirement() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredLevel");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * Sets the level required to use the item
 	 * 
-	 * @param wis A String containing the requirement
+	 * @param lvl A String containing the requirement
 	 */
 	public void setLevelRequirement(String lvl) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredLevel");
@@ -552,13 +620,17 @@ public class ObjectValue {
 	 */
 	public String getRaceRequirement() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredRace");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
 	 * Sets the race required to use the item
 	 * 
-	 * @param wis A String containing the requirement
+	 * @param race A String containing the requirement
 	 */
 	public void setRaceRequirement(String race) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredRace");
@@ -572,13 +644,17 @@ public class ObjectValue {
 	 */
 	public String getReligionRequirement() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredReligion");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
 	 * Sets the religion required to use the item
 	 * 
-	 * @param wis A String containing the requirement
+	 * @param religion A String containing the requirement
 	 */
 	public void setReligionRequirement(String religion) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredReligion");
@@ -592,34 +668,42 @@ public class ObjectValue {
 	 */
 	public String[] getSkillRequirement() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredSkill");
-		return FO.getFile();
+		if (FO.checkFile()){
+			return FO.getFile();
+		} else {
+			return null;
+		}
 	}
 
 	/**
 	 * Sets the skill required to use the item
 	 * 
-	 * @param wis A String containing the requirement
+	 * @param skills A String[] containing the requirement
 	 */
 	public void setSkillRequirement(String[] skills) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requiredSkill");
-		FO.deleteFile("");
+		FO.deleteFile();
 		FO.setFile(skills);
 	}
 
 	/**
 	 * Returns the strength required to use the item
 	 * 
-	 * @return A String containing the requirement
+	 * @return An int containing the requirement
 	 */
-	public String getStrengthRequirement() {
+	public int getStrengthRequirement() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredStrenth");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * Sets the strength required to use the item
 	 * 
-	 * @param wis A String containing the requirement
+	 * @param strength A String containing the requirement
 	 */
 	public void setStrengthRequirement(String strength) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredStrength");
@@ -627,19 +711,47 @@ public class ObjectValue {
 	}
 
 	/**
+	 * Returns the weight of the item
+	 * 
+	 * @return An int containing the weight
+	 */
+	public int getWeight() {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/weight");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+	}
+
+	/**
+	 * Sets the weight required of the item
+	 * 
+	 * @param weight A String containing the weight
+	 */
+	public void setWeight(String weight) {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/weight");
+		FO.setLine(weight);
+	}
+
+	/**
 	 * Returns the weight required to use the item
 	 * 
-	 * @return A String containing the requirement
+	 * @return An int containing the requirement
 	 */
-	public String getWeightRequirement() {
+	public int getWeightRequirement() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredWeight");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * Sets the weight required to use the item
 	 * 
-	 * @param wis A String containing the requirement
+	 * @param weight A String containing the requirement
 	 */
 	public void setWeightRequirement(String weight) {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredWeight");
@@ -649,11 +761,15 @@ public class ObjectValue {
 	/**
 	 * Returns the wisdom required to use the item
 	 * 
-	 * @return A String containing the requirement
+	 * @return An int containing the requirement
 	 */
-	public String getWisdomRequirement() {
+	public int getWisdomRequirement() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/requirements/requiredSkill");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	/**
@@ -671,7 +787,7 @@ public class ObjectValue {
 	 * This will be a String containing either:
 	 * "acid", "fire", "hit", "magic", "pierce", "ranged", or "none" if the object is not a weapon.
 	 * 
-	 * @return A String contaning the type of damage
+	 * @return A String containing the type of damage
 	 */
 	public String getWeaponType() {
 		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/weaponType");
@@ -755,42 +871,42 @@ public class ObjectValue {
 	}
 
 	/**
-	 * Returns a string containing the min damage that a weapon can cause
+	 * Returns an int containing the min damage that a weapon can cause
 	 * 
-	 * @return A String containing the damage
+	 * @return An int containing the damage
 	 */
-	public String getMinDamage() {
-		FileOperations FO = new FileOperations("/objects/" + obj + "/fighting/minDamageDesc");
-		return FO.getLine();
+	public int getMinDamage() {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/minDamage");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the min damage that a weapon can cause
 	 * 
-	 * @param damage A String containing the min damage
+	 * @param damage An int containing the min damage
 	 */
-	public void setMinDamage(String damage) {
-		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/minDamageDesc");
-		FO.setLine(damage);
+	public void setMinDamage(int damage) {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/minDamage");
+		FO.setLine(damage + "");
 	}
 
 	/**
-	 * Returns a String containing the max damage that a weapon can cause
+	 * Returns an int containing the max damage that a weapon can cause
 	 * 
-	 * @return A String containing the max damage
+	 * @return An int containing the max damage
 	 */
-	public String getMaxDamage() {
-		FileOperations FO = new FileOperations( database + "/objects/" + obj + "/fighting/minDamageDesc");
-		return FO.getLine();
+	public int getMaxDamage() {
+		FileOperations FO = new FileOperations( database + "/objects/" + obj + "/fighting/maxDamage");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the max damage that a weapon can cause
 	 * 
-	 * @param damage A String containing the max damage that a weapon can cause
+	 * @param damage An int containing the max damage that a weapon can cause
 	 */
-	public void setMaxDamage(String damage) {
-		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/minDamageDesc");
-		FO.setLine(damage);
+	public void setMaxDamage(int damage) {
+		FileOperations FO = new FileOperations(database + "/objects/" + obj + "/fighting/maxDamage");
+		FO.setLine(damage + "");
 	}
 }

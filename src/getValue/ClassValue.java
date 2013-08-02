@@ -2,9 +2,6 @@ package getValue;
 
 import maltaProject.FileOperations;
 
-
-//TODO finish writing getters & setters
-
 public class ClassValue {
 	/**Stores database location - initialized by constructor*/
 	String database;
@@ -70,6 +67,4 @@ public class ClassValue {
 		}
 
 	}
-
-
 }

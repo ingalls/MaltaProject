@@ -1,6 +1,9 @@
 chatServices
+commands
+gameTickService
 getValue
 maltaProject
-tickService
+remoteConnection
 userInterface
 userOperations
+userTickService

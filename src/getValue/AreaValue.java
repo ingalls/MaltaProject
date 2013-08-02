@@ -35,4 +35,9 @@ public class AreaValue {
 		FileOperations FO = new FileOperations(database+"/rooms/" + areaName + "/weatherPattern");
 		FO.setLine(weatherPattern);
 	}
+
+	public String[] getRoomList(){
+		FileOperations FO = new FileOperations(database + "/rooms/" + areaName + "/");
+		return FO.getDirectoryFolders();
+	}
 }

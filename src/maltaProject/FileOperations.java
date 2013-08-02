@@ -117,22 +117,21 @@ public class FileOperations {
 		return file.exists();
 	}
 
-	public void deleteFile(String file){
+	public void deleteFile(){
 		error = false;
 		try{
-			File F = new File(loc + file);
+			File F = new File(loc);
 			F.delete();
 		}catch(Exception e){
 			if (errorReport == true){
-				System.out.println("<Control> -  cannot delete file " + loc + file);
+				System.out.println("<Control> -  cannot delete file " + loc);
 			}
 			error = true;
 		}
 	}
 
-	public String[] getDirectory(String location){
-		File dir = new File(loc+location);
-
+	public String[] getDirectory(){
+		File dir = new File(loc);
 		String[] files = dir.list();
 		if (files == null) {
 			// Either dir does not exist or is not a directory
@@ -157,6 +156,31 @@ public class FileOperations {
 
 	}
 
+	/**
+	 * Returns a list of directories at the specified path
+	 * @return The names of folders in the directory.
+	 */
+	public String[] getDirectoryFolders(){
+		File dir = new File(loc);
+		String[] files = dir.list();
+		ArrayList<String> isDirectory = new ArrayList<String>();
+
+		for (int i=0; i<files.length; i++){
+			File dirTest = new File(loc + files[i]);
+			if (dirTest.isDirectory()){
+				isDirectory.add(files[i]);
+			}
+		}
+
+		String[] directoryArray = new String[isDirectory.size()];
+		for (int i=0; i<isDirectory.size(); i++){
+			directoryArray[i] = isDirectory.get(i);
+		}
+
+		return directoryArray;
+
+	}
+
 	public void setLine(String strLine){
 		error = false;
 		try{
@@ -167,6 +191,7 @@ public class FileOperations {
 		}catch (Exception e){
 			if (errorReport == true){
 				System.out.println("Cannot write to the file " + loc);
+				e.printStackTrace();
 			}
 			error = true;
 
@@ -214,7 +239,7 @@ public class FileOperations {
 	 * Allows the calling method to set whether the class will print errors
 	 * to the Admins.
 	 * 
-	 * @param error a boolean containing whether to report errors or not.
+	 * @param errorRun a boolean containing whether to report errors or not.
 	 */
 	public void setErrorReport(boolean errorRun){
 		errorReport = errorRun;

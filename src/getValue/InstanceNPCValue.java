@@ -27,164 +27,163 @@ public class InstanceNPCValue {
 	}
 
 	/**
+	 * Returns the starting room of the NPC
+	 * 
+	 * @return A String containing the room
+	 */
+	public String getOrigin() {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/origin");
+		return open.getLine();
+	}
+
+	/**
+	 * Sets the starting room of the NPC
+	 * 
+	 * @param origin A String containing the room
+	 */
+	public void setOrigin(String origin) {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/origin");
+		open.setLine(origin);
+	}
+
+	/**
 	 * Returns the dexterity of an instance NPC
 	 * 
-	 * @return A String containing the dexterity
+	 * @return An int containing the dexterity
 	 */
-	public String getDex() {
-		String fileLoc = database + "/instanceNPC/" + npc + "/dexterity";
-		FileOperations open = new FileOperations(fileLoc);
-		String dex = open.getLine();
-		return dex;
+	public int getDexterity() {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/dexterity");
+		return Integer.parseInt(open.getLine());
 	}
 
 	/**
 	 * Sets the dexterity of an instance NPC
 	 * 
-	 * @param dex A String containing the dexterity
+	 * @param dex An int containing the dexterity
 	 */
-	public void setDex(String dex) {
-		String fileLoc = database + "/instanceNPC/" + npc + "/dexterity";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(dex);
+	public void setDexterity(int dex) {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/dexterity");
+		open.setLine(dex + "");
 	}
 
 	/**
 	 * Returns the age of an instance NPC
 	 * 
-	 * @return A String containing the age
+	 * @return An int containing the age
 	 */
-	public String getAge() {
-		String fileLoc = database + "/instanceNPC/" + npc + "/age";
-		FileOperations open = new FileOperations(fileLoc);
-		String age = open.getLine();
-		return age;
+	public int getAge() {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/age");
+		return Integer.parseInt(open.getLine());
 	}
 
 	/**
 	 * Sets the age of an instance NPC
 	 * 
-	 * @param age A String containing the age
+	 * @param age An int containing the age
 	 */
-	public void setAge(String age) {
-		String fileLoc = database + "/instanceNPC/" + npc + "/age";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(age);
+	public void setAge(int age) {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/age");
+		open.setLine(age + "");
 	}
 
 	/**
 	 * Returns the experience of an instance NPC
 	 * 
-	 * @return A String containing the experience
+	 * @return An int containing the experience
 	 */
-	public String getXP() {
-		String fileLoc = database + "/instanceNPC/" + npc + "/experience";
-		FileOperations open = new FileOperations(fileLoc);
-		String experience = open.getLine();
-		return experience;
+	public int getXP() {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/experience");
+		return Integer.parseInt(open.getLine());
 	}
 
 	/**
 	 * Sets the experience of an instance NPC
 	 * 
-	 * @param experience A String containing the experience
+	 * @param experience An int containing the experience
 	 */
-	public void setXP(String experience) {
-		String fileLoc = database + "/instanceNPC/" + npc + "/experience";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(experience);
+	public void setXP(int experience) {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/experience");
+		open.setLine(experience + "");
 	}
 
 	/**
 	 * Returns the gold of an instance NPC
 	 * 
-	 * @return A String containing the gold
+	 * @return An int containing the gold
 	 */
-	public String getGold() {
-		String fileLoc = database + "/instanceNPC/" + npc + "/gold";
-		FileOperations open = new FileOperations(fileLoc);
-		String gold = open.getLine();
-		return gold;
+	public int getGold() {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/gold");
+		return Integer.parseInt(open.getLine());
 	}
 
 	/**
 	 * Sets the amount of gold that an instance NPC has
 	 * 
-	 * @param gold
+	 * @param gold An int containing the amount of gold
 	 */
-	public void setGold(String gold) {
-		String fileLoc = database + "/instanceNPC/" + npc + "/gold";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(gold);
+	public void setGold(int gold) {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/gold");
+		open.setLine(gold + "");
 	}
 
 	/**
 	 * Returns the health of an instance NPC
 	 * 
-	 * @return A String containing the health
+	 * @return An int containing the health
 	 */
-	public String getHP() {
-		String fileLoc = database + "/instanceNPC/" + npc + "/health";
-		FileOperations open = new FileOperations(fileLoc);
-		String hp = open.getLine();
-		return hp;
+	public int getHP() {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/health");
+		return Integer.parseInt(open.getLine());
 	}
 
 	/**
 	 * Sets the health of an instance NPC
 	 * 
-	 * @param hp A String containing the health
+	 * @param hp An int containing the health
 	 */
-	public void setHP(String hp) {
-		String fileLoc = database + "/instanceNPC/" + npc + "/health";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(hp);
+	public void setHP(int hp) {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/health");
+		open.setLine(hp + "");
 	}
 
 	/**
 	 * Returns the intelligence of an instance NPC
 	 * 
-	 * @return A String containing the intelligence
+	 * @return An int containing the intelligence
 	 */
-	public String getIntelligence() {
-		String fileLoc = database + "/instanceNPC/" + npc + "/intelligence";
-		FileOperations open = new FileOperations(fileLoc);
-		String intel = open.getLine();
-		return intel;
+	public int getIntelligence() {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/intelligence");
+		return Integer.parseInt(open.getLine());
 	}
 
 	/**
 	 * Sets the intelligence of an instance NPC
 	 * 
-	 * @param intel A String containing the intelligence
+	 * @param intel An int containing the intelligence
 	 */
-	public void setIntelligence(String intel) {
-		String fileLoc = database + "/instanceNPC/" + npc + "/intelligence";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(intel);
+	public void setIntelligence(int intel) {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/intelligence");
+		open.setLine(intel + "");
 	}
 
 	/**
 	 * Returns the level of an instance NPC
 	 * 
-	 * @return A String containing the level
+	 * @return An int containing the level
 	 */
-	public String getLevel() {
-		String fileLoc = database + "/instanceNPC/" + npc + "/intelligence";
-		FileOperations open = new FileOperations(fileLoc);
-		String lvl = open.getLine();
-		return lvl;
+	public int getLevel() {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/intelligence");
+		return Integer.parseInt(open.getLine());
 	}
 
 	/**
 	 * Sets the level of an instance NPC
 	 * 
-	 * @param lvl A String containing the level
+	 * @param lvl An int containing the level
 	 */
-	public void setLevel(String lvl) {
-		String fileLoc = database + "/instanceNPC/" + npc + "/intelligence";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(lvl);
+	public void setLevel(int lvl) {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/intelligence");
+		open.setLine(lvl + "");
 	}
 
 	/**
@@ -193,10 +192,8 @@ public class InstanceNPCValue {
 	 * @return A String containing the name of the parent NPC
 	 */
 	public String getReference() {
-		String fileLoc = database + "/instanceNPC/" + npc + "/reference";
-		FileOperations open = new FileOperations(fileLoc);
-		String ref = open.getLine();
-		return ref;
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/reference");
+		return open.getLine();
 	}
 
 	/**
@@ -207,103 +204,90 @@ public class InstanceNPCValue {
 	 * (This class does NOT regenerate the stats of the instance NPC,
 	 * it simply changes who the parent it)
 	 * 
-	 * @param ref A String contaning the name of the reference.
+	 * @param ref A String containing the name of the reference.
 	 */
 	public void setReference(String ref) {
-		String fileLoc = database + "/instanceNPC/" + npc + "/reference";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/reference");
 		open.setLine(ref);
 	}
 
 	/**
 	 * Returns the sex of the instance NPC
 	 * 
-	 * @return A String containing the sex
+	 * @return A String containing the sex (male/female)
 	 */
 	public String getSex() {
-		String fileLoc = database + "/instanceNPC/" + npc + "/sex";
-		FileOperations open = new FileOperations(fileLoc);
-		String sex = open.getLine();
-		return sex;
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/sex");
+		return open.getLine();
 	}
 
 	/**
 	 * Sets the sex of an instance NPC
 	 * 
-	 * @param sex A String containing the sex
+	 * @param sex A String containing the sex (male/female)
 	 */
 	public void setSex(String sex) {
-		String fileLoc = database + "/instanceNPC/" + npc + "/sex";
-		FileOperations open = new FileOperations(fileLoc);
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/sex");
 		open.setLine(sex);
 	}
 
 	/**
 	 * Returns the strength of an instance NPC
 	 * 
-	 * @return A String containing the strength
+	 * @return An int containing the strength
 	 */
-	public String getStrength() {
-		String fileLoc = database + "/instanceNPC/" + npc + "/strength";
-		FileOperations open = new FileOperations(fileLoc);
-		String str = open.getLine();
-		return str;
+	public int getStrength() {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/strength");
+		return Integer.parseInt(open.getLine());
 	}
 
 	/**
 	 * Sets the strength of an instance NPC
 	 * 
-	 * @param str A String containing the strength
+	 * @param str An int containing the strength
 	 */
-	public void setStrength(String str) {
-		String fileLoc = database + "/instanceNPC/" + npc + "/strength";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(str);
+	public void setStrength(int str) {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/strength");
+		open.setLine(str + "");
 	}
 
 	/**
 	 * Returns the weight of an instance NPC
 	 * 
-	 * @return A String containing the weight
+	 * @return An int containing the weight
 	 */
-	public String getWeight() {
-		String fileLoc = database + "/instanceNPC/" + npc + "/weight";
-		FileOperations open = new FileOperations(fileLoc);
-		String lvl = open.getLine();
-		return lvl;
+	public int getWeight() {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/weight");
+		return Integer.parseInt(open.getLine());
 	}
 
 	/**
 	 * Sets the weight of an instance NPC
 	 * 
-	 * @param lvl A String containing the weight
+	 * @param weight An int containing the weight
 	 */
-	public void setWeight(String lvl) {
-		String fileLoc = database + "/instanceNPC/" + npc + "/weight";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(lvl);
+	public void setWeight(int weight) {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/weight");
+		open.setLine(weight + "");
 	}
 
 	/**
 	 * Returns the wisdom of an instance NPC
 	 * 
-	 * @return A String containing the wisdom
+	 * @return An int containing the wisdom
 	 */
-	public String getWisdom() {
-		String fileLoc = database + "/instanceNPC/" + npc + "/wisdom";
-		FileOperations open = new FileOperations(fileLoc);
-		String wis = open.getLine();
-		return wis;
+	public int getWisdom() {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/wisdom");
+		return Integer.parseInt(open.getLine());
 	}
 
 	/**
 	 * Sets the wisdom of an instance NPC
 	 * 
-	 * @param wis A String containing the wisdom
+	 * @param wis An int containing the wisdom
 	 */
-	public void setWisdom(String wis) {
-		String fileLoc = database + "/instanceNPC/" + npc + "/wisdom";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(wis);
+	public void setWisdom(int wis) {
+		FileOperations open = new FileOperations(database + "/instanceNPC/" + npc + "/wisdom");
+		open.setLine(wis + "");
 	}
 }

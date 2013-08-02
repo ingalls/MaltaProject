@@ -31,92 +31,387 @@ public class NPCValue {
 	 * @return A String containing the desc
 	 */
 	public String getDesc(){
-		String fileLoc = database + "/npc/"+npc+"/desc";
-		FileOperations open = new FileOperations(fileLoc);
-		String desc = open.getLine();
-		return desc;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/desc");
+		return FO.getLine();
 	}
 
 	/**
 	 * Sets desc of an NPC
 	 * 
-	 * @param age A String containing the desc
+	 * @param desc A String containing the desc
 	 */
 	public void setDesc(String desc){
-		String fileLoc = database + "/npc/"+npc+"/desc";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(desc);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/desc");
+		FO.setLine(desc);
 	}
 
 	/**
-	 * Returns the type of NPC.
-	 * Possible Values are: neutral
+	 * Returns the sex
 	 * 
-	 * @return A String containing the desc
+	 * @return A String containing the sex (male/female)
 	 */
-	public String getType(){
-		String fileLoc = database + "/npc/"+npc+"/desc";
-		FileOperations open = new FileOperations(fileLoc);
-		String desc = open.getLine();
-		return desc;
+	public String getSex(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/sex");
+		return FO.getLine();
 	}
 
 	/**
-	 * Sets the type of NPC
-	 * Possible Values are: neutral
+	 * Sets the sex of the NPC
 	 * 
-	 * @param age A String containing the desc
+	 * @param sex A String containing the sex (male/female)
 	 */
-	public void setType(String desc){
-		String fileLoc = database + "/npc/"+npc+"/desc";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(desc);
+	public void setSex(String sex){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/sex");
+		FO.setLine(sex);
+	}
+
+	public boolean isWimpy(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isWimpy");
+		return FO.checkFile();
+	}
+
+	public void setWimpy(boolean wimpy){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isWimpy");
+		if (wimpy == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isAggressive(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isAggressive");
+		return FO.checkFile();
+	}
+
+	public void setAggressive(boolean aggressive){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isAggressive");
+		if (aggressive == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isRaceAligned(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isRaceAligned");
+		return FO.checkFile();
+	}
+
+	public void setRaceAligned(boolean raceAlignment){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isRaceAligned");
+		if (raceAlignment == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isClanAligned(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isClanAligned");
+		return FO.checkFile();
+	}
+
+	public void setClanAligned(boolean clanAligned){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isClanAligned");
+		if (clanAligned == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isReligionAligned(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isReligionAligned");
+		return FO.checkFile();
+	}
+
+	public void setReligionAligned(boolean religionAligned){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isReligionAligned");
+		if (religionAligned == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isGuard(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isGuard");
+		return FO.checkFile();
+	}
+
+	public void setGuard(boolean guard){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isGuard");
+		if (guard == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isHealer(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isHealer");
+		return FO.checkFile();
+	}
+
+	public void setHealer(boolean aggressive){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isHealer");
+		if (aggressive == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isTeacher(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isTeacher");
+		return FO.checkFile();
+	}
+
+	public void setTeacher(boolean teacher){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isTeacher");
+		if (teacher == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isStoreKeeper(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isStoreKeeper");
+		return FO.checkFile();
+	}
+
+	public void setStoreKeeper(boolean storeKeeper){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isStoreKeeper");
+		if (storeKeeper == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isCollector(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isCollector");
+		return FO.checkFile();
+	}
+
+	public void setCollector(boolean collector){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isCollector");
+		if (collector == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isScavenger(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isScavenger");
+		return FO.checkFile();
+	}
+
+	public void setScavenger(boolean scavenger){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isScavenger");
+		if (scavenger == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isMoneyChanger(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isMoneyChanger");
+		return FO.checkFile();
+	}
+
+	public void setMoneyChanger(boolean moneyChanger){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isMoneyChanger");
+		if (moneyChanger == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isRidable(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isRideable");
+		return FO.checkFile();
+	}
+
+	public void setRideable(boolean rideable){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isRideable");
+		if (rideable == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isThief(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isThief");
+		return FO.checkFile();
+	}
+
+	public void setThief(boolean thief){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isThief");
+		if (thief == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isMender(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isMender");
+		return FO.checkFile();
+	}
+
+	public void setMender(boolean mender){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isMender");
+		if (mender == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isTailor(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isTailor");
+		return FO.checkFile();
+	}
+
+	public void setTailor(boolean tailor){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isTailor");
+		if (tailor == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	public boolean isSwimmer(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isSwimmer");
+		return FO.checkFile();
+	}
+
+	public void setSwimmer(boolean swimmer){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isSwimmer");
+		if (swimmer == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	/**
+	 * Returns whether the NPC can be milked
+	 * 
+	 * @return A boolean containing the whether the NPC is milkable
+	 */
+	public boolean isMilkable(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isMilkable");
+		return FO.checkFile();
+	}
+
+	/**
+	 * Sets whether the NPC can be milked
+	 * @param milkable A boolean of the NPC's milkability
+	 */
+	public void setMilkable(boolean milkable){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isMilkable");
+		if (milkable == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
+	}
+
+	/**
+	 * Returns whether the NPC is neutral
+	 * 
+	 * @return A boolean containing the whether the NPC is neutral
+	 */
+	public boolean isNeutral(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isNeutral");
+		return FO.checkFile();
+	}
+
+	/**
+	 * Sets whether the NPC is neutral
+	 * @param neutral A boolean of the NPC's neutrality
+	 */
+	public void setNeutral(boolean neutral){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/type/isNeutral");
+		if (neutral == true){
+			FO.setLine("");
+		} else {
+			FO.deleteFile();
+		}
 	}
 
 	/**
 	 * Used to obtain the minimum age that an NPC can be
 	 * 
-	 * @return A String containing the minimum age
+	 * @return An int containing the minimum age
 	 */
-	public String getMinAge(){
-		String fileLoc = database + "/npc/"+npc+"/minAge";
-		FileOperations open = new FileOperations(fileLoc);
-		String minAge = open.getLine();
-		return minAge;
+	public int getMinAge(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/minAge");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the minimum age that an NPC can be
 	 * 
-	 * @param age A String containing the minimum age
+	 * @param minAge An int containing the minimum age
 	 */
-	public void setMinAge(String minAge){
-		String fileLoc = database + "/npc/"+npc+"/minAge";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(minAge);
+	public void setMinAge(int minAge){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/minAge");
+		FO.setLine(minAge + "");
 	}
 
 	/**
 	 * Used to obtain the max age that an NPC can be
 	 * 
-	 * @return A String containing max age
+	 * @return An int containing max age
 	 */
-	public String getMaxAge(){
-		String fileLoc = database + "/npc/"+npc+"/maxAge";
-		FileOperations open = new FileOperations(fileLoc);
-		String maxAge = open.getLine();
-		return maxAge;
+	public int getMaxAge(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/maxAge");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the max age that an NPC can be
 	 * 
-	 * @param age A String containing the max age
+	 * @param maxAge An int containing the max age
 	 */
-	public void setMaxAge(String maxAge){
-		String fileLoc = database + "/npc/"+npc+"/maxAge";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(maxAge);
+	public void setMaxAge(int maxAge){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/maxAge");
+		FO.setLine(maxAge + "");
+	}
+
+	/**
+	 * Used to obtain the subclass of an NPC
+	 * 
+	 * @return A String containing the subclass
+	 */
+	public String getNpcSubClass(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/subClass");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
+
+	}
+
+	/**
+	 * Sets the subclass of an NPC
+	 * 
+	 * @param NPCclass A String containing the subclass
+	 */
+	public void setNpcSubClass(String NPCclass){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/subClass");
+		FO.setLine(NPCclass);
 	}
 
 	/**
@@ -124,45 +419,52 @@ public class NPCValue {
 	 * 
 	 * @return A String containing the class
 	 */
-	public String getNPCClass(){
-		String fileLoc = database + "/npc/"+npc+"/class";
-		FileOperations open = new FileOperations(fileLoc);
-		String NPCclass = open.getLine();
-		return NPCclass;
+	public String getNpcClass(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/class");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
+
 	}
 
 	/**
 	 * Sets the class of an NPC
 	 * 
-	 * @param age A String containing the class
+	 * @param NPCclass A String containing the class
 	 */
-	public void setNPCClass(String NPCclass){
-		String fileLoc = database + "/npc/"+npc+"/class";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(NPCclass);
+	public void setNpcClass(String NPCclass){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/class");
+		FO.setLine(NPCclass);
 	}
 
 	/**
 	 * Used to obtain the NPCs current level
 	 * 
-	 * @return A String containing the level
+	 * @return An int containing the level
 	 */
-	public String getLevel(){
-		String fileLoc = database + "/npc/"+npc+"/level";
-		FileOperations open = new FileOperations(fileLoc);
-		String level = open.getLine();
-		return level;
+	public int getLevel(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/level");
+		if (FO.checkFile()){
+			if (Integer.parseInt(FO.getLine()) == 0){
+				return 1;
+			} else {
+				return Integer.parseInt(FO.getLine());
+			}
+		} else {
+			return 1;
+		}
 	}
 
 	/**
 	 * Sets the level of an NPC
 	 * 
-	 * @param age A String containing the level
+	 * @param level An int containing the level
 	 */
-	public void setLevel(String level){
-		String fileLoc = database + "/npc/"+npc+"/level";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(level);
+	public void setLevel(int level){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/level");
+		FO.setLine(level + "");
 	}
 
 	/**
@@ -171,67 +473,83 @@ public class NPCValue {
 	 * @return A String containing the race
 	 */
 	public String getRace(){
-		String fileLoc = database + "/npc/"+npc+"/race";
-		FileOperations open = new FileOperations(fileLoc);
-		String race = open.getLine();
-		return race;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/race");
+		return FO.getLine();
 	}
 
 	/**
 	 * Sets the race of an NPC
 	 * 
-	 * @param age A String containing the race
+	 * @param race A String containing the race
 	 */
 	public void setRace(String race){
-		String fileLoc = database + "/npc/"+npc+"/race";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(race);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/race");
+		FO.setLine(race);
 	}
 
 	/**
 	 * Used to obtain the NPC's max Dexterity
 	 * 
-	 * @return A String containing the max dexterity
+	 * @return An int containing the max dexterity
 	 */
-	public String getMaxDexterity(){
-		String fileLoc = database + "/npc/"+npc+"/stats/maxDexterity";
-		FileOperations open = new FileOperations(fileLoc);
-		String dex = open.getLine();
-		return dex;
+	public int getMaxDexterity(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/maxDexterity");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the dexterity of an NPC
 	 * 
-	 * @param age A String containing the max dexterity
+	 * @param dex An int containing the max dexterity
 	 */
-	public void setMaxDexterity(String dex){
-		String fileLoc = database + "/npc/"+npc+"/stats/maxDexterity";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(dex);
+	public void setMaxDexterity(int dex){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/maxDexterity");
+		FO.setLine(dex + "");
 	}
 
 	/**
 	 * Used to obtain the NPC's min dexterity
 	 * 
-	 * @return A String containing the min dexterity
+	 * @return An int containing the min dexterity
 	 */
-	public String getMinDexterity(){
-		String fileLoc = database + "/npc/"+npc+"/stats/minDexterity";
-		FileOperations open = new FileOperations(fileLoc);
-		String dex = open.getLine();
-		return dex;
+	public int getMinDexterity(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/minDexterity");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the min dexterity of an NPC
 	 * 
-	 * @param age A String containing the min dexterity
+	 * @param dex An int containing the min dexterity
 	 */
-	public void setMinDexterity(String dex){
-		String fileLoc = database + "/npc/"+npc+"/stats/minDexterity";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(dex);
+	public void setMinDexterity(int dex){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/minDexterity");
+		FO.setLine(dex + "");
+	}
+
+	/**
+	 * Used to obtain the NPC's religion level
+	 * 
+	 * @return A String containing the religion level
+	 */
+	public String getReligionLvl(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/religionLvl");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
+
+	}
+
+	/**
+	 * Sets the religion level of an NPC
+	 * 
+	 * @param religion A String containing the religion level
+	 */
+	public void setReligionLvl(String religion){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/religionLvl");
+		FO.setLine(religion);
 	}
 
 	/**
@@ -240,320 +558,263 @@ public class NPCValue {
 	 * @return A String containing the religion
 	 */
 	public String getReligion(){
-		String fileLoc = database + "/npc/"+npc+"/religion";
-		FileOperations open = new FileOperations(fileLoc);
-		String religion = open.getLine();
-		return religion;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/religion");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
+
 	}
 
 	/**
 	 * Sets the religion of an NPC
 	 * 
-	 * @param age A String containing the religion
+	 * @param religion A String containing the religion
 	 */
 	public void setReligion(String religion){
-		String fileLoc = database + "/npc/"+npc+"/religion";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(religion);
-	}
-
-	/**
-	 * Used to obtain the NPC's experience
-	 * 
-	 * @return A String containing the experience
-	 */
-	public String getXP(){
-		String fileLoc = database + "/npc/"+npc+"/stats/experience";
-		FileOperations open = new FileOperations(fileLoc);
-		String xp = open.getLine();
-		return xp;
-	}
-
-	/**
-	 * Sets the experience of an NPC
-	 * 
-	 * @param age A String containing the experience
-	 */
-	public void setXP(String xp){
-		String fileLoc = database + "/npc/"+npc+"/stats/experience";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(xp);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/religion");
+		FO.setLine(religion);
 	}
 
 	/**
 	 * Used to obtain the NPC's min health
 	 * 
-	 * @return A String containing the min health
+	 * @return An int containing the min health
 	 */
-	public String getMinHealth(){
-		String fileLoc = database + "/npc/"+npc+"/minHealth";
-		FileOperations open = new FileOperations(fileLoc);
-		String health = open.getLine();
-		return health;
+	public int getMinHealth(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/minHealth");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the min health of an NPC
 	 * 
-	 * @param age A String containing the min health
+	 * @param health An int containing the min health
 	 */
-	public void setMinHealth(String health){
-		String fileLoc = database + "/npc/"+npc+"/minHealth";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(health);
+	public void setMinHealth(int health){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/minHealth");
+		FO.setLine(health + "");
 	}
 
 	/**
 	 * Used to obtain the NPC's max health
 	 * 
-	 * @return A String containing the max health
+	 * @return An int containing the max health
 	 */
-	public String getMaxHealth(){
-		String fileLoc = database + "/npc/"+npc+"/maxHealth";
-		FileOperations open = new FileOperations(fileLoc);
-		String health = open.getLine();
-		return health;
+	public int getMaxHealth(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/maxHealth");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the max health of an NPC
 	 * 
-	 * @param age A String containing the max health
+	 * @param health An int containing the max health
 	 */
-	public void setMaxHealth(String health){
-		String fileLoc = database + "/npc/"+npc+"/maxHealth";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(health);
+	public void setMaxHealth(int health){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/maxHealth");
+		FO.setLine(health + "");
 	}
 
 	/**
 	 * Used to obtain the NPC's max intelligence
 	 * 
-	 * @return A String containing the max intelligence
+	 * @return An int containing the max intelligence
 	 */
-	public String getMaxIntelligence(){
-		String fileLoc = database + "/npc/"+npc+"/stats/maxIntelligence";
-		FileOperations open = new FileOperations(fileLoc);
-		String intel = open.getLine();
-		return intel;
+	public int getMaxIntelligence(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/maxIntelligence");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the max intelligence of an NPC
 	 * 
-	 * @param age A String containing the max intelligence
+	 * @param intel An int containing the max intelligence
 	 */
-	public void setMaxIntelligence(String intel){
-		String fileLoc = database + "/npc/"+npc+"/stats/maxIntelligence";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(intel);
+	public void setMaxIntelligence(int intel){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/maxIntelligence");
+		FO.setLine(intel + "");
 	}
 
 	/**
 	 * Used to obtain the NPC's max intelligence
 	 * 
-	 * @return A String containing the max intelligence
+	 * @return An int containing the max intelligence
 	 */
-	public String getMinIntelligence(){
-		String fileLoc = database + "/npc/"+npc+"/stats/maxIntelligence";
-		FileOperations open = new FileOperations(fileLoc);
-		String intel = open.getLine();
-		return intel;
+	public int getMinIntelligence(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/minIntelligence");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the max intelligence of an NPC
 	 * 
-	 * @param age A String containing the max intelligence
+	 * @param intel An int containing the max intelligence
 	 */
-	public void setMinIntelligence(String intel){
-		String fileLoc = database + "/npc/"+npc+"/stats/maxIntelligence";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(intel);
+	public void setMinIntelligence(int intel){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/minIntelligence");
+		FO.setLine(intel + "");
 	}
 
 	/**
 	 * Used to obtain the NPC's max strength
 	 * 
-	 * @return A String containing the max strength
+	 * @return An int containing the max strength
 	 */
-	public String getMaxStrength(){
-		String fileLoc = database + "/npc/"+npc+"/stats/maxStrength";
-		FileOperations open = new FileOperations(fileLoc);
-		String str = open.getLine();
-		return str;
+	public int getMaxStrength(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/maxStrength");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the max strength of an NPC
 	 * 
-	 * @param age A String containing the max strength
+	 * @param str An int containing the max strength
 	 */
-	public void setMaxStrength(String str){
-		String fileLoc = database + "/npc/"+npc+"/stats/maxStrength";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(str);
+	public void setMaxStrength(int str){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/maxStrength");
+		FO.setLine(str + "");
 	}
 
 	/**
 	 * Used to obtain the NPC's min strength
 	 * 
-	 * @return A String containing the min strenth
+	 * @return An int containing the min strenth
 	 */
-	public String getMinStrength(){
-		String fileLoc = database + "/npc/"+npc+"/stats/minStrength";
-		FileOperations open = new FileOperations(fileLoc);
-		String str = open.getLine();
-		return str;
+	public int getMinStrength(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/minStrength");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the min strength of an NPC
 	 * 
-	 * @param age A String containing the min strength
+	 * @param str An int containing the min strength
 	 */
-	public void setMinStrength(String str){
-		String fileLoc = database + "/npc/"+npc+"/stats/minStrength";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(str);
+	public void setMinStrength(int str){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/minStrength");
+		FO.setLine(str + "");
 	}
 
 	/**
 	 * Used to obtain the NPC's min Gold
 	 * 
-	 * @return A String containing the min Gold
+	 * @return An int containing the min Gold
 	 */
-	public String getMinGold(){
-		String fileLoc = database + "/npc/"+npc+"/minGold";
-		FileOperations open = new FileOperations(fileLoc);
-		String gold = open.getLine();
-		return gold;
+	public int getMinGold(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/minGold");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the min gold of an NPC
 	 * 
-	 * @param age A String containing the min gold
+	 * @param gold An int containing the min gold
 	 */
-	public void setMinGold(String gold){
-		String fileLoc = database + "/npc/"+npc+"/minGold";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(gold);
+	public void setMinGold(int gold){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/minGold");
+		FO.setLine(gold + "");
 	}
 
 	/**
 	 * Used to obtain the NPC's max gold
 	 * 
-	 * @return A String containing the max gold
+	 * @return An int containing the max gold
 	 */
-	public String getMaxGold(){
-		String fileLoc = database + "/npc/"+npc+"/maxGold";
-		FileOperations open = new FileOperations(fileLoc);
-		String gold = open.getLine();
-		return gold;
+	public int getMaxGold(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/maxGold");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the max gold of an NPC
 	 * 
-	 * @param age A String containing the max gold
+	 * @param gold An int containing the max gold
 	 */
-	public void setMaxGold(String gold){
-		String fileLoc = database + "/npc/"+npc+"/maxGold";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(gold);
+	public void setMaxGold(int gold){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/maxGold");
+		FO.setLine(gold + "");
 	}
 
 	/**
 	 * Used to obtain the NPC's min weight
 	 * 
-	 * @return A String containing the min weight
+	 * @return An int containing the min weight
 	 */
-	public String getMinWeight(){
-		String fileLoc = database + "/npc/"+npc+"/minWeight";
-		FileOperations open = new FileOperations(fileLoc);
-		String weight = open.getLine();
-		return weight;
+	public int getMinWeight(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/minWeight");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the min weight of an NPC
 	 * 
-	 * @param age A String containing the min weight
+	 * @param weight An int containing the min weight
 	 */
-	public void setMinWeight(String weight){
-		String fileLoc = database + "/npc/"+npc+"/minWeight";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(weight);
+	public void setMinWeight(int weight){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/minWeight");
+		FO.setLine(weight + "");
 	}
 
 	/**
 	 * Used to obtain the NPC's max weight
 	 * 
-	 * @return A String containing the max weight
+	 * @return An int containing the max weight
 	 */
-	public String getMaxWeight(){
-		String fileLoc = database + "/npc/"+npc+"/maxWeight";
-		FileOperations open = new FileOperations(fileLoc);
-		String weight = open.getLine();
-		return weight;
+	public int getMaxWeight(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/maxWeight");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the max weight of an NPC
 	 * 
-	 * @param age A String containing the max weight
+	 * @param weight An int containing the max weight
 	 */
-	public void setMaxWeight(String weight){
-		String fileLoc = database + "/npc/"+npc+"/maxWeight";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(weight);
+	public void setMaxWeight(int weight){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/maxWeight");
+		FO.setLine(weight + "");
 	}
 
 	/**
 	 * Used to obtain the NPC's min wisdom
 	 * 
-	 * @return A String containing the min wisdom
+	 * @return An int containing the min wisdom
 	 */
-	public String getMinWisom(){
-		String fileLoc = database + "/npc/"+npc+"/stats/minWisdom";
-		FileOperations open = new FileOperations(fileLoc);
-		String wis = open.getLine();
-		return wis;
+	public int getMinWisom(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/minWisdom");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the min wisdom of an NPC
 	 * 
-	 * @param age A String containing the min wisdom
+	 * @param wis An int containing the min wisdom
 	 */
-	public void setMinWisdom(String wis){
-		String fileLoc = database + "/npc/"+npc+"/stats/minWisdom";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(wis);
+	public void setMinWisdom(int wis){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/minWisdom");
+		FO.setLine(wis + "");
 	}
 
 	/**
 	 * Used to obtain the NPC's max wisdom
 	 * 
-	 * @return A String containing the max wisdom
+	 * @return An int containing the max wisdom
 	 */
-	public String getMaxWisdom(){
-		String fileLoc = database + "/npc/"+npc+"/maxWisdom";
-		FileOperations open = new FileOperations(fileLoc);
-		String wis = open.getLine();
-		return wis;
+	public int getMaxWisdom(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/maxWisdom");
+		return Integer.parseInt(FO.getLine());
 	}
 
 	/**
 	 * Sets the max wisdom of an NPC
 	 * 
-	 * @param age A String containing the max wisdom
+	 * @param wis An int containing the max wisdom
 	 */
-	public void setMaxWisdom(String wis){
-		String fileLoc = database + "/npc/"+npc+"/maxWisdom";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(wis);
+	public void setMaxWisdom(int wis){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/stats/maxWisdom");
+		FO.setLine(wis + "");
 	}
 
 	/**
@@ -563,21 +824,18 @@ public class NPCValue {
 	 * @return A String containing "true" or "false"
 	 */
 	public String getDrop(){
-		String fileLoc = database + "/npc/"+npc+"/drop";
-		FileOperations open = new FileOperations(fileLoc);
-		String drop = open.getLine();
-		return drop;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/drop");
+		return FO.getLine();
 	}
 
 	/**
 	 * Sets whether or not the NPC drops items
 	 * 
-	 * @param age A String containing "true" or "false"
+	 * @param drop A String containing "true" or "false"
 	 */
 	public void setDrop(String drop){
-		String fileLoc = database + "/npc/"+npc+"/drop";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(drop);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/drop");
+		FO.setLine(drop);
 	}
 
 	/**
@@ -586,9 +844,8 @@ public class NPCValue {
 	 * @return A String array containing the inventory of the NPC.
 	 */
 	public String[] getInventory(){
-		FileOperations FO = new FileOperations(database);
-		String[] files = FO.getDirectory("/npc/"+npc+"/inventory");
-		return files;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/inventory");
+		return FO.getDirectory();
 	}
 
 	/**
@@ -599,9 +856,8 @@ public class NPCValue {
 	 * @param quantity The quantity of the item
 	 */
 	public void setNewInv(String inv, String quantity){
-		String fileLoc = database + "/npc/"+npc+"/inventory/" + inv;
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(quantity);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/inventory/" + inv);
+		FO.setLine(quantity);
 	}
 
 	/**
@@ -610,8 +866,8 @@ public class NPCValue {
 	 * @param inv A String containing the inventory item to delete
 	 */
 	public void deleteInv(String inv){
-		FileOperations OP = new FileOperations(database);
-		OP.deleteFile("/npc/"+npc+"/inventory/"+inv);
+		FileOperations OP = new FileOperations(database + "/npc/" + npc + "/inventory/" + inv);
+		OP.deleteFile();
 	}
 
 	/**
@@ -620,9 +876,8 @@ public class NPCValue {
 	 * @return A String array containing the skills that an npc possesses.
 	 */
 	public String[] getSkills(){
-		FileOperations FO = new FileOperations(database);
-		String[] files = FO.getDirectory("/npc/"+npc+"/skills/");
-		return files;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/skills/");
+		return FO.getDirectory();
 	}
 
 	/**
@@ -632,9 +887,8 @@ public class NPCValue {
 	 * @param skillLevel A String containing an integer value between 1 and 10 of the npc's proficiency
 	 */
 	public void setNewSkill(String skillName, String skillLevel){
-		String fileLoc = database + "/npc/"+npc+"/skills/"+skillName;
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(skillLevel);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/skills/" + skillName);
+		FO.setLine(skillLevel);
 	}
 
 	/**
@@ -643,8 +897,8 @@ public class NPCValue {
 	 * @param skill A String containing the skill to be deleted
 	 */
 	public void deleteSkill(String skill){
-		FileOperations OP = new FileOperations(database);
-		OP.deleteFile("/npc/"+npc+"/skills/"+skill);
+		FileOperations OP = new FileOperations(database + "/npc/" + npc + "/skills/" + skill);
+		OP.deleteFile();
 	}
 
 	/**
@@ -653,10 +907,12 @@ public class NPCValue {
 	 * @return A String containing what the npc is wearing on their chest
 	 */
 	public String getWearingChest(){
-		String fileLoc = database + "/npc/"+npc+"/wield/chest";
-		FileOperations open = new FileOperations(fileLoc);
-		String chest = open.getLine();
-		return chest;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/chest");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -665,9 +921,8 @@ public class NPCValue {
 	 * @param chest A string containing what the npc is wearing on their chest
 	 */
 	public void setWearingChest(String chest){
-		String fileLoc = database + "/npc/"+npc+"/wield/chest";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(chest);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/chest");
+		FO.setLine(chest);
 	}
 
 
@@ -677,10 +932,12 @@ public class NPCValue {
 	 * @return A String containing what the npc is wearing on their feet
 	 */
 	public String getWearingFeet(){
-		String fileLoc = database + "/npc/"+npc+"/wield/feet";
-		FileOperations open = new FileOperations(fileLoc);
-		String feet = open.getLine();
-		return feet;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/feet");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -689,9 +946,8 @@ public class NPCValue {
 	 * @param feet A String containing what the npc is wearing on their feet
 	 */
 	public void setWearingFeet(String feet){
-		String fileLoc = database + "/npc/"+npc+"/wield/feet";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(feet);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/feet");
+		FO.setLine(feet);
 	}
 
 
@@ -701,10 +957,12 @@ public class NPCValue {
 	 * @return A String containing what the npc is wearing on their head
 	 */
 	public String getWearingHead(){
-		String fileLoc = database + "/npc/"+npc+"/wield/head";
-		FileOperations open = new FileOperations(fileLoc);
-		String head = open.getLine();
-		return head;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/head");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -713,9 +971,8 @@ public class NPCValue {
 	 * @param head A String containing what the npc is wearing on their head
 	 */
 	public void setWearingHead(String head){
-		String fileLoc = database + "/npc/"+npc+"/wield/head";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(head);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/head");
+		FO.setLine(head);
 	}
 
 
@@ -725,10 +982,12 @@ public class NPCValue {
 	 * @return A String containing what the npc is wearing on their left-arm
 	 */
 	public String getWearingLeftArm(){
-		String fileLoc = database + "/npc/"+npc+"/wield/left-arm";
-		FileOperations open = new FileOperations(fileLoc);
-		String leftArm = open.getLine();
-		return leftArm;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/left-arm");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -737,9 +996,8 @@ public class NPCValue {
 	 * @param leftArm A String containing what the npc is wearing on their left arm
 	 */
 	public void setWearingLeftArm(String leftArm){
-		String fileLoc = database + "/npc/"+npc+"/wield/left-arm";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(leftArm);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/left-arm");
+		FO.setLine(leftArm);
 	}
 
 
@@ -749,10 +1007,12 @@ public class NPCValue {
 	 * @return A String containing what the npc is wearing on their hands
 	 */
 	public String getWearingHands(){
-		String fileLoc = database + "/npc/"+npc+"/wield/hands";
-		FileOperations open = new FileOperations(fileLoc);
-		String hands = open.getLine();
-		return hands;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/hands");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -761,9 +1021,8 @@ public class NPCValue {
 	 * @param hands A String containing what the npc is wearing on their hands
 	 */
 	public void setWearingHands(String hands){
-		String fileLoc = database + "/npc/"+npc+"/wield/hands";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(hands);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/hands");
+		FO.setLine(hands);
 	}
 
 
@@ -773,10 +1032,12 @@ public class NPCValue {
 	 * @return A String containing what the npc is holding in their left-hand
 	 */
 	public String getLeftHand(){
-		String fileLoc = database + "/npc/"+npc+"/wield/left-hand";
-		FileOperations open = new FileOperations(fileLoc);
-		String leftHand = open.getLine();
-		return leftHand;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/left-hand");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -785,9 +1046,8 @@ public class NPCValue {
 	 * @param leftHand A String containing what the npc is holding in their left-hand
 	 */
 	public void setLeftHand(String leftHand){
-		String fileLoc = database + "/npc/"+npc+"/wield/left-hand";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(leftHand);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/left-hand");
+		FO.setLine(leftHand);
 	}
 
 
@@ -797,10 +1057,12 @@ public class NPCValue {
 	 * @return A String containing what the npc is wearing on their legs.
 	 */
 	public String getWearingLegs(){
-		String fileLoc = database + "/npc/"+npc+"/wield/legs";
-		FileOperations open = new FileOperations(fileLoc);
-		String legs = open.getLine();
-		return legs;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/legs");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -809,9 +1071,8 @@ public class NPCValue {
 	 * @param legs A String containing what the npc is wearing on their legs
 	 */
 	public void setWearingLegs(String legs){
-		String fileLoc = database + "/npc/"+npc+"/wield/legs";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(legs);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/legs");
+		FO.setLine(legs);
 	}
 
 
@@ -821,21 +1082,22 @@ public class NPCValue {
 	 * @return A String containing what the npc is wearing around their neck. (Hopefully not a noose)
 	 */
 	public String getWearingNeck(){
-		String fileLoc = database + "/npc/"+npc+"/wield/neck";
-		FileOperations open = new FileOperations(fileLoc);
-		String neck = open.getLine();
-		return neck;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/neck");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
 	 * Used to set what the npc is wearing on their neck
 	 * 
-	 * @param feet A String containing what the npc is wearing on their neck
+	 * @param neck A String containing what the npc is wearing on their neck
 	 */
 	public void setWearingNeck(String neck){
-		String fileLoc = database + "/npc/"+npc+"/wield/neck";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(neck);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/neck");
+		FO.setLine(neck);
 	}
 
 
@@ -845,10 +1107,12 @@ public class NPCValue {
 	 * @return A String containing what the npc is wearing on their right arm
 	 */
 	public String getWearingRightArm(){
-		String fileLoc = database + "/npc/"+npc+"/wield/right-arm";
-		FileOperations open = new FileOperations(fileLoc);
-		String rightArm = open.getLine();
-		return rightArm;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/right-arm");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -857,9 +1121,8 @@ public class NPCValue {
 	 * @param rightArm A String containing what the npc is wearing on their right arm
 	 */
 	public void setWearingRightArm(String rightArm){
-		String fileLoc = database + "/npc/"+npc+"/wield/right-arm";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(rightArm);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/right-arm");
+		FO.setLine(rightArm);
 	}
 
 	/**
@@ -868,10 +1131,12 @@ public class NPCValue {
 	 * @return A String containing what the npc is holding in their right hand
 	 */
 	public String getRightHand(){
-		String fileLoc = database + "/npc/"+npc+"/wield/right-hand";
-		FileOperations open = new FileOperations(fileLoc);
-		String rightHand = open.getLine();
-		return rightHand;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/right-hand");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -880,12 +1145,9 @@ public class NPCValue {
 	 * @param rightHand A String containing what the npc is wearing in their right-hand
 	 */
 	public void setRightHand(String rightHand){
-		String fileLoc = database + "/npc/"+npc+"/wield/right-hand";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(rightHand);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/right-hand");
+		FO.setLine(rightHand);
 	}
-
-
 
 	/**
 	 * Used to what a npc is wearing around their waist
@@ -893,10 +1155,12 @@ public class NPCValue {
 	 * @return A String containing what the npc is wearing around their waist
 	 */
 	public String getWearingWaist(){
-		String fileLoc = database + "/npc/"+npc+"/wield/waist";
-		FileOperations open = new FileOperations(fileLoc);
-		String waist = open.getLine();
-		return waist;
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/waist");
+		if (FO.checkFile()){
+			return FO.getLine();
+		} else {
+			return "none";
+		}
 	}
 
 	/**
@@ -905,10 +1169,91 @@ public class NPCValue {
 	 * @param waist A String containing what the npc is wearing around their waist.
 	 */
 	public void setWearingWaist(String waist){
-		String fileLoc = database + "/npc/"+npc+"/wield/waist";
-		FileOperations open = new FileOperations(fileLoc);
-		open.setLine(waist);
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/wield/waist");
+		FO.setLine(waist);
 	}
 
+	public int getAcidProtection(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/protection/acidProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+	}
 
+	public void setAcidProtection(int protection){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/protection/acidProtection");
+		FO.setLine(protection + "");
+	}
+
+	public int getFireProtection(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/protection/fireProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+	}
+
+	public void setFireProtection(int protection){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/protection/fireProtection");
+		FO.setLine(protection + "");
+	}
+
+	public int getHitProtection(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/protection/hitProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+	}
+
+	public void setHitProtection(int protection){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/protection/hitProtection");
+		FO.setLine(protection + "");
+	}
+
+	public int getMagicProtection(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/protection/magicProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+	}
+
+	public void setMagicProtection(int protection){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/protection/magicProtection");
+		FO.setLine(protection + "");
+	}
+
+	public int getPierceProtection(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/protection/pierceProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+	}
+
+	public void setPierceProtection(int protection){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/protection/pierceProtection");
+		FO.setLine(protection + "");
+	}
+
+	public int getRangedProtection(){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/protection/rangedProtection");
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+	}
+
+	public void setRangedProtection(int protection){
+		FileOperations FO = new FileOperations(database + "/npc/" + npc + "/protection/rangedProtection");
+		FO.setLine(protection + "");
+	}
 }

@@ -1,0 +1,28 @@
+/* Notes
+ * Character Selection:
+ * Race -> Class -> SubClass -> Religion
+ */
+
+===Character Generation===
+
+Character generation happens when a player creates a new character. The process 
+follows a strict sequence in order to fulfill the dependencies required for each
+step.
+
+The generator first decides the race of the character and generates the stats 
+specific to that race. It then moves on, letting the user pick the class. Since
+some classes are only available to certain races, this must come second. The 
+generator then picks the lowest subclass for the chosen class and adds it to the
+user's profile. The next selection is the user's religion.
+
+===User Stats===
+==Protection Stats==
+The base of a protection stat is first determined from values stored in the 
+user's profile based on the user's race. This stat will be an integer. To
+determine the total protection value, the base stat will be multiplied agaist
+all the protection modifiers found in the both the object's the user is wearing
+and the user's religion & class. 
+
+Protection stats are always percents with the exception of the base value found
+in the user's profile. Since the value found in the user's profile is generated
+from the race at character generation, the race stats must also be an integer.

@@ -115,7 +115,7 @@ public class ReligionValue {
 	 * Sets the race requirements for a religion
 	 * If there are no race requirements, the parameter should be a single element array
 	 * with the first element equaling "none"
-	 * @param requiredClass A String[] containing the names of the levels
+	 * @param requiredRace A String[] containing the race requirements
 	 */
 	public void setRequiredRace(String[] requiredRace){
 		FileOperations FO = new FileOperations(database + "/religion/" + religionName + "/requirements/requiredRace");

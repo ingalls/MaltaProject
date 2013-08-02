@@ -13,7 +13,7 @@ public class SkillValue {
 	 * Constructs a new object with a string containing the database location
 	 * * and a string containing the user name.
 	 * @param data A String containing the database location
-	 * @param objectName A String containing the name of the object being accessed
+	 * @param skillName A String containing the name of the object being accessed
 	 */
 	public SkillValue(String data, String skillName) {
 		database = data;

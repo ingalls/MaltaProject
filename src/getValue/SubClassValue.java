@@ -62,69 +62,97 @@ public class SubClassValue {
 		FO.setFile(defaultObjects);
 	}
 
-	public String getAcidModifier(){
+	public int getAcidProtectionModifier(){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/protectionModifier/acidModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
-	public void setAcidModifier(String acidModifier){
+	public void setAcidProtectionModifier(String acidModifier){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/protectionModifier/acidModifier");
 		FO.setLine(acidModifier);
 	}
 
-	public String getFireModifier(){
+	public int getFireProtectionModifier(){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/protectionModifier/fireModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
-	public void setFireModifier(String fireModifier){
+	public void setFireProtectionModifier(String fireModifier){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/protectionModifier/fireModifier");
 		FO.setLine(fireModifier);
 	}
 
-	public String getHitModifier(){
+	public int getHitProtectionModifier(){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/protectionModifier/hitModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
-	public void setHitModifier(String hitModifier){
+	public void setHitProtectionModifier(String hitModifier){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/protectionModifier/hitModifier");
 		FO.setLine(hitModifier);
 	}
 
-	public String getMagicModifier(){
+	public int getMagicProtectionModifier(){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/protectionModifier/magicModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
-	public void setMagicModifier(String magicModifier){
+	public void setMagicProtectionModifier(String magicModifier){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/protectionModifier/magicModifier");
 		FO.setLine(magicModifier);
 	}
 
-	public String getPierceModifier(){
+	public int getPierceProtectionModifier(){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/protectionModifier/pierceModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
-	public void setPierceModifier(String pierceModifier){
+	public void setPierceProtectionModifier(String pierceModifier){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/protectionModifier/pierceModifier");
 		FO.setLine(pierceModifier);
 	}
 
-	public String getRangedModifier(){
+	public int getRangedProtectionModifier(){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/protectionModifier/rangedModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
-	public void setRangedModifier(String rangedModifier){
+	public void setRangedProtectionModifier(String rangedModifier){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/protectionModifier/rangedModifier");
 		FO.setLine(rangedModifier);
 	}
 
-	public String getAgeModifier(){
+	public int getAgeModifier(){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/statModifier/ageModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
 	public void setAgeModifier(String ageModifier){
@@ -132,62 +160,87 @@ public class SubClassValue {
 		FO.setLine(ageModifier);
 	}
 
-	public String getDexterityModifier(){
+	public int getDexterityBonus(){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/statModifier/dexterityModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
+
 	}
 
-	public void setDexterityModifier(String dexterityModifier){
+	public void setDexterityBonus(String dexterityModifier){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/statModifier/dexterityModifier");
 		FO.setLine(dexterityModifier);
 	}
 
-	public String getExperienceModifier(){
+	public int getExperienceModifier(){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/statModifier/experienceModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
-	public void setExperienceModifier(String experienceModifier){
+	public void setExperienceModifier(String experienceBonus){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/statModifier/experienceModifier");
-		FO.setLine(experienceModifier);
+		FO.setLine(experienceBonus);
 	}
 
-	public String getIntelligenceModifier(){
+	public int getIntelligenceBonus(){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/statModifier/intelligenceModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
-	public void setIntelligenceModifier(String intelligenceModifier){
+	public void setIntelligenceBonus(String intelligenceBonus){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/statModifier/intelligenceModifier");
-		FO.setLine(intelligenceModifier);
+		FO.setLine(intelligenceBonus);
 	}
 
-	public String getStrengthModifier(){
+	public int getStrengthBonus(){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/statModifier/strengthModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
-	public void setStrengthModifier(String strengthModifier){
+	public void setStrengthBonus(String strengthBonus){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/statModifier/strengthModifier");
-		FO.setLine(strengthModifier);
+		FO.setLine(strengthBonus);
 	}
 
-	public String getWeightModifier(){
+	public int getWeightBonus(){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/statModifier/weightModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
-	public void setWeightModifier(String weightModifier){
+	public void setWeightBonus(String weightBonus){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/statModifier/weightModifier");
-		FO.setLine(weightModifier);
+		FO.setLine(weightBonus);
 		;	}
 
-	public String getWisdomModifier(){
+	public int getWisdomBonus(){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/statModifier/wisdomModifier");
-		return FO.getLine();
+		if (FO.checkFile()){
+			return Integer.parseInt(FO.getLine());
+		} else {
+			return 0;
+		}
 	}
 
-	public void setWisdomModifier(String wisdomModifier){
+	public void setWisdomBonus(String wisdomModifier){
 		FileOperations FO = new FileOperations(database + "/class/" + className + "/subClass/" + subName + "/statModifier/wisdomModifier");
 		FO.setLine(wisdomModifier);
 	}

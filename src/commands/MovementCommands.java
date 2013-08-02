@@ -35,7 +35,10 @@ public class MovementCommands {
 
 		RoomValue CurrentRoom = new RoomValue(database, UV.getLoc());
 
-		if (CurrentRoom.getNorth() == null){
+		if (UV.isSitting()){
+			out.println("You need to be standing first!");
+			return false;
+		} else if (CurrentRoom.getNorth() == null){
 			out.println("You can't go that way!");
 			return false;
 		} else {
@@ -68,7 +71,10 @@ public class MovementCommands {
 
 		RoomValue CurrentRoom = new RoomValue(database, UV.getLoc());
 
-		if (CurrentRoom.getEast() == null){
+		if (UV.isSitting()){
+			out.println("You need to be standing first!");
+			return false;
+		} else if (CurrentRoom.getEast() == null){
 			out.println("You can't go that way!");
 			return false;
 		} else {
@@ -101,7 +107,10 @@ public class MovementCommands {
 
 		RoomValue CurrentRoom = new RoomValue(database, UV.getLoc());
 
-		if (CurrentRoom.getSouth() == null){
+		if (UV.isSitting()){
+			out.println("You need to be standing first!");
+			return false;
+		} else if (CurrentRoom.getSouth() == null){
 			out.println("You can't go that way!");
 			return false;
 		} else {
@@ -134,7 +143,10 @@ public class MovementCommands {
 
 		RoomValue CurrentRoom = new RoomValue(database, UV.getLoc());
 
-		if (CurrentRoom.getWest() == null){
+		if (UV.isSitting()){
+			out.println("You need to be standing first!");
+			return false;
+		} else if (CurrentRoom.getWest() == null){
 			out.println("You can't go that way!");
 			return false;
 		} else {
@@ -167,7 +179,10 @@ public class MovementCommands {
 
 		RoomValue CurrentRoom = new RoomValue(database, UV.getLoc());
 
-		if (CurrentRoom.getUp() == null){
+		if (UV.isSitting()){
+			out.println("You need to be standing first!");
+			return false;
+		} else if (CurrentRoom.getUp() == null){
 			out.println("You can't go that way!");
 			return false;
 		} else {
@@ -200,7 +215,10 @@ public class MovementCommands {
 
 		RoomValue CurrentRoom = new RoomValue(database, UV.getLoc());
 
-		if (CurrentRoom.getDown() == null){
+		if (UV.isSitting()){
+			out.println("You need to be standing first!");
+			return false;
+		} else if (CurrentRoom.getDown() == null){
 			out.println("You can't go that way!");
 			return false;
 		} else {

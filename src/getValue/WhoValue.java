@@ -14,8 +14,8 @@ public class WhoValue {
 	}
 
 	public String[] listWho(){
-		FileOperations FO = new FileOperations(database);
-		String[] users = FO.getDirectory("/who/");
+		FileOperations FO = new FileOperations(database + "/who/");
+		String[] users = FO.getDirectory();
 
 		return users;
 	}
@@ -37,7 +37,7 @@ public class WhoValue {
 	 */
 	public void deleteWho(String user){
 		FileOperations FO = new FileOperations(database + "/who/" + user);
-		FO.deleteFile("");
+		FO.deleteFile();
 	}
 
 	/**
